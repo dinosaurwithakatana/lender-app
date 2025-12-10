@@ -1,0 +1,36 @@
+CREATE TABLE dbUser (
+    id TEXT PRIMARY KEY NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
+
+CREATE INDEX user_email ON dbUser(email);
+
+insert:
+INSERT INTO dbUser
+VALUES ?;
+
+deleteById:
+DELETE FROM dbUser
+WHERE id = ?;
+
+updateEmailById:
+UPDATE dbUser
+SET email = ('%' || :email)
+WHERE id =  ('%' || :id);
+
+updatePasswordById:
+UPDATE dbUser
+SET password = ('%' || :password)
+WHERE id =  ('%' || :id);
+
+findByEmail:
+SELECT * FROM dbUser
+WHERE email LIKE ?
+LIMIT 1;
+
+getById:
+SELECT * FROM dbUser
+WHERE id = ?
+LIMIT 1;

@@ -29,5 +29,6 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":database")
 include(":server")
 include(":shared")
