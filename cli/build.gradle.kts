@@ -14,5 +14,6 @@ repositories {
 
 dependencies {
     implementation(projects.database)
+    implementation(projects.shared)
     implementation(libs.clikt)
 }

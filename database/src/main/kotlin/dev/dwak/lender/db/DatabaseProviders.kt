@@ -15,7 +15,7 @@ interface DatabaseProviders {
     @Provides
     fun driver(): SqlDriver = JdbcSqliteDriver(
         url = "jdbc:sqlite:/tmp/data.db",
-        properties = Properties(),
+        properties = Properties().apply { put("foreign_keys", "true") },
         schema = Database.Schema
     )
 
@@ -32,4 +32,8 @@ interface DatabaseProviders {
     @SingleIn(AppScope::class)
     @Provides
     fun userQueries(db: Database): UserQueries = db.userQueries
+
+    @SingleIn(AppScope::class)
+    @Provides
+    fun tokenQueries(db: Database): TokenQueries = db.tokenQueries
 }

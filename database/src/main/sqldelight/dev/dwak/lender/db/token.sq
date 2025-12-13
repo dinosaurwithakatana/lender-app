@@ -1,0 +1,22 @@
+CREATE TABLE dbToken (
+    token TEXT PRIMARY KEY NOT NULL,
+    user_id TEXT NOT NULL,
+    FOREIGN KEY(user_id) REFERENCES dbUser(id)
+);
+
+insertToken:
+INSERT INTO dbToken(token, user_id)
+VALUES ?;
+
+getToken:
+SELECT *
+FROM dbToken
+WHERE token = ?
+LIMIT 1;
+
+tokenExists:
+SELECT EXISTS (
+SELECT *
+FROM dbToken
+WHERE token = ?
+);

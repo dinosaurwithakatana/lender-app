@@ -34,3 +34,9 @@ getById:
 SELECT * FROM dbUser
 WHERE id = ?
 LIMIT 1;
+
+userExists:
+SELECT EXISTS (
+SELECT * FROM dbUser
+WHERE email = ?
+);
