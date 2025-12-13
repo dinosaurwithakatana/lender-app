@@ -1,4 +1,4 @@
-package dev.dwak.lender.lender_app
+package dev.dwak.lender.lender_app.repo
 
 import dev.dwak.lender.db.ApiKeyQueries
 import dev.zacsweers.metro.AppScope

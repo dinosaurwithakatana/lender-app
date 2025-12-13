@@ -1,5 +1,6 @@
 package dev.dwak.lender.lender_app
 
+import dev.dwak.lender.lender_app.repo.ApiKeyRepo
 import dev.zacsweers.metro.Inject
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.createRouteScopedPlugin

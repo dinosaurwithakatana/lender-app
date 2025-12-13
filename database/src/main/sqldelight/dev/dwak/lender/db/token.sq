@@ -20,3 +20,9 @@ SELECT *
 FROM dbToken
 WHERE token = ?
 );
+
+getUserByToken:
+SELECT u.id, u.email, u.created_at
+FROM dbToken t
+INNER JOIN dbUser u ON t.user_id = u.id
+WHERE t.token = ?;
