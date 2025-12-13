@@ -1,14 +1,12 @@
 package dev.dwak.lender.lender_app
 
-import dev.dwak.lender.lender_app.route.auth.login
-import dev.zacsweers.metro.Inject
+import dev.dwak.lender.lender_app.route.auth.loginRoutes
 import dev.zacsweers.metro.createGraph
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.di.dependencies
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
@@ -29,22 +27,14 @@ fun Application.module(graph: LenderGraph) {
         json()
     }
 
-    repos(graph)
     routing {
         route("/api") {
-            val repo: ApiKeyRepo by dependencies
-            val apiKeyPlugin = ApiKeyPlugin(apiKeyRepo = repo)
-            install(apiKeyPlugin.plugin) { headerName = "X-API-Key" }
-            login()
+            install(graph.apiKeyPlugin.plugin) { headerName = "X-API-Key" }
+
+            loginRoutes(graph.loginRoutes)
         }
         get("/") {
             call.respondText("Ktor: ${Greeting().greet()}")
         }
-    }
-}
-
-fun Application.repos(graph: LenderGraph) {
-    dependencies {
-        provide<ApiKeyRepo> { graph.apiKeyRepo }
     }
 }

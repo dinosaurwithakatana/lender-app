@@ -1,5 +1,6 @@
 package dev.dwak.lender.lender_app
 
+import dev.zacsweers.metro.Inject
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.createRouteScopedPlugin
 import io.ktor.server.response.respond
@@ -8,6 +9,7 @@ class PluginConfiguration {
     var headerName: String = "X-API-Key"
 }
 
+@Inject
 class ApiKeyPlugin(apiKeyRepo: ApiKeyRepo) {
     val plugin = createRouteScopedPlugin(
         name = "ApiKeyPlugin",

@@ -14,3 +14,7 @@ SELECT EXISTS (
     FROM dbApiKey
     WHERE apiKey = ?
 );
+
+insertKey:
+INSERT INTO dbApiKey(apiKey)
+VALUES ?;

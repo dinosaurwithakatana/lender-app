@@ -14,7 +14,7 @@ interface DatabaseProviders {
     @SingleIn(AppScope::class)
     @Provides
     fun driver(): SqlDriver = JdbcSqliteDriver(
-        url = "jdbc:sqlite:tmp/data.db",
+        url = "jdbc:sqlite:/tmp/data.db",
         properties = Properties(),
         schema = Database.Schema
     )
@@ -29,4 +29,7 @@ interface DatabaseProviders {
     @Provides
     fun apiKeyQueries(db: Database): ApiKeyQueries = db.apiKeyQueries
 
+    @SingleIn(AppScope::class)
+    @Provides
+    fun userQueries(db: Database): UserQueries = db.userQueries
 }

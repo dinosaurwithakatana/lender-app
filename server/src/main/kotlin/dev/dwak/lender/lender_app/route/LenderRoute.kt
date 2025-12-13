@@ -6,6 +6,5 @@ import io.ktor.server.routing.*
 interface LenderRoute {
     val method: HttpMethod
     val path: String
-    val parent: LenderRoute?
     fun handler(): suspend RoutingContext.() -> Unit
 }
