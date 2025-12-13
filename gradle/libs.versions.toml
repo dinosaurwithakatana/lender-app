@@ -11,10 +11,11 @@ androidx-lifecycle = "2.9.6"
 androidx-testExt = "1.3.0"
 composeMultiplatform = "1.9.3"
 junit = "4.13.2"
-kotlin = "2.2.21"
+kotlin = "2.3.0-RC3"
 kotlinxSerialization = "1.8.0"
 ktor = "3.3.3"
 logback = "1.5.21"
+metro = "0.8.2"
 sqldelight = "2.2.1"
 
 [libraries]
@@ -31,6 +32,7 @@ androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization"}
 ktor-serverAuth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
+ktor-serverDi = { module = "io.ktor:ktor-server-di", version.ref = "ktor" }
 ktor-serverCore = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
 ktor-serverNetty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
 ktor-serverContentNegotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor"}
@@ -49,4 +51,5 @@ kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
+metro = { id = "dev.zacsweers.metro", version.ref = "metro" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }

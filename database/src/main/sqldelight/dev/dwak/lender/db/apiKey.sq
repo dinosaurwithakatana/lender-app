@@ -1,0 +1,16 @@
+CREATE TABLE dbApiKey (
+    apiKey TEXT NOT NULL PRIMARY KEY
+);
+
+getByKey:
+SELECT *
+FROM dbApiKey
+WHERE apiKey = ?
+LIMIT 1;
+
+hasKey:
+SELECT EXISTS (
+    SELECT *
+    FROM dbApiKey
+    WHERE apiKey = ?
+);
