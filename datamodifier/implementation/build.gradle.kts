@@ -31,7 +31,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
-            implementation(libs.kotlinx.coroutines.core)
+            api(project(":datamodifier:api"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -40,7 +40,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.dwak.lender.lender_app.shared"
+    namespace = "dev.dwak.lender.data.modifier"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.metro)
     alias(libs.plugins.androidLibrary)
 }
 
@@ -31,7 +30,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
-            implementation(libs.kotlinx.coroutines.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -40,7 +38,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.dwak.lender.lender_app.shared"
+    namespace = "dev.dwak.lender.data.modifier"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

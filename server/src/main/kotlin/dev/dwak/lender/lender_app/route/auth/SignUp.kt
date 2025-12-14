@@ -1,5 +1,7 @@
 package dev.dwak.lender.lender_app.route.auth
 
+import dev.dwak.lender.data.modifier.CreateUser
+import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.db.DbToken
 import dev.dwak.lender.db.DbUser
 import dev.dwak.lender.db.TokenQueries
@@ -27,8 +29,7 @@ import kotlin.time.Instant
 @ContributesIntoSet(AppScope::class)
 @Inject
 class SignUp(
-    private val userQueries: UserQueries,
-    private val tokenQueries: TokenQueries,
+    private val dataModifier: DataModifier,
 ) : LenderRoute {
     override val method: HttpMethod = HttpMethod.Post
     override val path: String = "/signup"
@@ -37,25 +38,17 @@ class SignUp(
         val request = call.receive<ApiSignUpRequest>()
 
         if (request.password == request.confirmPassword) {
-            val dbUser = DbUser(
-                id = UUID.randomUUID().toString(),
-                email = request.email,
-                password = request.password,
-                created_at = Clock.System.now().toString(),
-            )
-            userQueries.insert(
-                dbUser = dbUser
-            )
-            val token = generateToken()
-
-            tokenQueries.insertToken(
-                DbToken(
-                    token = token,
-                    user_id = dbUser.id
+            val result = dataModifier.submit(
+                CreateUser(
+                    request.email,
+                    request.password
                 )
             )
-
-            call.respond(HttpStatusCode.OK, ApiSignupSuccessResponse(token))
+            when (result) {
+                is CreateUser.Result.Success -> {
+                    call.respond(HttpStatusCode.OK, ApiSignupSuccessResponse(result.token))
+                }
+            }
         }
     }
 }

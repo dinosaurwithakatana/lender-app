@@ -30,6 +30,9 @@ dependencyResolutionManagement {
 
 include(":composeApp")
 include(":database")
+include(":datamodifier:api")
+include(":datamodifier:implementation")
+include(":datamodifier:server")
 include(":models:api")
 include(":server")
 include(":shared")

@@ -1,0 +1,18 @@
+package dev.dwak.lender.data.modifier
+
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
+import kotlin.reflect.KClass
+
+@SingleIn(AppScope::class)
+@ContributesBinding(AppScope::class)
+@Inject
+class RealDataModifier(
+    private val handlerMap: Map<KClass<*>, DataModification.Handler<*, *>>
+) : DataModifier {
+    override suspend fun <R : DataModification.Result> submit(mod: DataModification<R>): R {
+        TODO("Not yet implemented")
+    }
+}
