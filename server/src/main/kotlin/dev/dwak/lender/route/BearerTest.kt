@@ -1,4 +1,4 @@
-package dev.dwak.lender.lender_app.route
+package dev.dwak.lender.route
 
 import dev.dwak.lender.repos.server.UserRepo
 import dev.zacsweers.metro.AppScope

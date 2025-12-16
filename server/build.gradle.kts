@@ -10,10 +10,10 @@ plugins {
     application
 }
 
-group = "dev.dwak.lender.lender_app"
+group = "dev.dwak.lender"
 version = "1.0.0"
 application {
-    mainClass.set("dev.dwak.lender.lender_app.ApplicationKt")
+    mainClass.set("dev.dwak.lender.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")

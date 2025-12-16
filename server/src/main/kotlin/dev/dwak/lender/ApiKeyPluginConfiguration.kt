@@ -1,4 +1,4 @@
-package dev.dwak.lender.lender_app
+package dev.dwak.lender
 
 import dev.dwak.lender.repos.server.ApiKeyRepo
 import dev.zacsweers.metro.Inject

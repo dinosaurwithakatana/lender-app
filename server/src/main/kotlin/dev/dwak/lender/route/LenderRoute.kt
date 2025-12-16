@@ -1,4 +1,4 @@
-package dev.dwak.lender.lender_app.route
+package dev.dwak.lender.route
 
 import io.ktor.http.*
 import io.ktor.server.routing.*

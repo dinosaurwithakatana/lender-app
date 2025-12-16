@@ -1,9 +1,9 @@
-package dev.dwak.lender.lender_app
+package dev.dwak.lender
 
 import dev.dwak.lender.lender_app.coroutines.Io
-import dev.dwak.lender.lender_app.route.ApiRoutes
-import dev.dwak.lender.lender_app.route.AuthenticatedApiRoutes
-import dev.dwak.lender.lender_app.route.LenderRoute
+import dev.dwak.lender.route.ApiRoutes
+import dev.dwak.lender.route.AuthenticatedApiRoutes
+import dev.dwak.lender.route.LenderRoute
 import dev.dwak.lender.repos.server.UserRepo
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.DependencyGraph

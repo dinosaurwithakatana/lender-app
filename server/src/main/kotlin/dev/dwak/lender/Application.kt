@@ -1,8 +1,10 @@
-package dev.dwak.lender.lender_app
+package dev.dwak.lender
 
-import dev.dwak.lender.lender_app.route.ApiRoutes
-import dev.dwak.lender.lender_app.route.AuthenticatedApiRoutes
-import dev.dwak.lender.lender_app.route.LenderRoute
+import dev.dwak.lender.lender_app.Greeting
+import dev.dwak.lender.lender_app.SERVER_PORT
+import dev.dwak.lender.route.ApiRoutes
+import dev.dwak.lender.route.AuthenticatedApiRoutes
+import dev.dwak.lender.route.LenderRoute
 import dev.zacsweers.metro.createGraph
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
