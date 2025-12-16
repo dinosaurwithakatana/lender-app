@@ -1,4 +1,4 @@
-package dev.dwak.lender.lender_app.repo
+package dev.dwak.lender.repos.server
 
 import dev.dwak.lender.db.ApiKeyQueries
 import dev.zacsweers.metro.AppScope
@@ -10,11 +10,11 @@ import kotlinx.coroutines.withContext
 
 @SingleIn(AppScope::class)
 @Inject
-class ApiKeyRepo(
+class RealApiKeyRepo(
     private val queries: ApiKeyQueries,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-) {
-    suspend fun hasKey(key: String): Boolean = withContext(dispatcher) {
+) : ApiKeyRepo {
+    override suspend fun hasKey(key: String): Boolean = withContext(dispatcher) {
         queries.hasKey(key).executeAsOne()
     }
 }

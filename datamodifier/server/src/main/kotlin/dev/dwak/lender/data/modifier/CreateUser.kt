@@ -16,19 +16,19 @@ import kotlin.time.Clock
 data class CreateUser(
     val email: String,
     val password: String,
-): DataModification<CreateUser.Result> {
-    sealed interface Result: DataModification.Result {
-        data class Success(val token: String): Result
+) : DataModification<CreateUser.Result> {
+    sealed interface Result : DataModification.Result {
+        data class Success(val token: String) : Result
     }
 }
 
 @ClassKey(CreateUser::class)
-@ContributesIntoMap(scope =AppScope::class, binding = binding<DataModification.Handler<*, *>>())
+@ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
 @Inject
 class CreateUserHandler(
     private val userQueries: UserQueries,
     private val tokenQueries: TokenQueries,
-): DataModification.Handler<CreateUser.Result, CreateUser> {
+) : DataModification.Handler<CreateUser.Result, CreateUser> {
     override suspend fun handle(mod: CreateUser): CreateUser.Result {
         val dbUser = DbUser(
             id = UUID.randomUUID().toString(),

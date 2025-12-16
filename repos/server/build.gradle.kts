@@ -8,8 +8,7 @@ plugins {
 
 dependencies {
     api(projects.shared)
-    api(projects.datamodifier.api)
-    implementation(projects.database)
     api(projects.models.server)
-
+    implementation(projects.database)
+    implementation(libs.kotlinx.coroutines.core)
 }

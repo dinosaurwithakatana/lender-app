@@ -27,6 +27,7 @@ dependencies {
     implementation(projects.datamodifier.implementation)
     implementation(projects.datamodifier.server)
     implementation(projects.models.api)
+    implementation(projects.repos.server)
     implementation(projects.database)
     implementation(projects.shared)
     implementation(libs.logback)

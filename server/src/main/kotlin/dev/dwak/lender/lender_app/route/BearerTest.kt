@@ -1,15 +1,14 @@
 package dev.dwak.lender.lender_app.route
 
-import dev.dwak.lender.lender_app.repo.UserRepo
+import dev.dwak.lender.repos.server.UserRepo
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
-import io.ktor.http.HttpMethod
-import io.ktor.server.auth.UserIdPrincipal
-import io.ktor.server.auth.principal
-import io.ktor.server.response.respondText
-import io.ktor.server.routing.RoutingContext
+import io.ktor.http.*
+import io.ktor.server.auth.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
 @AuthenticatedApiRoutes
 @SingleIn(AppScope::class)

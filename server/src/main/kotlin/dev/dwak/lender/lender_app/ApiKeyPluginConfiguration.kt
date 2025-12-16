@@ -1,10 +1,10 @@
 package dev.dwak.lender.lender_app
 
-import dev.dwak.lender.lender_app.repo.ApiKeyRepo
+import dev.dwak.lender.repos.server.ApiKeyRepo
 import dev.zacsweers.metro.Inject
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.createRouteScopedPlugin
-import io.ktor.server.response.respond
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.response.*
 
 class PluginConfiguration {
     var headerName: String = "X-API-Key"

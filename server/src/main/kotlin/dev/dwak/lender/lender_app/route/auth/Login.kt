@@ -1,5 +1,7 @@
 package dev.dwak.lender.lender_app.route.auth
 
+import dev.dwak.lender.data.modifier.DataModifier
+import dev.dwak.lender.data.modifier.LoginUser
 import dev.dwak.lender.db.DbToken
 import dev.dwak.lender.db.TokenQueries
 import dev.dwak.lender.db.UserQueries
@@ -8,6 +10,7 @@ import dev.dwak.lender.lender_app.models.api.auth.ApiLoginRequest
 import dev.dwak.lender.lender_app.models.api.auth.ApiLoginSuccessResponse
 import dev.dwak.lender.lender_app.route.ApiRoutes
 import dev.dwak.lender.lender_app.route.LenderRoute
+import dev.dwak.lender.repos.server.UserRepo
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.Inject
@@ -24,8 +27,8 @@ import io.ktor.server.routing.RoutingContext
 @ContributesIntoSet(AppScope::class)
 @Inject
 class Login(
-    private val userQueries: UserQueries,
-    private val tokenQueries: TokenQueries,
+    private val userRepo: UserRepo,
+    private val dataModifier: DataModifier,
 ) : LenderRoute {
     override val method: HttpMethod = HttpMethod.Post
     override val path: String = "/login"
@@ -33,22 +36,25 @@ class Login(
     override fun handler(): suspend RoutingContext.() -> Unit = {
         val loginRequest = call.receive<ApiLoginRequest>()
 
-        val userExists = userQueries.userExists(loginRequest.email).executeAsOne()
+        val userExists = userRepo.userExistsByEmail(loginRequest.email)
 
         if (userExists) {
-            val user = userQueries.findByEmail(loginRequest.email).executeAsOne()
-            val authToken = generateToken()
-
-            tokenQueries.insertToken(
-                DbToken(
-                    token = authToken,
-                    user_id = user.id
+            val user = userRepo.getUserByEmail(loginRequest.email)
+            when (val result = dataModifier.submit(
+                LoginUser(
+                    serverUser = user
                 )
-            )
+            )) {
+                is LoginUser.Result.Failure -> {
 
-            call.respond(HttpStatusCode.OK, ApiLoginSuccessResponse(authToken))
-        }
-        else {
+                }
+
+                is LoginUser.Result.Success -> {
+                    call.respond(HttpStatusCode.OK, ApiLoginSuccessResponse(result.token))
+                }
+            }
+
+        } else {
             call.respond(HttpStatusCode.Forbidden, "User doesn't exist")
         }
     }

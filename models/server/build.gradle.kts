@@ -8,8 +8,4 @@ plugins {
 
 dependencies {
     api(projects.shared)
-    api(projects.datamodifier.api)
-    implementation(projects.database)
-    api(projects.models.server)
-
 }
