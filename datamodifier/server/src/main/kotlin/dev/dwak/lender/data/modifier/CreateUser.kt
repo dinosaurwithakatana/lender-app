@@ -21,6 +21,9 @@ data class CreateUser(
 ) : DataModification<CreateUser.Result> {
     sealed interface Result : DataModification.Result {
         data class Success(val token: String) : Result
+        data object InvalidPassword: Result
+        data object InvalidEmail: Result
+        data object MismatchedPassword: Result
     }
 }
 

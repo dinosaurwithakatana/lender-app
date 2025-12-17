@@ -18,9 +18,12 @@ dependencies {
     implementation(projects.models.api)
     implementation(projects.repos.server.api)
     implementation(projects.shared)
+
+    implementation(libs.ktor.serverAuth)
     implementation(libs.ktor.serverCore)
     implementation(libs.ktor.serverContentNegotiation)
     implementation(libs.ktor.serialzationJson)
+
     testImplementation(libs.ktor.serverTestHost)
     testImplementation(libs.kotlin.testJunit)
 }

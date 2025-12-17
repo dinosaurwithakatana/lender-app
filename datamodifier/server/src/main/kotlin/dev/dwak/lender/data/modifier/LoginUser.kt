@@ -34,7 +34,7 @@ class LoginUserHandler(
             val authToken = generateToken()
 
             val dbUser = userQueries.findByEmail(mod.email).executeAsOne()
-            val passwordVerified = passwordVerifier(dbUser.password, mod.password.toCharArray())
+            val passwordVerified = passwordVerifier(dbUser.password, mod.password)
 
             if (passwordVerified) {
                 tokenQueries.insertToken(

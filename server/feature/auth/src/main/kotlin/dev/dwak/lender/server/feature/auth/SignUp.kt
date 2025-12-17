@@ -40,6 +40,10 @@ class SignUp(
                 is CreateUser.Result.Success -> {
                     call.respond(HttpStatusCode.OK, ApiSignupSuccessResponse(result.token))
                 }
+
+                CreateUser.Result.InvalidEmail -> TODO()
+                CreateUser.Result.InvalidPassword -> TODO()
+                CreateUser.Result.MismatchedPassword -> TODO()
             }
         }
     }
