@@ -1,5 +1,7 @@
 package dev.dwak.lender.data.modifier
 
+import de.mkammerer.argon2.Argon2
+import de.mkammerer.argon2.Argon2Factory
 import dev.dwak.lender.db.DbToken
 import dev.dwak.lender.db.DbUser
 import dev.dwak.lender.db.TokenQueries
@@ -28,12 +30,14 @@ data class CreateUser(
 class CreateUserHandler(
     private val userQueries: UserQueries,
     private val tokenQueries: TokenQueries,
+    private val passwordHasher: PasswordHasher,
 ) : DataModification.Handler<CreateUser.Result, CreateUser> {
     override suspend fun handle(mod: CreateUser): CreateUser.Result {
+        val hashed = passwordHasher(mod.password)
         val dbUser = DbUser(
             id = UUID.randomUUID().toString(),
             email = mod.email,
-            password = mod.password,
+            password = hashed,
             created_at = Clock.System.now().toString(),
         )
         userQueries.insert(

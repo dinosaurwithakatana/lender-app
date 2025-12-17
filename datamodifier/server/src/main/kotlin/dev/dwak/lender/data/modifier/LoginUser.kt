@@ -12,9 +12,10 @@ import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 
 data class LoginUser(
-    val serverUser: ServerUser
+    val email: String,
+    val password: String
 ) : DataModification<LoginUser.Result> {
-    sealed interface Result: DataModification.Result {
+    sealed interface Result : DataModification.Result {
         data class Success(val token: String) : Result
         data class Failure(val error: String) : Result
     }
@@ -26,17 +27,30 @@ data class LoginUser(
 class LoginUserHandler(
     private val userQueries: UserQueries,
     private val tokenQueries: TokenQueries,
+    private val passwordVerifier: PasswordVerifier,
 ) : DataModification.Handler<LoginUser.Result, LoginUser> {
     override suspend fun handle(mod: LoginUser): LoginUser.Result {
-        val authToken = generateToken()
-        tokenQueries.insertToken(
-            DbToken(
-                token = authToken,
-                user_id = mod.serverUser.id
-            )
-        )
+        if (userQueries.userExists(mod.email).executeAsOne()) {
+            val authToken = generateToken()
 
-        return LoginUser.Result.Success(authToken)
+            val dbUser = userQueries.findByEmail(mod.email).executeAsOne()
+            val passwordVerified = passwordVerifier(dbUser.password, mod.password.toCharArray())
+
+            if (passwordVerified) {
+                tokenQueries.insertToken(
+                    DbToken(
+                        token = authToken,
+                        user_id = dbUser.id
+                    )
+                )
+                return LoginUser.Result.Success(authToken)
+            } else {
+                return LoginUser.Result.Failure("Incorrect password")
+            }
+
+        } else {
+            return LoginUser.Result.Failure("User ${mod.email} not found")
+        }
     }
 
 }
