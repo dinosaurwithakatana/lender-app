@@ -12,3 +12,15 @@ plugins {
     alias(libs.plugins.metro) apply false
     alias(libs.plugins.sqldelight) apply false
 }
+
+subprojects {
+    tasks.withType<Jar> {
+        // Use parent name + current name if parent isn't root
+        val parentName = if (project.parent?.name != rootProject.name) {
+            "${project.parent?.name}-"
+        } else {
+            ""
+        }
+        archiveBaseName.set("$parentName${project.name}")
+    }
+}

@@ -40,3 +40,10 @@ SELECT EXISTS (
 SELECT * FROM dbUser
 WHERE email = ?
 );
+
+isUserAdmin:
+SELECT EXISTS(
+    SELECT 1 FROM dbUserRoles ur
+    JOIN dbRoles r ON ur.role_id = r.id
+    WHERE ur.user_id = ? AND r.name = 'admin'
+);

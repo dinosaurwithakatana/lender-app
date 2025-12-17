@@ -36,4 +36,13 @@ interface DatabaseProviders {
     @SingleIn(AppScope::class)
     @Provides
     fun tokenQueries(db: Database): TokenQueries = db.tokenQueries
+
+    @SingleIn(AppScope::class)
+    @Provides
+    fun rolesQueries(db: Database): RolesQueries = db.rolesQueries
+
+    @SingleIn(AppScope::class)
+    @Provides
+    fun userRolesQueries(db: Database): UserRolesQueries = db.userRolesQueries
+
 }

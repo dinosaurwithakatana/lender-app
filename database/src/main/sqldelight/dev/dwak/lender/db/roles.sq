@@ -1,0 +1,15 @@
+CREATE TABLE dbRoles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE
+);
+
+INSERT INTO dbRoles (name) VALUES ("admin");
+INSERT INTO dbRoles (name) VALUES ("user");
+INSERT INTO dbRoles (name) VALUES ("guest");
+
+selectAllRoles:
+SELECT * FROM dbRoles;
+
+getByName:
+SELECT * FROM dbRoles
+WHERE name = ?;

@@ -5,11 +5,17 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import dev.dwak.lender.db.ApiKeyQueries
 import dev.dwak.lender.db.DbApiKey
 import dev.dwak.lender.lender_app.generateToken
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoSet
+import dev.zacsweers.metro.Inject
 
+@Inject
+@ContributesIntoSet(AppScope::class)
 class GenerateApiKey(
     private val apiKeyQueries: ApiKeyQueries,
 ) : SuspendingCliktCommand("generate-api-key") {
     val name by argument()
+
     override suspend fun run() {
         val newKey = generateToken()
 

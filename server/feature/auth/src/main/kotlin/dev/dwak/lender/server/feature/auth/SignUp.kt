@@ -43,7 +43,6 @@ class SignUp(
 
                 CreateUser.Result.InvalidEmail -> TODO()
                 CreateUser.Result.InvalidPassword -> TODO()
-                CreateUser.Result.MismatchedPassword -> TODO()
             }
         }
     }

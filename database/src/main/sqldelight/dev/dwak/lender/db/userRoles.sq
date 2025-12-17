@@ -1,0 +1,11 @@
+CREATE TABLE dbUserRoles (
+    user_id TEXT NOT NULL,
+    role_id INTEGER NOT NULL,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES dbUser(id) ON DELETE CASCADE,
+    FOREIGN KEY(role_id) REFERENCES dbRoles(id) ON DELETE CASCADE
+);
+
+insertUserRole:
+INSERT INTO dbUserRoles(user_id, role_id)
+VALUES ?;
