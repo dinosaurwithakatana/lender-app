@@ -1,0 +1,9 @@
+CREATE TABLE dbProfile (
+    id TEXT NOT NULL PRIMARY KEY,
+    user_id TEXT NOT NULL UNIQUE,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES dbUser(id) ON DELETE CASCADE
+);
+
+CREATE INDEX idx_profiles_user_id ON dbProfile(user_id);

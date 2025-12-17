@@ -6,6 +6,7 @@ plugins {
 
 application {
     mainClass.set("dev.dwak.lender.cli.MainKt")
+    applicationName = "lender-cli"
 }
 
 repositories {

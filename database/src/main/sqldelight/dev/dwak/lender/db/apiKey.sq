@@ -1,5 +1,6 @@
 CREATE TABLE dbApiKey (
-    apiKey TEXT NOT NULL PRIMARY KEY
+    apiKey TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE
 );
 
 getByKey:
@@ -16,5 +17,5 @@ SELECT EXISTS (
 );
 
 insertKey:
-INSERT INTO dbApiKey(apiKey)
+INSERT INTO dbApiKey(apiKey, name)
 VALUES ?;
