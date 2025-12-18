@@ -14,6 +14,7 @@ application {
 }
 
 metro {
+//    reportsDestination.set(layout.buildDirectory.dir("reports/metro"))
 }
 
 repositories {

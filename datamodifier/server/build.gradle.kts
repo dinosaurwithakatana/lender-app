@@ -6,10 +6,12 @@ plugins {
 group = "dev.dwak.lender"
 
 dependencies {
+//    api("commons-logging:commons-logging:1.2")
+
     api(projects.shared)
     api(projects.datamodifier.api)
     implementation(projects.database)
     api(projects.models.server)
 
-    implementation(libs.argon2)
+    api(libs.argon2)
 }
