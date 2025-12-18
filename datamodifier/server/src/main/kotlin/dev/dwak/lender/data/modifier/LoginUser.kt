@@ -42,7 +42,7 @@ class LoginUserHandler(
                         token = authToken,
                         user_id = dbUser.id
                     )
-                )
+                ).await()
                 return LoginUser.Result.Success(authToken)
             } else {
                 return LoginUser.Result.Failure("Incorrect password")

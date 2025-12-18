@@ -10,6 +10,7 @@ import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.Authentication
 import io.ktor.server.auth.UserIdPrincipal
+import io.ktor.server.auth.UserPasswordCredential
 import io.ktor.server.auth.authenticate
 import io.ktor.server.auth.bearer
 import io.ktor.server.engine.*
@@ -42,9 +43,8 @@ fun Application.module(graph: LenderGraph) {
         bearer("bearer") {
             authenticate {
                 if (graph.userRepo.tokenExists(it.token)) {
-                    UserIdPrincipal(graph.userRepo.getUserByToken(it.token).id)
-                }
-                else {
+                    UserPasswordCredential(graph.userRepo.getUserByToken(it.token).id, it.token)
+                } else {
                     null
                 }
             }

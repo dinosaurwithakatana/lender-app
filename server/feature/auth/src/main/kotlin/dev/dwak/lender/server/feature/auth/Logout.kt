@@ -11,8 +11,11 @@ import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
 import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.auth.UserIdPrincipal
+import io.ktor.server.auth.UserPasswordCredential
 import io.ktor.server.auth.principal
+import io.ktor.server.response.respond
 import io.ktor.server.routing.RoutingContext
 
 @AuthenticatedApiRoutes
@@ -29,14 +32,17 @@ class Logout(
         get() = "/logout"
 
     override fun handler(): suspend RoutingContext.() -> Unit = {
-        val principal = call.principal<UserIdPrincipal>()
-        val user = userRepo.getUserByToken(principal!!.name)
+        val principal = call.principal<UserPasswordCredential>()
 
-        when (val result = dataModifier.submit(LogoutUser(
-            id = user.id
-        ))) {
-
-            else -> {}
+        when (
+            dataModifier.submit(
+                LogoutUser(
+                    token = principal!!.password
+                )
+            )) {
+            LogoutUser.Result.Success -> {
+                call.respond(HttpStatusCode.OK)
+            }
         }
     }
 }
