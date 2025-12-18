@@ -32,8 +32,10 @@ class SignUp(
         if (request.password == request.confirmPassword) {
             val result = dataModifier.submit(
                 CreateUser(
-                    request.email,
-                    request.password
+                    email = request.email,
+                    password = request.password,
+                    firstName = request.firstName,
+                    lastName = request.lastName,
                 )
             )
             when (result) {

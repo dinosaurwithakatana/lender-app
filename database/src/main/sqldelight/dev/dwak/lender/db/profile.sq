@@ -7,3 +7,18 @@ CREATE TABLE dbProfile (
 );
 
 CREATE INDEX idx_profiles_user_id ON dbProfile(user_id);
+
+insert:
+INSERT INTO dbProfile(id, user_id, first_name, last_name)
+VALUES ?;
+
+createUserWithProfile {
+INSERT INTO dbUser(id, email, password, created_at)
+VALUES (:user_id, :email, :password, :created_at);
+
+INSERT INTO dbUserRoles(user_id, role_id)
+VALUES (:user_id, :role_id);
+
+INSERT INTO dbProfile(id, user_id, first_name, last_name)
+VALUES (:profile_id, :user_id, :first_name, :last_name);
+}

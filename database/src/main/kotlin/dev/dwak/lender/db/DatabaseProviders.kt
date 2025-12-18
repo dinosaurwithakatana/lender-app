@@ -45,4 +45,7 @@ interface DatabaseProviders {
     @Provides
     fun userRolesQueries(db: Database): UserRolesQueries = db.userRolesQueries
 
+    @SingleIn(AppScope::class)
+    @Provides
+    fun profileRolesQueries(db: Database): ProfileQueries = db.profileQueries
 }
