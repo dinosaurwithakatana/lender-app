@@ -1,7 +1,3 @@
-@file:OptIn(DelicateMetroGradleApi::class)
-
-import dev.zacsweers.metro.gradle.DelicateMetroGradleApi
-
 plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.metro)
@@ -11,10 +7,6 @@ plugins {
 application {
     mainClass.set("dev.dwak.lender.cli.MainKt")
     applicationName = "lender-cli"
-}
-
-metro {
-//    reportsDestination.set(layout.buildDirectory.dir("reports/metro"))
 }
 
 repositories {

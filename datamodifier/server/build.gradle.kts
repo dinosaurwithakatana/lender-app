@@ -6,7 +6,8 @@ plugins {
 group = "dev.dwak.lender"
 
 dependencies {
-//    api("commons-logging:commons-logging:1.2")
+    api("commons-logging:commons-logging:1.2")
+    api("org.bouncycastle:bcpkix-jdk18on:1.83")
 
     api(projects.shared)
     api(projects.datamodifier.api)
