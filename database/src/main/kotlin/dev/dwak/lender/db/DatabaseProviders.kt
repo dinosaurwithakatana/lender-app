@@ -1,5 +1,6 @@
 package dev.dwak.lender.db
 
+import app.cash.sqldelight.EnumColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import dev.zacsweers.metro.AppScope
@@ -23,6 +24,7 @@ interface DatabaseProviders {
     @Provides
     fun db(driver: SqlDriver): Database = Database(
         driver = driver,
+        dbRolesAdapter = DbRoles.Adapter(EnumColumnAdapter())
     )
 
     @SingleIn(AppScope::class)

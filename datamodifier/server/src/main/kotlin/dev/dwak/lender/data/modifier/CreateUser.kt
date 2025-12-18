@@ -1,6 +1,7 @@
 package dev.dwak.lender.data.modifier
 
 import dev.dwak.lender.db.DbProfile
+import dev.dwak.lender.db.DbRoleType
 import dev.dwak.lender.db.DbToken
 import dev.dwak.lender.db.DbUser
 import dev.dwak.lender.db.DbUserRoles
@@ -45,10 +46,10 @@ class CreateUserHandler(
         val token = generateToken()
 
         val roleId = if (mod.isAdmin) {
-            rolesQueries.getByName("admin").executeAsOne().id
+            rolesQueries.getByName(DbRoleType.ADMIN).executeAsOne().id
         }
         else {
-            rolesQueries.getByName("user").executeAsOne().id
+            rolesQueries.getByName(DbRoleType.GUEST).executeAsOne().id
         }
 
         profileQueries.createUserWithProfile(

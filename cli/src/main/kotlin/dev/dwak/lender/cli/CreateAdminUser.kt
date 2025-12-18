@@ -24,13 +24,17 @@ class CreateAdminUser(
 ) : SuspendingCliktCommand("create-admin-user"){
     val email by option().prompt()
     val password by option().prompt(hideInput = true, requireConfirmation = true)
+    val firstName by option().prompt(default = "Admin")
+    val lastName by option().prompt(default = "User")
 
     override suspend fun run() {
         when(val result = dataModifier.submit(
             CreateUser(
                 email = email,
                 password = password,
-                isAdmin = true
+                isAdmin = true,
+                firstName = firstName,
+                lastName = lastName
             )
         )) {
             CreateUser.Result.InvalidEmail -> {

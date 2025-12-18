@@ -1,11 +1,13 @@
+import dev.dwak.lender.db.DbRoleType;
+
 CREATE TABLE dbRoles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL UNIQUE
+    name TEXT AS DbRoleType NOT NULL UNIQUE
 );
 
-INSERT INTO dbRoles (name) VALUES ("admin");
-INSERT INTO dbRoles (name) VALUES ("user");
-INSERT INTO dbRoles (name) VALUES ("guest");
+INSERT INTO dbRoles (name) VALUES ("ADMIN");
+INSERT INTO dbRoles (name) VALUES ("USER");
+INSERT INTO dbRoles (name) VALUES ("GUEST");
 
 selectAllRoles:
 SELECT * FROM dbRoles;
