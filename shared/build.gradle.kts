@@ -36,6 +36,7 @@ kotlin {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
             api(libs.kotlinx.coroutines.core)
+            api(libs.napier)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

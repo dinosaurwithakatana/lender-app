@@ -6,6 +6,8 @@ import dev.dwak.lender.server.common.ApiRoutes
 import dev.dwak.lender.server.common.AuthenticatedApiRoutes
 import dev.dwak.lender.server.common.LenderRoute
 import dev.zacsweers.metro.createGraph
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.Authentication
@@ -22,6 +24,7 @@ import kotlinx.serialization.json.Json
 
 fun main() {
     val graph = createGraph<LenderGraph>()
+    Napier.base(DebugAntilog())
     embeddedServer(
         factory = Netty,
         port = SERVER_PORT,
