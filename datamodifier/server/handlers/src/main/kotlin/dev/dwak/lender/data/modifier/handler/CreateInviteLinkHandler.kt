@@ -1,5 +1,7 @@
-package dev.dwak.lender.data.modifier
+package dev.dwak.lender.data.modifier.handler
 
+import dev.dwak.lender.data.modification.CreateInviteLink
+import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.db.DbInviteLink
 import dev.dwak.lender.db.InviteLinkQueries
 import dev.dwak.lender.lender_app.generateToken
@@ -8,17 +10,6 @@ import dev.zacsweers.metro.ClassKey
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
-import kotlin.time.Instant
-
-data class CreateInviteLink(
-    val name: String,
-    val createdByUserId: String,
-    val expiresOn: Instant,
-): DataModification<CreateInviteLink.Result> {
-    sealed interface Result: DataModification.Result {
-        data class Success(val inviteLink: String): Result
-    }
-}
 
 @ClassKey(CreateInviteLink::class)
 @ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
@@ -43,4 +34,3 @@ class CreateInviteLinkHandler(
     }
 
 }
-

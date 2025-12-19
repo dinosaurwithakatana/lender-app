@@ -1,7 +1,7 @@
 package dev.dwak.lender.server.feature.auth
 
 import dev.dwak.lender.data.modifier.DataModifier
-import dev.dwak.lender.data.modifier.LoginUser
+import dev.dwak.lender.data.modification.LoginUser
 import dev.dwak.lender.lender_app.models.api.auth.ApiLoginRequest
 import dev.dwak.lender.lender_app.models.api.auth.ApiLoginSuccessResponse
 import dev.dwak.lender.repos.server.UserRepo

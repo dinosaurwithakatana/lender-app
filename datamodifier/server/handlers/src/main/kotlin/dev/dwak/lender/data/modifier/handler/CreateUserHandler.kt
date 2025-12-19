@@ -1,33 +1,23 @@
-package dev.dwak.lender.data.modifier
+package dev.dwak.lender.data.modifier.handler
 
-import dev.dwak.lender.db.DbProfile
+import dev.dwak.lender.data.modification.CreateUser
+import dev.dwak.lender.data.modification.PasswordHasher
+import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.db.DbRoleType
 import dev.dwak.lender.db.DbToken
-import dev.dwak.lender.db.DbUser
-import dev.dwak.lender.db.DbUserRoles
 import dev.dwak.lender.db.ProfileQueries
 import dev.dwak.lender.db.RolesQueries
 import dev.dwak.lender.db.TokenQueries
 import dev.dwak.lender.db.UserQueries
 import dev.dwak.lender.db.UserRolesQueries
 import dev.dwak.lender.lender_app.generateToken
-import dev.zacsweers.metro.*
-import java.util.*
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ClassKey
+import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.binding
+import java.util.UUID
 import kotlin.time.Clock
-
-data class CreateUser(
-    val email: String,
-    val password: String,
-    val firstName: String,
-    val lastName: String,
-    val isAdmin: Boolean = false,
-) : DataModification<CreateUser.Result> {
-    sealed interface Result : DataModification.Result {
-        data class Success(val token: String) : Result
-        data object InvalidPassword: Result
-        data object InvalidEmail: Result
-    }
-}
 
 @ClassKey(CreateUser::class)
 @ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())

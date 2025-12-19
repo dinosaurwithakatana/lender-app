@@ -4,7 +4,7 @@ import com.github.ajalt.clikt.command.SuspendingCliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.default
 import com.github.ajalt.clikt.parameters.types.int
-import dev.dwak.lender.data.modifier.CreateInviteLink
+import dev.dwak.lender.data.modification.CreateInviteLink
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.db.UserQueries
 import dev.zacsweers.metro.AppScope

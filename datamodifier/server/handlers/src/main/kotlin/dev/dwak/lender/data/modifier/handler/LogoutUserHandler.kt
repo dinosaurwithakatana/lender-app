@@ -1,15 +1,13 @@
-package dev.dwak.lender.data.modifier
+package dev.dwak.lender.data.modifier.handler
 
+import dev.dwak.lender.data.modification.LogoutUser
+import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.db.TokenQueries
-import dev.zacsweers.metro.*
-
-data class LogoutUser(
-    val token: String,
-) : DataModification<LogoutUser.Result> {
-    sealed interface Result : DataModification.Result {
-        data object Success : Result
-    }
-}
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ClassKey
+import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.binding
 
 @ClassKey(LogoutUser::class)
 @ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())

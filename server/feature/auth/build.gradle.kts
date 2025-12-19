@@ -13,7 +13,7 @@ dependencies {
     implementation(projects.server.common)
 
     implementation(projects.datamodifier.api)
-    implementation(projects.datamodifier.server)
+    implementation(projects.datamodifier.server.modifications)
 
     implementation(projects.models.api)
     implementation(projects.repos.server.api)

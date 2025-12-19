@@ -17,7 +17,7 @@ dependencies {
     implementation(projects.cli.commands)
 
     implementation(projects.datamodifier.implementation)
-    implementation(projects.datamodifier.server)
+    implementation(projects.datamodifier.server.handlers)
 
     implementation(projects.database)
     implementation(projects.shared)

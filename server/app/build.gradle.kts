@@ -25,7 +25,7 @@ metro {
 
 dependencies {
     implementation(projects.datamodifier.implementation)
-    implementation(projects.datamodifier.server)
+    implementation(projects.datamodifier.server.handlers)
     implementation(projects.models.api)
     implementation(projects.repos.server.implementation)
     implementation(projects.database)

@@ -1,7 +1,7 @@
 package dev.dwak.lender.server.feature.auth
 
 import dev.dwak.lender.data.modifier.DataModifier
-import dev.dwak.lender.data.modifier.LogoutUser
+import dev.dwak.lender.data.modification.LogoutUser
 import dev.dwak.lender.repos.server.UserRepo
 import dev.dwak.lender.server.common.ApiRoutes
 import dev.dwak.lender.server.common.AuthenticatedApiRoutes

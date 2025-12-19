@@ -3,7 +3,7 @@ package dev.dwak.lender.cli
 import com.github.ajalt.clikt.command.SuspendingCliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
-import dev.dwak.lender.data.modifier.CreateUser
+import dev.dwak.lender.data.modification.CreateUser
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet

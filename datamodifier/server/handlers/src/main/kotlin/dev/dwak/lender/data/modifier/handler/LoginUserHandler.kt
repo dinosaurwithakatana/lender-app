@@ -1,25 +1,17 @@
-package dev.dwak.lender.data.modifier
+package dev.dwak.lender.data.modifier.handler
 
+import dev.dwak.lender.data.modification.LoginUser
+import dev.dwak.lender.data.modification.PasswordVerifier
+import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.db.DbToken
 import dev.dwak.lender.db.TokenQueries
 import dev.dwak.lender.db.UserQueries
 import dev.dwak.lender.lender_app.generateToken
-import dev.dwak.lender.models.server.ServerUser
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ClassKey
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
-
-data class LoginUser(
-    val email: String,
-    val password: String
-) : DataModification<LoginUser.Result> {
-    sealed interface Result : DataModification.Result {
-        data class Success(val token: String) : Result
-        data class Failure(val error: String) : Result
-    }
-}
 
 @ClassKey(LoginUser::class)
 @ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())

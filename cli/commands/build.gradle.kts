@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     implementation(projects.datamodifier.api)
-    implementation(projects.datamodifier.server)
+    implementation(projects.datamodifier.server.modifications)
 
     implementation(projects.database)
     implementation(projects.shared)
