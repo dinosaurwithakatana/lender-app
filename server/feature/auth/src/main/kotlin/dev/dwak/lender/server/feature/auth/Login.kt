@@ -21,7 +21,6 @@ import io.ktor.server.routing.*
 @ContributesIntoSet(AppScope::class)
 @Inject
 class Login(
-    private val userRepo: UserRepo,
     private val dataModifier: DataModifier,
 ) : LenderRoute {
     override val method: HttpMethod = HttpMethod.Post

@@ -1,0 +1,16 @@
+CREATE TABLE dbInviteLink (
+    name TEXT NOT NULL,
+    link_token TEXT NOT NULL PRIMARY KEY,
+    created_by_user_id TEXT NOT NULL,
+    expires_at TEXT NOT NULL,
+    FOREIGN KEY (created_by_user_id) REFERENCES dbUser(id) ON DELETE CASCADE
+);
+
+insert:
+INSERT INTO dbInviteLink(name, link_token, created_by_user_id, expires_at)
+VALUES ?;
+
+select:
+SELECT *
+FROM dbInviteLink
+WHERE link_token = ?;

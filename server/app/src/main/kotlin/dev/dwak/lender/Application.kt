@@ -5,6 +5,7 @@ import dev.dwak.lender.lender_app.SERVER_PORT
 import dev.dwak.lender.server.common.ApiRoutes
 import dev.dwak.lender.server.common.AuthenticatedApiRoutes
 import dev.dwak.lender.server.common.LenderRoute
+import dev.dwak.lender.server.common.UserIdToken
 import dev.zacsweers.metro.createGraph
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
@@ -46,7 +47,7 @@ fun Application.module(graph: LenderGraph) {
         bearer("bearer") {
             authenticate {
                 if (graph.userRepo.tokenExists(it.token)) {
-                    UserPasswordCredential(graph.userRepo.getUserByToken(it.token).id, it.token)
+                    UserIdToken(graph.userRepo.getUserByToken(it.token).id, it.token)
                 } else {
                     null
                 }

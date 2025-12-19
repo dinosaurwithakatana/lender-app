@@ -50,4 +50,8 @@ interface DatabaseProviders {
     @SingleIn(AppScope::class)
     @Provides
     fun profileRolesQueries(db: Database): ProfileQueries = db.profileQueries
+
+    @SingleIn(AppScope::class)
+    @Provides
+    fun inviteLinkQueries(db: Database): InviteLinkQueries = db.inviteLinkQueries
 }

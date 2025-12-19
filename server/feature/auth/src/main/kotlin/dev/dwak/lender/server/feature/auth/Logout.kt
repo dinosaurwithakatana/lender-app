@@ -6,6 +6,7 @@ import dev.dwak.lender.repos.server.UserRepo
 import dev.dwak.lender.server.common.ApiRoutes
 import dev.dwak.lender.server.common.AuthenticatedApiRoutes
 import dev.dwak.lender.server.common.LenderRoute
+import dev.dwak.lender.server.common.UserIdToken
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.Inject
@@ -32,12 +33,12 @@ class Logout(
         get() = "/logout"
 
     override fun handler(): suspend RoutingContext.() -> Unit = {
-        val principal = call.principal<UserPasswordCredential>()
+        val principal = call.principal<UserIdToken>()
 
         when (
             dataModifier.submit(
                 LogoutUser(
-                    token = principal!!.password
+                    token = principal!!.token
                 )
             )) {
             LogoutUser.Result.Success -> {
