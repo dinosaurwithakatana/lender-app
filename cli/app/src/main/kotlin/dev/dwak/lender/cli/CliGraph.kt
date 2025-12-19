@@ -3,7 +3,6 @@ package dev.dwak.lender.cli
 import com.github.ajalt.clikt.command.SuspendingCliktCommand
 import com.github.ajalt.clikt.command.main
 import com.github.ajalt.clikt.core.subcommands
-import dev.dwak.lender.db.ApiKeyQueries
 import dev.dwak.lender.lender_app.coroutines.Io
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.DependencyGraph

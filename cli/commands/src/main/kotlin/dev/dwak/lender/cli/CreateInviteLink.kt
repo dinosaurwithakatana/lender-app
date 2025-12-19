@@ -11,7 +11,6 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.Inject
 import kotlin.time.Clock
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 
 @ContributesIntoSet(AppScope::class)

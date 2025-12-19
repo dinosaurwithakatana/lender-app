@@ -1,12 +1,6 @@
 plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.metro)
-    application
-}
-
-application {
-    mainClass.set("dev.dwak.lender.cli.MainKt")
-    applicationName = "lender-cli"
 }
 
 repositories {
@@ -14,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    implementation(projects.datamodifier.implementation)
+    implementation(projects.datamodifier.api)
     implementation(projects.datamodifier.server)
 
     implementation(projects.database)

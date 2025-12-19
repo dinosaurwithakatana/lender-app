@@ -28,6 +28,8 @@ dependencyResolutionManagement {
     }
 }
 
+include(":cli:app")
+include(":cli:commands")
 include(":composeApp")
 include(":database")
 include(":datamodifier:api")
@@ -41,4 +43,3 @@ include(":server:app")
 include(":server:feature:auth")
 include(":server:common")
 include(":shared")
-include(":cli")
