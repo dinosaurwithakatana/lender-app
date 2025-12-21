@@ -1,6 +1,7 @@
 package dev.dwak.lender.data.modifier.handler
 
 import dev.dwak.lender.data.modification.CreateAdminUser
+import dev.dwak.lender.data.modification.CreateInviteLink
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.db.DbToken
 import dev.dwak.lender.db.ProfileQueries
@@ -10,8 +11,10 @@ import dev.zacsweers.metro.*
 import java.util.*
 import kotlin.time.Clock
 
-@ModificationKey(CreateAdminUser::class)
-@ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
+@ContributesIntoMap(
+    scope = AppScope::class,
+    binding = binding<@ModificationKey(CreateAdminUser::class) BoundHandler>()
+)
 class CreateAdminUserHandler(
     private val profileQueries: ProfileQueries,
     private val tokenQueries: TokenQueries,

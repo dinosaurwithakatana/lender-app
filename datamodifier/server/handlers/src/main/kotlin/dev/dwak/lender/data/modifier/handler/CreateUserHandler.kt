@@ -14,8 +14,10 @@ import dev.zacsweers.metro.binding
 import java.util.*
 import kotlin.time.Clock
 
-@ModificationKey(CreateUser::class)
-@ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
+@ContributesIntoMap(
+    scope = AppScope::class,
+    binding = binding<@ModificationKey(CreateUser::class) BoundHandler>()
+)
 class CreateUserHandler(
     private val inviteLinkQueries: InviteLinkQueries,
     private val profileQueries: ProfileQueries,

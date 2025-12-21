@@ -1,5 +1,6 @@
 package dev.dwak.lender.data.modifier.handler
 
+import dev.dwak.lender.data.modification.CreateUser
 import dev.dwak.lender.data.modification.LoginUser
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.db.DbToken
@@ -11,8 +12,10 @@ import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 
-@ModificationKey(LoginUser::class)
-@ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
+@ContributesIntoMap(
+    scope = AppScope::class,
+    binding = binding<@ModificationKey(LoginUser::class) BoundHandler>()
+)
 class LoginUserHandler(
     private val userQueries: UserQueries,
     private val tokenQueries: TokenQueries,

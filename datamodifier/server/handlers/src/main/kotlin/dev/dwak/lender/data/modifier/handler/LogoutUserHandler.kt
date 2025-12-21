@@ -9,8 +9,10 @@ import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 
-@ModificationKey(LogoutUser::class)
-@ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
+@ContributesIntoMap(
+    scope = AppScope::class,
+    binding = binding<@ModificationKey(LogoutUser::class) BoundHandler>()
+)
 class LogoutUserHandler(
     private val tokenQueries: TokenQueries
 ) : DataModification.Handler<LogoutUser.Result, LogoutUser> {
