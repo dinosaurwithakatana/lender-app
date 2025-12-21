@@ -8,4 +8,5 @@ interface UserRepo {
     suspend fun getUserByEmail(email: String): ServerUser
     suspend fun tokenExists(token: String): Boolean
     suspend fun userExistsByEmail(email: String): Boolean
+    suspend fun listAll(): List<ServerUser>
 }

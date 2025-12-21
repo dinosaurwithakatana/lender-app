@@ -25,7 +25,7 @@ class CreateInviteLinkHandler(
                 name = mod.name,
                 link_token = DbInviteLink.Link_token(linkToken),
                 created_by_profile_id = DbProfile.Id(mod.createdByProfileId.id),
-                expires_at = mod.expiresOn.toString()
+                expires_at = mod.expiresOn
             )
         )
 

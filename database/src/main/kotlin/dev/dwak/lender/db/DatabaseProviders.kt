@@ -1,5 +1,6 @@
 package dev.dwak.lender.db
 
+import app.cash.sqldelight.ColumnAdapter
 import app.cash.sqldelight.EnumColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
@@ -8,6 +9,7 @@ import dev.zacsweers.metro.ContributesTo
 import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
 import java.util.Properties
+import kotlin.time.Instant
 
 @ContributesTo(AppScope::class)
 interface DatabaseProviders {
@@ -22,10 +24,24 @@ interface DatabaseProviders {
 
     @SingleIn(AppScope::class)
     @Provides
-    fun db(driver: SqlDriver): Database = Database(
+    fun instantAdapter(): ColumnAdapter<Instant, String> = object : ColumnAdapter<Instant, String> {
+        override fun decode(databaseValue: String): Instant = Instant.parse(databaseValue)
+        override fun encode(value: Instant): String = value.toString()
+    }
+
+    @SingleIn(AppScope::class)
+    @Provides
+    fun db(driver: SqlDriver, instantAdapter: ColumnAdapter<Instant, String>): Database = Database(
         driver = driver,
-        dbGroupMembershipAdapter = DbGroupMembership.Adapter(EnumColumnAdapter()),
-        dbRolesAdapter = DbRoles.Adapter(EnumColumnAdapter())
+        dbGroupMembershipAdapter = DbGroupMembership.Adapter(
+            statusAdapter = EnumColumnAdapter(),
+            created_atAdapter = instantAdapter
+        ),
+        dbRolesAdapter = DbRoles.Adapter(EnumColumnAdapter()),
+        dbInviteLinkAdapter = DbInviteLink.Adapter(expires_atAdapter = instantAdapter),
+        dbItemAdapter = DbItem.Adapter(created_atAdapter = instantAdapter),
+        dbUserAdapter = DbUser.Adapter(created_atAdapter = instantAdapter),
+        dbGroupAdapter = DbGroup.Adapter(created_atAdapter = instantAdapter),
     )
 
     @SingleIn(AppScope::class)

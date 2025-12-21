@@ -1,10 +1,13 @@
+import kotlin.time.Instant;
+
 CREATE TABLE dbItem (
     id TEXT AS VALUE NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
     owned_by_profile_id TEXT NOT NULL,
+    created_at TEXT AS Instant NOT NULL,
     FOREIGN KEY (owned_by_profile_id) REFERENCES dbProfile(id)
 );
 
 insert:
-INSERT INTO dbItem(id, name, owned_by_profile_id)
+INSERT INTO dbItem(id, name, owned_by_profile_id, created_at)
 VALUES ?;

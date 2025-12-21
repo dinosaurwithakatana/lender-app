@@ -1,8 +1,10 @@
+import kotlin.time.Instant;
+
 CREATE TABLE dbUser (
     id TEXT AS VALUE PRIMARY KEY NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TEXT AS Instant NOT NULL
 );
 
 CREATE INDEX user_email ON dbUser(email);
@@ -47,3 +49,6 @@ SELECT EXISTS(
     JOIN dbRoles r ON ur.role_id = r.id
     WHERE ur.user_id = ? AND r.name = 'admin'
 );
+
+selectAll:
+SELECT id, email, created_at FROM dbUser;

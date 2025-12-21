@@ -29,7 +29,7 @@ class RealUserRepo(
             ServerUser(
                 id = ServerUserId(id.id),
                 email = email,
-                createdAt = Instant.parse(created_at)
+                createdAt = created_at
             )
         }.executeAsOne()
     }
@@ -39,7 +39,7 @@ class RealUserRepo(
             ServerUser(
                 id = ServerUserId(id.id),
                 email = email,
-                createdAt = Instant.parse(created_at)
+                createdAt = created_at
             )
         }.executeAsOne()
     }
@@ -49,7 +49,7 @@ class RealUserRepo(
             ServerUser(
                 id = ServerUserId(id.id),
                 email = email,
-                createdAt = Instant.parse(created_at)
+                createdAt = created_at
             )
         }
         .executeAsOne()
@@ -57,5 +57,15 @@ class RealUserRepo(
 
     override suspend fun userExistsByEmail(email: String): Boolean {
         return userQueries.userExists(email).executeAsOne()
+    }
+
+    override suspend fun listAll(): List<ServerUser> {
+        return userQueries.selectAll { id, email, created_at ->
+            ServerUser(
+                id = ServerUserId(id.id),
+                email = email,
+                createdAt = created_at
+            )
+        }.executeAsList()
     }
 }

@@ -46,7 +46,8 @@ class CreateUserHandler(
             profile_id = DbProfile.Id(UUID.randomUUID().toString()),
             first_name = mod.firstName,
             last_name = mod.lastName,
-            invite_token = DbInviteLink.Link_token(mod.inviteLinkToken!!)
+            invite_token = DbInviteLink.Link_token(mod.inviteLinkToken!!),
+            created_at = Clock.System.now()
         )
 
         tokenQueries.insertToken(

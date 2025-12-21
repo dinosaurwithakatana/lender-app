@@ -1,14 +1,16 @@
 import dev.dwak.lender.db.DbGroupMembershipStatus;
+import kotlin.time.Instant;
 
 CREATE TABLE dbGroupMembership (
     id TEXT AS VALUE NOT NULL PRIMARY KEY,
     profile_id TEXT NOT NULL,
     group_id TEXT NOT NULL,
     status TEXT AS DbGroupMembershipStatus NOT NULL,
+    created_at TEXT AS Instant NOT NULL,
     FOREIGN KEY (profile_id) REFERENCES dbProfile(id) ON DELETE CASCADE,
     FOREIGN KEY (group_id) REFERENCES dbGroup(id) ON DELETE CASCADE
 );
 
 insert:
-INSERT INTO dbGroupMembership(id, profile_id, group_id, status)
+INSERT INTO dbGroupMembership(id, profile_id, group_id, status, created_at)
 VALUES ?;

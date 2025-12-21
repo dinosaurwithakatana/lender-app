@@ -1,8 +1,10 @@
+import kotlin.time.Instant;
+
 CREATE TABLE dbInviteLink (
     name TEXT NOT NULL,
     link_token TEXT AS VALUE NOT NULL PRIMARY KEY,
     created_by_profile_id TEXT NOT NULL,
-    expires_at TEXT NOT NULL,
+    expires_at TEXT AS Instant NOT NULL,
     FOREIGN KEY (created_by_profile_id) REFERENCES dbProfile(id) ON DELETE CASCADE
 );
 

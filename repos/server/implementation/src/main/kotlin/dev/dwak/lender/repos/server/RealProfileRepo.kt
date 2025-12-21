@@ -18,8 +18,20 @@ class RealProfileRepo(
     override suspend fun getByEmail(email: String): ServerProfile = withContext(dispatcher) {
         profileQueries.findByEmail(email) { id, user_id, first_name, last_name ->
             ServerProfile(
-                id = ServerProfileId(id.id)
+                id = ServerProfileId(id.id),
+                firstName = first_name,
+                lastName = last_name,
             )
         }.executeAsOne()
+    }
+
+    override suspend fun listProfiles(): List<ServerProfile> {
+        return profileQueries.selectAll { id, user_id, first_name, last_name ->
+            ServerProfile(
+                id = ServerProfileId(id.id),
+                firstName = first_name,
+                lastName = last_name
+            )
+        }.executeAsList()
     }
 }
