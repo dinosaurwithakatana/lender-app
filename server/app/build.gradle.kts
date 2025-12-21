@@ -10,8 +10,6 @@ plugins {
     application
 }
 
-group = "dev.dwak.lender"
-version = "1.0.0"
 application {
     mainClass.set("dev.dwak.lender.ApplicationKt")
 

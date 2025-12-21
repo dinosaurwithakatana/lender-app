@@ -9,4 +9,5 @@ data class ApiSignUpRequest(
     val confirmPassword: String,
     val firstName: String,
     val lastName: String,
+    val inviteLinkToken: String? = null
 )

@@ -1,19 +1,17 @@
 package dev.dwak.lender.data.modifier.handler
 
 import dev.dwak.lender.data.modification.LoginUser
-import dev.dwak.lender.data.modification.PasswordVerifier
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.db.DbToken
 import dev.dwak.lender.db.TokenQueries
 import dev.dwak.lender.db.UserQueries
 import dev.dwak.lender.lender_app.generateToken
 import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ClassKey
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 
-@ClassKey(LoginUser::class)
+@ModificationKey(LoginUser::class)
 @ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
 @Inject
 class LoginUserHandler(

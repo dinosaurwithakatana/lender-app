@@ -54,4 +54,8 @@ interface DatabaseProviders {
     @SingleIn(AppScope::class)
     @Provides
     fun inviteLinkQueries(db: Database): InviteLinkQueries = db.inviteLinkQueries
+
+    @SingleIn(AppScope::class)
+    @Provides
+    fun inviteHistoryQueries(db: Database): InviteHistoryQueries = db.inviteHistoryQueries
 }

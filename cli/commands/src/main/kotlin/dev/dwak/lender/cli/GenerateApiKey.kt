@@ -13,7 +13,7 @@ import dev.zacsweers.metro.Inject
 @ContributesIntoSet(AppScope::class)
 class GenerateApiKey(
     private val apiKeyQueries: ApiKeyQueries,
-) : SuspendingCliktCommand("generate-api-key") {
+) : SuspendingCliktCommand() {
     val name by argument()
 
     override suspend fun run() {

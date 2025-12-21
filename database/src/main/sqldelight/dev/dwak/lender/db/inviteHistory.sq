@@ -1,0 +1,11 @@
+CREATE TABLE dbInviteHistory (
+    invited_by_id TEXT NOT NULL,
+    invited_user_id TEXT NOT NULL,
+    PRIMARY KEY (invited_by_id, invited_user_id),
+    FOREIGN KEY (invited_by_id) REFERENCES dbUser(id),
+    FOREIGN KEY (invited_user_id) REFERENCES dbUser(id)
+);
+
+insert:
+INSERT INTO dbInviteHistory(invited_by_id, invited_user_id)
+VALUES ?;

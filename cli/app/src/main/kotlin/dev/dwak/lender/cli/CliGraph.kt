@@ -7,6 +7,8 @@ import dev.dwak.lender.lender_app.coroutines.Io
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.DependencyGraph
 import dev.zacsweers.metro.Provides
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
@@ -19,6 +21,7 @@ interface CliGraph {
         subCommands: Set<SuspendingCliktCommand>,
         args: Array<String>
     ) : suspend () -> Unit = {
+        Napier.base(DebugAntilog())
         LenderCli()
             .subcommands(subCommands)
             .main(args)

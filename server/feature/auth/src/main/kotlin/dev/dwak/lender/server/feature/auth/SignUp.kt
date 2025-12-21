@@ -36,6 +36,7 @@ class SignUp(
                     password = request.password,
                     firstName = request.firstName,
                     lastName = request.lastName,
+                    inviteLinkToken = request.inviteLinkToken,
                 )
             )
             when (result) {
@@ -45,6 +46,9 @@ class SignUp(
 
                 CreateUser.Result.InvalidEmail -> TODO()
                 CreateUser.Result.InvalidPassword -> TODO()
+                CreateUser.Result.InvalidInviteLink -> {
+                    call.respond(HttpStatusCode.Unauthorized, "Invalid invite")
+                }
             }
         }
     }

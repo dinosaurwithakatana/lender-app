@@ -1,4 +1,4 @@
-package dev.dwak.lender.data.modification
+package dev.dwak.lender.data.modifier.handler
 
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesTo

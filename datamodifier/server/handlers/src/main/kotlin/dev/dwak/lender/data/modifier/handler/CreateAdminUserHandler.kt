@@ -1,41 +1,29 @@
 package dev.dwak.lender.data.modifier.handler
 
-import dev.dwak.lender.data.modification.CreateUser
+import dev.dwak.lender.data.modification.CreateAdminUser
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.db.DbToken
-import dev.dwak.lender.db.InviteLinkQueries
 import dev.dwak.lender.db.ProfileQueries
 import dev.dwak.lender.db.TokenQueries
 import dev.dwak.lender.lender_app.generateToken
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.binding
+import dev.zacsweers.metro.*
 import java.util.*
 import kotlin.time.Clock
 
-@ModificationKey(CreateUser::class)
+@ModificationKey(CreateAdminUser::class)
 @ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
 @Inject
-class CreateUserHandler(
-    private val inviteLinkQueries: InviteLinkQueries,
+class CreateAdminUserHandler(
     private val profileQueries: ProfileQueries,
     private val tokenQueries: TokenQueries,
     private val passwordHasher: PasswordHasher,
-) : DataModification.Handler<CreateUser.Result, CreateUser> {
-    override suspend fun handle(mod: CreateUser): CreateUser.Result {
-
-        when {
-            mod.inviteLinkToken.isNullOrEmpty() -> return CreateUser.Result.InvalidInviteLink
-            !inviteLinkQueries.linkExists(mod.inviteLinkToken!!)
-                .executeAsOne() -> return CreateUser.Result.InvalidInviteLink
-        }
-
+) : DataModification.Handler<CreateAdminUser.Result, CreateAdminUser> {
+    override suspend fun handle(mod: CreateAdminUser): CreateAdminUser.Result {
         val hashed = passwordHasher(mod.password)
         val userId = UUID.randomUUID().toString()
         val token = generateToken()
 
-        profileQueries.createUserWithProfile(
+        profileQueries.createAdminUserWithProfile(
             user_id = userId,
             email = mod.email,
             password = hashed,
@@ -43,7 +31,6 @@ class CreateUserHandler(
             profile_id = UUID.randomUUID().toString(),
             first_name = mod.firstName,
             last_name = mod.lastName,
-            invite_token = mod.inviteLinkToken!!
         )
 
         tokenQueries.insertToken(
@@ -53,6 +40,6 @@ class CreateUserHandler(
             )
         )
 
-        return CreateUser.Result.Success(token)
+        return CreateAdminUser.Result.Success(token)
     }
 }

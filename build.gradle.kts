@@ -14,8 +14,15 @@ plugins {
 }
 
 subprojects {
+    // Set unique group based on project path
+    val pathSegments = project.path.split(":").drop(1)
+    if (pathSegments.size > 1) {
+        group = "dev.dwak.lender.${pathSegments.dropLast(1).joinToString(".")}"
+    } else {
+        group = "dev.dwak.lender"
+    }
+
     tasks.withType<Jar> {
-        // Use parent name + current name if parent isn't root
         val parentName = if (project.parent?.name != rootProject.name) {
             "${project.parent?.name}-"
         } else {

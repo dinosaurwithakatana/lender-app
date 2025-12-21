@@ -15,7 +15,7 @@ import kotlin.reflect.KClass
 @ContributesBinding(AppScope::class)
 @Inject
 class RealDataModifier(
-    private val handlerMap: Map<KClass<*>, Provider<DataModification.Handler<*, *>>>,
+    private val handlerMap: Map<KClass<out DataModification<*>>, Provider<DataModification.Handler<*, *>>>,
     @Io private val dispatcher: CoroutineDispatcher,
 ) : DataModifier {
     override suspend fun <R : DataModification.Result> submit(mod: DataModification<R>): R = withContext(dispatcher) {

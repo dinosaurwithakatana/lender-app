@@ -14,3 +14,15 @@ select:
 SELECT *
 FROM dbInviteLink
 WHERE link_token = ?;
+
+linkExists:
+SELECT EXISTS(
+SELECT *
+FROM dbInviteLink
+WHERE link_token = ?
+);
+
+linksForUserId:
+SELECT *
+FROM dbInviteLink
+WHERE created_by_user_id = ?;

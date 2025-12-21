@@ -17,7 +17,27 @@ INSERT INTO dbUser(id, email, password, created_at)
 VALUES (:user_id, :email, :password, :created_at);
 
 INSERT INTO dbUserRoles(user_id, role_id)
-VALUES (:user_id, :role_id);
+SELECT :user_id, id
+FROM dbRoles
+WHERE name = "USER";
+
+INSERT INTO dbProfile(id, user_id, first_name, last_name)
+VALUES (:profile_id, :user_id, :first_name, :last_name);
+
+INSERT INTO dbInviteHistory(invited_by_id, invited_user_id)
+SELECT created_by_user_id, :user_id
+FROM dbInviteLink
+WHERE link_token = :invite_token;
+}
+
+createAdminUserWithProfile {
+INSERT INTO dbUser(id, email, password, created_at)
+VALUES (:user_id, :email, :password, :created_at);
+
+INSERT INTO dbUserRoles(user_id, role_id)
+SELECT :user_id, id
+FROM dbRoles
+WHERE name = "ADMIN";
 
 INSERT INTO dbProfile(id, user_id, first_name, last_name)
 VALUES (:profile_id, :user_id, :first_name, :last_name);

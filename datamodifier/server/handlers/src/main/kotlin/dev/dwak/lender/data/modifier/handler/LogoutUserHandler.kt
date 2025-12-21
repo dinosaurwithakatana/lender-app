@@ -9,7 +9,7 @@ import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 
-@ClassKey(LogoutUser::class)
+@ModificationKey(LogoutUser::class)
 @ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
 @Inject
 class LogoutUserHandler(

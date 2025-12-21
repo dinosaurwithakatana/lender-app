@@ -3,8 +3,6 @@ plugins {
     alias(libs.plugins.metro)
 }
 
-group = "dev.dwak.lender"
-
 dependencies {
     api("commons-logging:commons-logging:1.2")
     api("org.bouncycastle:bcpkix-jdk18on:1.83")
@@ -12,6 +10,7 @@ dependencies {
     api(projects.shared)
 
     api(projects.datamodifier.api)
+    api(projects.datamodifier.common.handlers)
     api(projects.datamodifier.server.modifications)
 
     implementation(projects.database)

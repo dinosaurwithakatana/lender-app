@@ -35,7 +35,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
-            api(project(":datamodifier:api"))
+            api(projects.datamodifier.api)
             implementation(projects.shared)
         }
         commonTest.dependencies {
