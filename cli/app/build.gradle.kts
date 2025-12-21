@@ -22,5 +22,7 @@ dependencies {
     implementation(projects.database)
     implementation(projects.shared)
 
+    implementation(projects.repos.server.implementation)
+
     implementation(libs.clikt)
 }

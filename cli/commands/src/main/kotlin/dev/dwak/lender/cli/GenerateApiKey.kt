@@ -2,27 +2,20 @@ package dev.dwak.lender.cli
 
 import com.github.ajalt.clikt.command.SuspendingCliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
-import dev.dwak.lender.db.ApiKeyQueries
-import dev.dwak.lender.db.DbApiKey
-import dev.dwak.lender.lender_app.generateToken
+import dev.dwak.lender.data.modification.CreateApiKey
+import dev.dwak.lender.data.modifier.DataModifier
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
-import dev.zacsweers.metro.Inject
 
 @ContributesIntoSet(AppScope::class)
 class GenerateApiKey(
-    private val apiKeyQueries: ApiKeyQueries,
+    private val dataModifier: DataModifier,
 ) : SuspendingCliktCommand() {
     val name by argument()
 
     override suspend fun run() {
-        val newKey = generateToken()
-
-        apiKeyQueries.insertKey(DbApiKey(
-            apiKey = newKey,
-            name = name
-        ))
-
-        echo("Successfully created API key $newKey")
+        when (val result = dataModifier.submit(CreateApiKey(name = name))) {
+            is CreateApiKey.Result.Success -> echo("Successfully created API key ${result.apiKey}")
+        }
     }
 }

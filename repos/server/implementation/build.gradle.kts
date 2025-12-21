@@ -6,6 +6,10 @@ plugins {
     alias(libs.plugins.metro)
 }
 
+metro {
+    contributesAsInject.set(true)
+}
+
 dependencies {
     api(projects.repos.server.api)
     api(projects.shared)

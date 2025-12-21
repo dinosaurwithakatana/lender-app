@@ -1,5 +1,5 @@
 CREATE TABLE dbUser (
-    id TEXT PRIMARY KEY NOT NULL,
+    id TEXT AS VALUE PRIMARY KEY NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
     created_at TEXT NOT NULL

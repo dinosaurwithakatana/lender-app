@@ -11,7 +11,6 @@ import kotlinx.coroutines.withContext
 
 @SingleIn(AppScope::class)
 @ContributesBinding(AppScope::class)
-@Inject
 class RealApiKeyRepo(
     private val queries: ApiKeyQueries,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO

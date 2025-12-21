@@ -1,13 +1,13 @@
 CREATE TABLE dbInviteLink (
     name TEXT NOT NULL,
-    link_token TEXT NOT NULL PRIMARY KEY,
-    created_by_user_id TEXT NOT NULL,
+    link_token TEXT AS VALUE NOT NULL PRIMARY KEY,
+    created_by_profile_id TEXT NOT NULL,
     expires_at TEXT NOT NULL,
-    FOREIGN KEY (created_by_user_id) REFERENCES dbUser(id) ON DELETE CASCADE
+    FOREIGN KEY (created_by_profile_id) REFERENCES dbProfile(id) ON DELETE CASCADE
 );
 
 insert:
-INSERT INTO dbInviteLink(name, link_token, created_by_user_id, expires_at)
+INSERT INTO dbInviteLink(name, link_token, created_by_profile_id, expires_at)
 VALUES ?;
 
 select:
@@ -25,4 +25,4 @@ WHERE link_token = ?
 linksForUserId:
 SELECT *
 FROM dbInviteLink
-WHERE created_by_user_id = ?;
+WHERE created_by_profile_id = ?;

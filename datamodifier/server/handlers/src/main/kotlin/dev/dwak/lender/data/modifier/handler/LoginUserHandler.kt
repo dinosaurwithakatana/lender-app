@@ -31,7 +31,7 @@ class LoginUserHandler(
             if (passwordVerified) {
                 tokenQueries.insertToken(
                     DbToken(
-                        token = authToken,
+                        token = DbToken.Token(authToken),
                         user_id = dbUser.id
                     )
                 ).await()
