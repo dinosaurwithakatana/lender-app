@@ -3,6 +3,10 @@ plugins {
     alias(libs.plugins.metro)
 }
 
+metro {
+    contributesAsInject.set(true)
+}
+
 dependencies {
     api("commons-logging:commons-logging:1.2")
     api("org.bouncycastle:bcpkix-jdk18on:1.83")

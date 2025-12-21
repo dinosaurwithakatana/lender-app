@@ -10,7 +10,6 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.Inject
 
-@Inject
 @ContributesIntoSet(AppScope::class)
 class CreateAdminUser(
     private val dataModifier: DataModifier,

@@ -13,7 +13,6 @@ import dev.zacsweers.metro.binding
 
 @ModificationKey(LoginUser::class)
 @ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
-@Inject
 class LoginUserHandler(
     private val userQueries: UserQueries,
     private val tokenQueries: TokenQueries,

@@ -11,7 +11,6 @@ import dev.zacsweers.metro.binding
 
 @ModificationKey(LogoutUser::class)
 @ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
-@Inject
 class LogoutUserHandler(
     private val tokenQueries: TokenQueries
 ) : DataModification.Handler<LogoutUser.Result, LogoutUser> {

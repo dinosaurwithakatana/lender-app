@@ -13,7 +13,6 @@ import dev.zacsweers.metro.binding
 
 @ModificationKey(CreateInviteLink::class)
 @ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
-@Inject
 class CreateInviteLinkHandler(
     private val inviteLinkQueries: InviteLinkQueries,
 ): DataModification.Handler<CreateInviteLink.Result, CreateInviteLink> {

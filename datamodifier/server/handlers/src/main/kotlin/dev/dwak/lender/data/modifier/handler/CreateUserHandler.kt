@@ -16,7 +16,6 @@ import kotlin.time.Clock
 
 @ModificationKey(CreateUser::class)
 @ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
-@Inject
 class CreateUserHandler(
     private val inviteLinkQueries: InviteLinkQueries,
     private val profileQueries: ProfileQueries,

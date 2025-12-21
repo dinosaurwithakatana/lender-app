@@ -3,8 +3,8 @@ plugins {
     alias(libs.plugins.metro)
 }
 
-repositories {
-    mavenCentral()
+metro {
+    contributesAsInject.set(true)
 }
 
 dependencies {

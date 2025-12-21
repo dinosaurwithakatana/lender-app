@@ -14,7 +14,6 @@ import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 
 @ContributesIntoSet(AppScope::class)
-@Inject
 class CreateInviteLink(
     private val userQueries: UserQueries,
     private val dataModifier: DataModifier,

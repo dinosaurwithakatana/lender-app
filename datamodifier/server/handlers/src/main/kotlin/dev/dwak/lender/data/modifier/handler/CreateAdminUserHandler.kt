@@ -12,7 +12,6 @@ import kotlin.time.Clock
 
 @ModificationKey(CreateAdminUser::class)
 @ContributesIntoMap(scope = AppScope::class, binding = binding<DataModification.Handler<*, *>>())
-@Inject
 class CreateAdminUserHandler(
     private val profileQueries: ProfileQueries,
     private val tokenQueries: TokenQueries,

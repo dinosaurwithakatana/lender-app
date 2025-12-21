@@ -20,14 +20,19 @@ interface CliGraph {
     fun lenderCli(
         subCommands: Set<SuspendingCliktCommand>,
         args: Array<String>
-    ) : suspend () -> Unit = {
+    ): suspend () -> Unit = {
         Napier.base(DebugAntilog())
         LenderCli()
-            .subcommands(subCommands)
+            .subcommands(
+                subCommands
+                    .sortedBy {
+                        it.commandName
+                    })
             .main(args)
     }
 
-    @Provides @Io
+    @Provides
+    @Io
     fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     @DependencyGraph.Factory
