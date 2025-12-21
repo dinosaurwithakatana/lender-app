@@ -43,7 +43,6 @@ class CreateUserHandler(
             user_id = userId,
             email = mod.email,
             password = hashed,
-            created_at = Clock.System.now().toString(),
             profile_id = DbProfile.Id(UUID.randomUUID().toString()),
             first_name = mod.firstName,
             last_name = mod.lastName,

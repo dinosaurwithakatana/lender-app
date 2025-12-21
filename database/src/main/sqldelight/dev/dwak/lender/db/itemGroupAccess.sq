@@ -1,0 +1,16 @@
+CREATE TABLE dbItemGroupAccess (
+    item_id TEXT NOT NULL,
+    group_id TEXT NOT NULL,
+    granted_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (item_id, group_id),
+    FOREIGN KEY (item_id) REFERENCES dbItem(id) ON DELETE CASCADE,
+    FOREIGN KEY (group_id) REFERENCES dbGroup(id) ON DELETE CASCADE
+);
+
+CREATE INDEX idx_item_group_access_group ON dbItemGroupAccess(group_id);
+CREATE INDEX idx_item_group_access_item ON dbItemGroupAccess(item_id);
+
+
+insert:
+INSERT INTO dbItemGroupAccess(item_id, group_id)
+VALUES (?, ?);

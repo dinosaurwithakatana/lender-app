@@ -24,6 +24,7 @@ interface DatabaseProviders {
     @Provides
     fun db(driver: SqlDriver): Database = Database(
         driver = driver,
+        dbGroupMembershipAdapter = DbGroupMembership.Adapter(EnumColumnAdapter()),
         dbRolesAdapter = DbRoles.Adapter(EnumColumnAdapter())
     )
 
@@ -58,4 +59,20 @@ interface DatabaseProviders {
     @SingleIn(AppScope::class)
     @Provides
     fun inviteHistoryQueries(db: Database): InviteHistoryQueries = db.inviteHistoryQueries
+
+    @SingleIn(AppScope::class)
+    @Provides
+    fun groupQueries(db: Database): GroupQueries = db.groupQueries
+
+    @SingleIn(AppScope::class)
+    @Provides
+    fun groupMembershipQueries(db: Database): GroupMembershipQueries = db.groupMembershipQueries
+
+    @SingleIn(AppScope::class)
+    @Provides
+    fun itemQueries(db: Database): ItemQueries = db.itemQueries
+
+    @SingleIn(AppScope::class)
+    @Provides
+    fun itemGroupAccessQueries(db: Database): ItemGroupAccessQueries = db.itemGroupAccessQueries
 }

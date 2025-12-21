@@ -1,0 +1,8 @@
+CREATE TABLE dbGroup (
+    id TEXT AS VALUE NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+insert:
+INSERT INTO dbGroup(id, name)
+VALUES ?;

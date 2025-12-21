@@ -4,3 +4,7 @@ CREATE TABLE dbItem (
     owned_by_profile_id TEXT NOT NULL,
     FOREIGN KEY (owned_by_profile_id) REFERENCES dbProfile(id)
 );
+
+insert:
+INSERT INTO dbItem(id, name, owned_by_profile_id)
+VALUES ?;

@@ -13,8 +13,8 @@ INSERT INTO dbProfile(id, user_id, first_name, last_name)
 VALUES ?;
 
 createUserWithProfile {
-INSERT INTO dbUser(id, email, password, created_at)
-VALUES (:user_id, :email, :password, :created_at);
+INSERT INTO dbUser(id, email, password)
+VALUES (:user_id, :email, :password);
 
 INSERT INTO dbUserRoles(user_id, role_id)
 SELECT :user_id, id
@@ -31,8 +31,8 @@ WHERE link_token = :invite_token;
 }
 
 createAdminUserWithProfile {
-INSERT INTO dbUser(id, email, password, created_at)
-VALUES (:user_id, :email, :password, :created_at);
+INSERT INTO dbUser(id, email, password)
+VALUES (:user_id, :email, :password);
 
 INSERT INTO dbUserRoles(user_id, role_id)
 SELECT :user_id, id

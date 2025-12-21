@@ -2,7 +2,7 @@ CREATE TABLE dbUser (
     id TEXT AS VALUE PRIMARY KEY NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    created_at TEXT NOT NULL
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX user_email ON dbUser(email);
