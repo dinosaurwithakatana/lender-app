@@ -17,7 +17,7 @@ subprojects {
     // Set unique group based on project path
     val pathSegments = project.path.split(":").drop(1)
     if (pathSegments.size > 1) {
-        group = "dev.dwak.lender.${pathSegments.dropLast(1).joinToString(".")}"
+        group = "dev.dwak.lender.${pathSegments.joinToString(".")}"
     } else {
         group = "dev.dwak.lender"
     }
