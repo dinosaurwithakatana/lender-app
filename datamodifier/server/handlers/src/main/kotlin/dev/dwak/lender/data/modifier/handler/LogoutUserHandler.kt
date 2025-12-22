@@ -18,7 +18,7 @@ class LogoutUserHandler(
     private val tokenQueries: TokenQueries
 ) : DataModification.Handler<LogoutUser.Result, LogoutUser> {
     override suspend fun handle(mod: LogoutUser): LogoutUser.Result {
-        println(tokenQueries.deleteToken(DbToken.Token(mod.token)).await())
+        tokenQueries.deleteToken(DbToken.Token(mod.token.token)).await()
         return LogoutUser.Result.Success
     }
 }

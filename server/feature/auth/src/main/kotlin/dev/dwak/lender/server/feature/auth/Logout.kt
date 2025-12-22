@@ -6,7 +6,7 @@ import dev.dwak.lender.repos.server.UserRepo
 import dev.dwak.lender.server.common.ApiRoutes
 import dev.dwak.lender.server.common.AuthenticatedApiRoutes
 import dev.dwak.lender.server.common.LenderRoute
-import dev.dwak.lender.server.common.UserIdToken
+import dev.dwak.lender.models.server.UserIdToken
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.Inject
