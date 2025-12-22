@@ -1,8 +1,11 @@
 package dev.dwak.lender.models.server
 
+import kotlin.time.Instant
+
 data class ServerGroup(
     val id: ServerGroupId,
-    val name: String
+    val name: String,
+    val createdAt: Instant,
 )
 
 @JvmInline

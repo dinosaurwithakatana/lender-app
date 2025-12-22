@@ -17,3 +17,6 @@ createGroupAndAddCreator {
     INSERT INTO dbGroupMembership(id, profile_id, group_id, status, created_at)
     VALUES(:membership_id, :profile_id, :group_id, :created_at, "OWNER");
 }
+
+selectAll:
+SELECT * FROM dbGroup;
