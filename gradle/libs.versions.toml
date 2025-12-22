@@ -18,7 +18,7 @@ kotlin = "2.3.0"
 kotlinxSerialization = "1.9.0"
 ktor = "3.3.3"
 logback = "1.5.22"
-metro = "0.9.1"
+metro = "0.9.2"
 napier = "2.7.1"
 sqldelight = "2.2.1"
 
