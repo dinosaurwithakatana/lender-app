@@ -12,5 +12,32 @@ CREATE TABLE dbGroupMembership (
 );
 
 insert:
-INSERT INTO dbGroupMembership(id, profile_id, group_id, status, created_at)
+INSERT INTO dbGroupMembership(id, profile_id, group_id, created_at, status)
 VALUES ?;
+
+isOwnerForGroup:
+SELECT EXISTS (
+    SELECT 1 FROM dbGroupMembership
+    WHERE profile_id = ?
+    AND group_id = ?
+    AND status = 'OWNER'
+) AS is_owner;
+
+getMembershipStatus:
+SELECT status FROM dbGroupMembership
+WHERE profile_id = :profile_id
+AND group_id = :group_id;
+
+isMemberOfGroup:
+SELECT EXISTS (
+    SELECT 1 FROM dbGroupMembership
+    WHERE profile_id = :profile_id
+    AND group_id = :group_id
+) AS is_member;
+
+getGroupsWhereOwner:
+SELECT g.*
+FROM dbGroup g
+JOIN dbGroupMembership gm ON g.id = gm.group_id
+WHERE gm.profile_id = :profile_id
+AND gm.status = 'OWNER';

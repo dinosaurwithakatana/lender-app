@@ -14,9 +14,17 @@ createGroupAndAddCreator {
     INSERT INTO dbGroup(id, name, created_at)
     VALUES (:group_id, :group_name, :created_at);
 
-    INSERT INTO dbGroupMembership(id, profile_id, group_id, status, created_at)
+    INSERT INTO dbGroupMembership(id, profile_id, group_id, created_at, status)
     VALUES(:membership_id, :profile_id, :group_id, :created_at, "OWNER");
 }
 
 selectAll:
 SELECT * FROM dbGroup;
+
+select:
+SELECT * FROM dbGroup
+WHERE id = ?;
+
+delete:
+DELETE FROM dbGroup
+WHERE id = ?;

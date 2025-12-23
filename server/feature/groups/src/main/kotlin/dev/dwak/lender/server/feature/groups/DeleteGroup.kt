@@ -1,9 +1,13 @@
 package dev.dwak.lender.server.feature.groups
 
 import dev.dwak.lender.data.modification.CreateGroup
+import dev.dwak.lender.data.modification.DeleteGroup
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.models.api.auth.request.ApiCreateGroupRequest
+import dev.dwak.lender.models.api.auth.request.ApiDeleteGroupRequest
 import dev.dwak.lender.models.api.auth.response.ApiCreateGroupResponse
+import dev.dwak.lender.models.server.ServerGroup
+import dev.dwak.lender.models.server.ServerGroupId
 import dev.dwak.lender.models.server.UserIdToken
 import dev.dwak.lender.repos.server.ProfileRepo
 import dev.dwak.lender.server.common.ApiRoutes
@@ -22,27 +26,26 @@ import io.ktor.server.routing.RoutingContext
 @AuthenticatedApiRoutes
 @SingleIn(AppScope::class)
 @ContributesIntoSet(AppScope::class)
-class CreateGroup(
+class DeleteGroup(
     private val dataModifier: DataModifier,
     private val profileRepo: ProfileRepo,
 ) : LenderRoute {
-    override val method: HttpMethod = HttpMethod.Post
+    override val method: HttpMethod = HttpMethod.Delete
     override val path: String = "/groups"
 
     override fun handler(): suspend RoutingContext.() -> Unit = {
-        val req = call.receive<ApiCreateGroupRequest>()
+        val req = call.receive<ApiDeleteGroupRequest>()
         val principal = call.principal<UserIdToken>()!!
 
+        val profile = profileRepo.getByUserId(principal.userId)
         when (
-            val result = dataModifier.submit(
-                CreateGroup(
-                    name = req.name,
-                    owner = profileRepo.getByUserId(principal.userId).id
-                )
-            )) {
-            is CreateGroup.Result.Success -> {
-                call.respond(HttpStatusCode.OK, ApiCreateGroupResponse(result.groupId.id))
-            }
+            val result = dataModifier.submit(DeleteGroup(
+                id = ServerGroupId(req.id),
+                requestingProfileId = profile.id
+            ))
+        ) {
+            DeleteGroup.Result.Success -> call.respond(HttpStatusCode.OK)
+            DeleteGroup.Result.Unauthorized -> call.respond(HttpStatusCode.Unauthorized)
         }
     }
 }
