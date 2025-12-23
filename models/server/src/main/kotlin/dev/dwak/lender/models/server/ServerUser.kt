@@ -9,4 +9,4 @@ data class ServerUser(
 )
 
 @JvmInline
-value class ServerUserId(val value: String)
+value class ServerUserId(val id: String)

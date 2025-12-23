@@ -51,3 +51,8 @@ WHERE u.email = ?;
 
 selectAll:
 SELECT * FROM dbProfile;
+
+findByUserId:
+SELECT *
+FROM dbProfile
+WHERE user_id = ?;

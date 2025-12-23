@@ -48,7 +48,10 @@ fun Application.module(graph: LenderGraph) {
         bearer("bearer") {
             authenticate {
                 if (graph.userRepo.tokenExists(it.token)) {
-                    UserIdToken(graph.userRepo.getUserByToken(it.token).id, ServerToken(it.token))
+                    UserIdToken(
+                        userId = graph.userRepo.getUserByToken(it.token).id,
+                        token = ServerToken(it.token)
+                    )
                 } else {
                     null
                 }
