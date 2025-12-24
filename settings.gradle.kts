@@ -30,6 +30,8 @@ dependencyResolutionManagement {
 
 include(":cli:app")
 include(":cli:commands")
+include(":client:android")
+include(":client:navigation:core")
 include(":composeApp")
 include(":database")
 include(":datamodifier:api")

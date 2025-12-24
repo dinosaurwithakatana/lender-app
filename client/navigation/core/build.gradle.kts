@@ -14,7 +14,7 @@ plugins {
 kotlin {
     @Suppress("UnstableApiUsage")
     androidLibrary {
-        namespace = "dev.dwak.lender.app.shared"
+        namespace = "dev.dwak.lender.app.navigation.core"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
         compilerOptions {
@@ -62,6 +62,8 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.navigation3.ui)
+            implementation(libs.navigation3.browser)
         }
     }
 }
