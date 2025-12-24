@@ -41,3 +41,8 @@ FROM dbGroup g
 JOIN dbGroupMembership gm ON g.id = gm.group_id
 WHERE gm.profile_id = :profile_id
 AND gm.status = 'OWNER';
+
+removeMember:
+DELETE FROM dbGroupMembership
+WHERE profile_id = ?
+AND status != 'OWNER';

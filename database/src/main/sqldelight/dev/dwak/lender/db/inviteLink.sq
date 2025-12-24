@@ -28,3 +28,8 @@ linksForUserId:
 SELECT *
 FROM dbInviteLink
 WHERE created_by_profile_id = ?;
+
+delete:
+SELECT *
+FROM dbInviteLink
+WHERE link_token = ?;

@@ -19,3 +19,7 @@ SELECT EXISTS (
 insertKey:
 INSERT INTO dbApiKey(apiKey, name)
 VALUES ?;
+
+delete:
+DELETE FROM dbApiKey
+WHERE apiKey = ?;

@@ -28,3 +28,8 @@ WHERE id = ?;
 delete:
 DELETE FROM dbGroup
 WHERE id = ?;
+
+updateName:
+UPDATE dbGroup
+SET name = ?
+WHERE id = ?;

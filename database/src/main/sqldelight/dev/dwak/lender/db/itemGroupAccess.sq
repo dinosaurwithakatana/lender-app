@@ -14,3 +14,7 @@ CREATE INDEX idx_item_group_access_item ON dbItemGroupAccess(item_id);
 insert:
 INSERT INTO dbItemGroupAccess(item_id, group_id)
 VALUES (?, ?);
+
+removeFromGroup:
+DELETE FROM dbItemGroupAccess
+WHERE group_id = ?;
