@@ -30,5 +30,5 @@ android {
 }
 
 dependencies {
-    implementation(projects.composeApp)
+    implementation(projects.client.composeApp)
 }

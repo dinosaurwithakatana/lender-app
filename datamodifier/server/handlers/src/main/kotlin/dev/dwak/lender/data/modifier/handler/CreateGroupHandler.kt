@@ -14,22 +14,22 @@ import java.util.*
 import kotlin.time.Clock
 
 @ContributesIntoMap(
-    scope = AppScope::class,
-    binding = binding<@ModificationKey(CreateGroup::class) BoundHandler>()
+  scope = AppScope::class,
+  binding = binding<@ModificationKey(CreateGroup::class) BoundHandler>()
 )
 class CreateGroupHandler(
-    private val groupQueries: GroupQueries
-) : DataModification.Handler<CreateGroup.Result, CreateGroup>{
-    override suspend fun handle(mod: CreateGroup): CreateGroup.Result {
-        val groupId = DbGroup.Id(UUID.randomUUID().toString())
-        groupQueries.createGroupAndAddCreator(
-            group_id = groupId,
-            group_name = mod.name,
-            membership_id = DbGroupMembership.Id(UUID.randomUUID().toString()),
-            profile_id = DbProfile.Id(mod.owner.id),
-            created_at = Clock.System.now()
-        )
+  private val groupQueries: GroupQueries
+) : DataModification.Handler<CreateGroup.Result, CreateGroup> {
+  override suspend fun handle(mod: CreateGroup): CreateGroup.Result {
+    val groupId = DbGroup.Id(UUID.randomUUID().toString())
+    groupQueries.createGroupAndAddCreator(
+      group_id = groupId,
+      group_name = mod.name,
+      membership_id = DbGroupMembership.Id(UUID.randomUUID().toString()),
+      profile_id = DbProfile.Id(mod.owner.id),
+      created_at = Clock.System.now()
+    )
 
-        return CreateGroup.Result.Success(ServerGroupId(id = groupId.id))
-    }
+    return CreateGroup.Result.Success(ServerGroupId(id = groupId.id))
+  }
 }

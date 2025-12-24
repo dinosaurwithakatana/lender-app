@@ -14,81 +14,81 @@ import kotlin.time.Instant
 @ContributesTo(AppScope::class)
 interface DatabaseProviders {
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun driver(): SqlDriver = JdbcSqliteDriver(
-        url = "jdbc:sqlite:/tmp/data.db",
-        properties = Properties().apply { put("foreign_keys", "true") },
-        schema = Database.Schema
-    )
+  @SingleIn(AppScope::class)
+  @Provides
+  fun driver(): SqlDriver = JdbcSqliteDriver(
+    url = "jdbc:sqlite:/tmp/data.db",
+    properties = Properties().apply { put("foreign_keys", "true") },
+    schema = Database.Schema
+  )
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun instantAdapter(): ColumnAdapter<Instant, String> = object : ColumnAdapter<Instant, String> {
-        override fun decode(databaseValue: String): Instant = Instant.parse(databaseValue)
-        override fun encode(value: Instant): String = value.toString()
-    }
+  @SingleIn(AppScope::class)
+  @Provides
+  fun instantAdapter(): ColumnAdapter<Instant, String> = object : ColumnAdapter<Instant, String> {
+    override fun decode(databaseValue: String): Instant = Instant.parse(databaseValue)
+    override fun encode(value: Instant): String = value.toString()
+  }
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun db(driver: SqlDriver, instantAdapter: ColumnAdapter<Instant, String>): Database = Database(
-        driver = driver,
-        dbGroupMembershipAdapter = DbGroupMembership.Adapter(
-            statusAdapter = EnumColumnAdapter(),
-            created_atAdapter = instantAdapter
-        ),
-        dbRolesAdapter = DbRoles.Adapter(EnumColumnAdapter()),
-        dbInviteLinkAdapter = DbInviteLink.Adapter(expires_atAdapter = instantAdapter),
-        dbItemAdapter = DbItem.Adapter(created_atAdapter = instantAdapter),
-        dbUserAdapter = DbUser.Adapter(created_atAdapter = instantAdapter),
-        dbGroupAdapter = DbGroup.Adapter(created_atAdapter = instantAdapter),
-    )
+  @SingleIn(AppScope::class)
+  @Provides
+  fun db(driver: SqlDriver, instantAdapter: ColumnAdapter<Instant, String>): Database = Database(
+    driver = driver,
+    dbGroupMembershipAdapter = DbGroupMembership.Adapter(
+      statusAdapter = EnumColumnAdapter(),
+      created_atAdapter = instantAdapter
+    ),
+    dbRolesAdapter = DbRoles.Adapter(EnumColumnAdapter()),
+    dbInviteLinkAdapter = DbInviteLink.Adapter(expires_atAdapter = instantAdapter),
+    dbItemAdapter = DbItem.Adapter(created_atAdapter = instantAdapter),
+    dbUserAdapter = DbUser.Adapter(created_atAdapter = instantAdapter),
+    dbGroupAdapter = DbGroup.Adapter(created_atAdapter = instantAdapter),
+  )
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun apiKeyQueries(db: Database): ApiKeyQueries = db.apiKeyQueries
+  @SingleIn(AppScope::class)
+  @Provides
+  fun apiKeyQueries(db: Database): ApiKeyQueries = db.apiKeyQueries
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun userQueries(db: Database): UserQueries = db.userQueries
+  @SingleIn(AppScope::class)
+  @Provides
+  fun userQueries(db: Database): UserQueries = db.userQueries
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun tokenQueries(db: Database): TokenQueries = db.tokenQueries
+  @SingleIn(AppScope::class)
+  @Provides
+  fun tokenQueries(db: Database): TokenQueries = db.tokenQueries
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun rolesQueries(db: Database): RolesQueries = db.rolesQueries
+  @SingleIn(AppScope::class)
+  @Provides
+  fun rolesQueries(db: Database): RolesQueries = db.rolesQueries
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun userRolesQueries(db: Database): UserRolesQueries = db.userRolesQueries
+  @SingleIn(AppScope::class)
+  @Provides
+  fun userRolesQueries(db: Database): UserRolesQueries = db.userRolesQueries
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun profileRolesQueries(db: Database): ProfileQueries = db.profileQueries
+  @SingleIn(AppScope::class)
+  @Provides
+  fun profileRolesQueries(db: Database): ProfileQueries = db.profileQueries
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun inviteLinkQueries(db: Database): InviteLinkQueries = db.inviteLinkQueries
+  @SingleIn(AppScope::class)
+  @Provides
+  fun inviteLinkQueries(db: Database): InviteLinkQueries = db.inviteLinkQueries
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun inviteHistoryQueries(db: Database): InviteHistoryQueries = db.inviteHistoryQueries
+  @SingleIn(AppScope::class)
+  @Provides
+  fun inviteHistoryQueries(db: Database): InviteHistoryQueries = db.inviteHistoryQueries
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun groupQueries(db: Database): GroupQueries = db.groupQueries
+  @SingleIn(AppScope::class)
+  @Provides
+  fun groupQueries(db: Database): GroupQueries = db.groupQueries
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun groupMembershipQueries(db: Database): GroupMembershipQueries = db.groupMembershipQueries
+  @SingleIn(AppScope::class)
+  @Provides
+  fun groupMembershipQueries(db: Database): GroupMembershipQueries = db.groupMembershipQueries
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun itemQueries(db: Database): ItemQueries = db.itemQueries
+  @SingleIn(AppScope::class)
+  @Provides
+  fun itemQueries(db: Database): ItemQueries = db.itemQueries
 
-    @SingleIn(AppScope::class)
-    @Provides
-    fun itemGroupAccessQueries(db: Database): ItemGroupAccessQueries = db.itemGroupAccessQueries
+  @SingleIn(AppScope::class)
+  @Provides
+  fun itemGroupAccessQueries(db: Database): ItemGroupAccessQueries = db.itemGroupAccessQueries
 }

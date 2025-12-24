@@ -5,12 +5,12 @@ import dev.dwak.lender.models.server.ServerGroupId
 import dev.dwak.lender.models.server.ServerProfileId
 
 data class DeleteGroup(
-    val id: ServerGroupId,
-    val requestingProfileId: ServerProfileId,
-): DataModification<DeleteGroup.Result> {
-    sealed interface Result: DataModification.Result {
-        data object Success : Result
+  val id: ServerGroupId,
+  val requestingProfileId: ServerProfileId,
+) : DataModification<DeleteGroup.Result> {
+  sealed interface Result : DataModification.Result {
+    data object Success : Result
 
-        data object Unauthorized : Result
-    }
+    data object Unauthorized : Result
+  }
 }

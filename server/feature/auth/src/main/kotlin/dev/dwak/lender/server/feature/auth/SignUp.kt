@@ -21,35 +21,35 @@ import io.ktor.server.routing.RoutingContext
 @ContributesIntoSet(AppScope::class)
 @Inject
 class SignUp(
-    private val dataModifier: DataModifier,
+  private val dataModifier: DataModifier,
 ) : LenderRoute {
-    override val method: HttpMethod = HttpMethod.Post
-    override val path: String = "/signup"
+  override val method: HttpMethod = HttpMethod.Post
+  override val path: String = "/signup"
 
-    override fun handler(): suspend RoutingContext.() -> Unit = {
-        val request = call.receive<ApiSignUpRequest>()
+  override fun handler(): suspend RoutingContext.() -> Unit = {
+    val request = call.receive<ApiSignUpRequest>()
 
-        if (request.password == request.confirmPassword) {
-            val result = dataModifier.submit(
-                CreateUser(
-                    email = request.email,
-                    password = request.password,
-                    firstName = request.firstName,
-                    lastName = request.lastName,
-                    inviteLinkToken = request.inviteLinkToken,
-                )
-            )
-            when (result) {
-                is CreateUser.Result.Success -> {
-                    call.respond(HttpStatusCode.OK, ApiSignupSuccessResponse(result.token))
-                }
-
-                CreateUser.Result.InvalidEmail -> TODO()
-                CreateUser.Result.InvalidPassword -> TODO()
-                CreateUser.Result.InvalidInviteLink -> {
-                    call.respond(HttpStatusCode.Unauthorized, "Invalid invite")
-                }
-            }
+    if (request.password == request.confirmPassword) {
+      val result = dataModifier.submit(
+        CreateUser(
+          email = request.email,
+          password = request.password,
+          firstName = request.firstName,
+          lastName = request.lastName,
+          inviteLinkToken = request.inviteLinkToken,
+        )
+      )
+      when (result) {
+        is CreateUser.Result.Success -> {
+          call.respond(HttpStatusCode.OK, ApiSignupSuccessResponse(result.token))
         }
+
+        CreateUser.Result.InvalidEmail -> TODO()
+        CreateUser.Result.InvalidPassword -> TODO()
+        CreateUser.Result.InvalidInviteLink -> {
+          call.respond(HttpStatusCode.Unauthorized, "Invalid invite")
+        }
+      }
     }
+  }
 }

@@ -59,11 +59,14 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(projects.shared)
+
+            api(libs.navigation3.ui)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-            implementation(libs.navigation3.ui)
-            implementation(libs.navigation3.browser)
+        }
+        webMain.dependencies {
+            api(libs.navigation3.browser)
         }
     }
 }

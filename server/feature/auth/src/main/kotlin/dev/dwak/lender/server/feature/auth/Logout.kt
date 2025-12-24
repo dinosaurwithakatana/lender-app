@@ -24,26 +24,26 @@ import io.ktor.server.routing.RoutingContext
 @ContributesIntoSet(AppScope::class)
 @Inject
 class Logout(
-    private val userRepo: UserRepo,
-    private val dataModifier: DataModifier,
+  private val userRepo: UserRepo,
+  private val dataModifier: DataModifier,
 ) : LenderRoute {
-    override val method: HttpMethod
-        get() = HttpMethod.Post
-    override val path: String
-        get() = "/logout"
+  override val method: HttpMethod
+    get() = HttpMethod.Post
+  override val path: String
+    get() = "/logout"
 
-    override fun handler(): suspend RoutingContext.() -> Unit = {
-        val principal = call.principal<UserIdToken>()
+  override fun handler(): suspend RoutingContext.() -> Unit = {
+    val principal = call.principal<UserIdToken>()
 
-        when (
-            dataModifier.submit(
-                LogoutUser(
-                    token = principal!!.token
-                )
-            )) {
-            LogoutUser.Result.Success -> {
-                call.respond(HttpStatusCode.OK)
-            }
-        }
+    when (
+      dataModifier.submit(
+        LogoutUser(
+          token = principal!!.token
+        )
+      )) {
+      LogoutUser.Result.Success -> {
+        call.respond(HttpStatusCode.OK)
+      }
     }
+  }
 }

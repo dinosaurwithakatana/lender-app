@@ -17,16 +17,16 @@ import io.ktor.server.routing.*
 @ContributesIntoSet(AppScope::class)
 @Inject
 class BearerTest(
-    private val userRepo: UserRepo,
-): LenderRoute {
-    override val method: HttpMethod
-        get() = HttpMethod.Get
-    override val path: String
-        get() = "/test-auth"
+  private val userRepo: UserRepo,
+) : LenderRoute {
+  override val method: HttpMethod
+    get() = HttpMethod.Get
+  override val path: String
+    get() = "/test-auth"
 
-    override fun handler(): suspend RoutingContext.() -> Unit = {
-        val userId = call.principal<UserIdPrincipal>()?.name
-        val user = userRepo.getUserById(userId!!)
-        call.respondText("Hello ${user.email}!")
-    }
+  override fun handler(): suspend RoutingContext.() -> Unit = {
+    val userId = call.principal<UserIdPrincipal>()?.name
+    val user = userRepo.getUserById(userId!!)
+    call.respondText("Hello ${user.email}!")
+  }
 }

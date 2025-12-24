@@ -14,29 +14,29 @@ import kotlinx.coroutines.Dispatchers
 
 @DependencyGraph(AppScope::class)
 interface CliGraph {
-    val cli: suspend () -> Unit
+  val cli: suspend () -> Unit
 
-    @Provides
-    fun lenderCli(
-        subCommands: Set<SuspendingCliktCommand>,
-        args: Array<String>
-    ): suspend () -> Unit = {
-        Napier.base(DebugAntilog())
-        LenderCli()
-            .subcommands(
-                subCommands
-                    .sortedBy {
-                        it.commandName
-                    })
-            .main(args)
-    }
+  @Provides
+  fun lenderCli(
+    subCommands: Set<SuspendingCliktCommand>,
+    args: Array<String>
+  ): suspend () -> Unit = {
+    Napier.base(DebugAntilog())
+    LenderCli()
+      .subcommands(
+        subCommands
+          .sortedBy {
+            it.commandName
+          })
+      .main(args)
+  }
 
-    @Provides
-    @Io
-    fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
+  @Provides
+  @Io
+  fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
-    @DependencyGraph.Factory
-    fun interface Factory {
-        fun create(@Provides args: Array<String>): CliGraph
-    }
+  @DependencyGraph.Factory
+  fun interface Factory {
+    fun create(@Provides args: Array<String>): CliGraph
+  }
 }

@@ -15,13 +15,14 @@ import kotlin.reflect.KClass
 @ContributesBinding(AppScope::class)
 @Inject
 class RealDataModifier(
-    private val handlerMap: Map<KClass<out DataModification<*>>, Provider<DataModification.Handler<*, *>>>,
-    @Io private val dispatcher: CoroutineDispatcher,
+  private val handlerMap: Map<KClass<out DataModification<*>>, Provider<DataModification.Handler<*, *>>>,
+  @Io private val dispatcher: CoroutineDispatcher,
 ) : DataModifier {
-    override suspend fun <R : DataModification.Result> submit(mod: DataModification<R>): R = withContext(dispatcher) {
-        Napier.d { "Received: $mod" }
-        @Suppress("UNCHECKED_CAST")
-        (handlerMap[mod::class] as Provider<DataModification.Handler<R, DataModification<R>>>)()
-            .handle(mod)
+  override suspend fun <R : DataModification.Result> submit(mod: DataModification<R>): R =
+    withContext(dispatcher) {
+      Napier.d { "Received: $mod" }
+      @Suppress("UNCHECKED_CAST")
+      (handlerMap[mod::class] as Provider<DataModification.Handler<R, DataModification<R>>>)()
+        .handle(mod)
     }
 }

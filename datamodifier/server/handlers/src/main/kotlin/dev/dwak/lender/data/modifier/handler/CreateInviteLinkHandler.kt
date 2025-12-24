@@ -12,26 +12,26 @@ import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.binding
 
 @ContributesIntoMap(
-    scope = AppScope::class,
-    binding = binding<@ModificationKey(CreateInviteLink::class) BoundHandler>()
+  scope = AppScope::class,
+  binding = binding<@ModificationKey(CreateInviteLink::class) BoundHandler>()
 )
 class CreateInviteLinkHandler(
-    private val inviteLinkQueries: InviteLinkQueries,
-): DataModification.Handler<CreateInviteLink.Result, CreateInviteLink> {
-    override suspend fun handle(mod: CreateInviteLink): CreateInviteLink.Result {
-        val linkToken = generateToken()
-        inviteLinkQueries.insert(
-            DbInviteLink(
-                name = mod.name,
-                link_token = DbInviteLink.Link_token(linkToken),
-                created_by_profile_id = DbProfile.Id(mod.createdByProfileId.id),
-                expires_at = mod.expiresOn
-            )
-        )
+  private val inviteLinkQueries: InviteLinkQueries,
+) : DataModification.Handler<CreateInviteLink.Result, CreateInviteLink> {
+  override suspend fun handle(mod: CreateInviteLink): CreateInviteLink.Result {
+    val linkToken = generateToken()
+    inviteLinkQueries.insert(
+      DbInviteLink(
+        name = mod.name,
+        link_token = DbInviteLink.Link_token(linkToken),
+        created_by_profile_id = DbProfile.Id(mod.createdByProfileId.id),
+        expires_at = mod.expiresOn
+      )
+    )
 
-        return CreateInviteLink.Result.Success(
-            inviteLink = "https://localhost:8080/invite/$linkToken"
-        )
-    }
+    return CreateInviteLink.Result.Success(
+      inviteLink = "https://localhost:8080/invite/$linkToken"
+    )
+  }
 
 }

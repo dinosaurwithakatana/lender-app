@@ -11,14 +11,14 @@ import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 
 @ContributesIntoMap(
-    scope = AppScope::class,
-    binding = binding<@ModificationKey(LogoutUser::class) BoundHandler>()
+  scope = AppScope::class,
+  binding = binding<@ModificationKey(LogoutUser::class) BoundHandler>()
 )
 class LogoutUserHandler(
-    private val tokenQueries: TokenQueries
+  private val tokenQueries: TokenQueries
 ) : DataModification.Handler<LogoutUser.Result, LogoutUser> {
-    override suspend fun handle(mod: LogoutUser): LogoutUser.Result {
-        tokenQueries.deleteToken(DbToken.Token(mod.token.token)).await()
-        return LogoutUser.Result.Success
-    }
+  override suspend fun handle(mod: LogoutUser): LogoutUser.Result {
+    tokenQueries.deleteToken(DbToken.Token(mod.token.token)).await()
+    return LogoutUser.Result.Success
+  }
 }

@@ -9,13 +9,13 @@ import dev.zacsweers.metro.ContributesIntoSet
 
 @ContributesIntoSet(AppScope::class)
 class GenerateApiKey(
-    private val dataModifier: DataModifier,
+  private val dataModifier: DataModifier,
 ) : SuspendingCliktCommand() {
-    val name by argument()
+  val name by argument()
 
-    override suspend fun run() {
-        when (val result = dataModifier.submit(CreateApiKey(name = name))) {
-            is CreateApiKey.Result.Success -> echo("Successfully created API key ${result.apiKey}")
-        }
+  override suspend fun run() {
+    when (val result = dataModifier.submit(CreateApiKey(name = name))) {
+      is CreateApiKey.Result.Success -> echo("Successfully created API key ${result.apiKey}")
     }
+  }
 }

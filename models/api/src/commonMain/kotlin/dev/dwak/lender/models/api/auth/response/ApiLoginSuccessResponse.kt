@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ApiLoginSuccessResponse(
-    val token: String,
+  val token: String,
 )
 
 typealias ApiSignupSuccessResponse = ApiLoginSuccessResponse

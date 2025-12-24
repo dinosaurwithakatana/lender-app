@@ -7,7 +7,7 @@ import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.Inject
 
 @ContributesIntoSet(AppScope::class)
-class Init() : SuspendingCliktCommand(){
-    override suspend fun run() {
-    }
+class Init() : SuspendingCliktCommand() {
+  override suspend fun run() {
+  }
 }

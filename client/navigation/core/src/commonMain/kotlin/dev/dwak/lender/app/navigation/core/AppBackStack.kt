@@ -14,43 +14,41 @@ import androidx.compose.runtime.setValue
  */
 class AppBackStack<T : Any>(startRoute: T, private val loginRoute: T) {
 
-    interface RequiresLogin
+  private var onLoginSuccessRoute: T? = null
 
-    private var onLoginSuccessRoute: T? = null
+  var isLoggedIn by mutableStateOf(false)
+    private set
 
-    var isLoggedIn by mutableStateOf(false)
-        private set
+  val backStack = mutableStateListOf(startRoute)
 
-    val backStack = mutableStateListOf(startRoute)
-
-    fun add(route: T) {
-        if (route is RequiresLogin && !isLoggedIn) {
-            // Store the intended destination and redirect to login
-            onLoginSuccessRoute = route
-            backStack.add(loginRoute)
-        } else {
-            backStack.add(route)
-        }
-
-        // If the user explicitly requested the login route, don't redirect them after login
-        if (route == loginRoute) {
-            onLoginSuccessRoute = null
-        }
+  fun add(route: T) {
+    if (route is AuthenticatedRoute && !isLoggedIn) {
+      // Store the intended destination and redirect to login
+      onLoginSuccessRoute = route
+      backStack.add(loginRoute)
+    } else {
+      backStack.add(route)
     }
 
-    fun remove() = backStack.removeLastOrNull()
-
-    fun login() {
-        isLoggedIn = true
-
-        onLoginSuccessRoute?.let {
-            backStack.add(it)
-            backStack.remove(loginRoute)
-        }
+    // If the user explicitly requested the login route, don't redirect them after login
+    if (route == loginRoute) {
+      onLoginSuccessRoute = null
     }
+  }
 
-    fun logout() {
-        isLoggedIn = false
-        backStack.removeAll { it is RequiresLogin }
+  fun remove() = backStack.removeLastOrNull()
+
+  fun login() {
+    isLoggedIn = true
+
+    onLoginSuccessRoute?.let {
+      backStack.add(it)
+      backStack.remove(loginRoute)
     }
+  }
+
+  fun logout() {
+    isLoggedIn = false
+    backStack.removeAll { it is AuthenticatedRoute }
+  }
 }

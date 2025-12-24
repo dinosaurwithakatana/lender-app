@@ -25,71 +25,71 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.json.Json
 
 fun main() {
-    val graph = createGraph<LenderGraph>()
-    Napier.base(DebugAntilog())
-    embeddedServer(
-        factory = Netty,
-        port = SERVER_PORT,
-        host = "0.0.0.0",
-        module = {
-            module(graph)
-        }
-    ).start(wait = true)
+  val graph = createGraph<LenderGraph>()
+  Napier.base(DebugAntilog())
+  embeddedServer(
+    factory = Netty,
+    port = SERVER_PORT,
+    host = "0.0.0.0",
+    module = {
+      module(graph)
+    }
+  ).start(wait = true)
 }
 
 fun Application.module(graph: LenderGraph) {
-    install(ContentNegotiation) {
-        json(Json {
-            allowTrailingComma = true
-        })
-    }
+  install(ContentNegotiation) {
+    json(Json {
+      allowTrailingComma = true
+    })
+  }
 
-    install(Authentication) {
-        bearer("bearer") {
-            authenticate {
-                if (graph.userRepo.tokenExists(it.token)) {
-                    UserIdToken(
-                        userId = graph.userRepo.getUserByToken(it.token).id,
-                        token = ServerToken(it.token)
-                    )
-                } else {
-                    null
-                }
-            }
+  install(Authentication) {
+    bearer("bearer") {
+      authenticate {
+        if (graph.userRepo.tokenExists(it.token)) {
+          UserIdToken(
+            userId = graph.userRepo.getUserByToken(it.token).id,
+            token = ServerToken(it.token)
+          )
+        } else {
+          null
         }
+      }
     }
+  }
 
-    routing {
-        route("/api") {
-            install(graph.apiKeyPlugin.plugin) { headerName = "X-API-Key" }
-            apiRoutes(graph.apiRoutes)
+  routing {
+    route("/api") {
+      install(graph.apiKeyPlugin.plugin) { headerName = "X-API-Key" }
+      apiRoutes(graph.apiRoutes)
 
-            authenticate("bearer") {
-                authenticatedApiRoutes(graph.authenticatedApiRoutes)
-            }
-        }
-        get("/") {
-            call.respondText("Ktor: ${Greeting().greet()}")
-        }
+      authenticate("bearer") {
+        authenticatedApiRoutes(graph.authenticatedApiRoutes)
+      }
     }
+    get("/") {
+      call.respondText("Ktor: ${Greeting().greet()}")
+    }
+  }
 }
 
 fun Route.apiRoutes(@ApiRoutes routes: Set<LenderRoute>) {
-    routes.forEach { route ->
-        route(
-            path = route.path,
-            method = route.method,
-            build = { handle(route.handler()) },
-        )
-    }
+  routes.forEach { route ->
+    route(
+      path = route.path,
+      method = route.method,
+      build = { handle(route.handler()) },
+    )
+  }
 }
 
 fun Route.authenticatedApiRoutes(@AuthenticatedApiRoutes routes: Set<LenderRoute>) {
-    routes.forEach { route ->
-        route(
-            path = route.path,
-            method = route.method,
-            build = { handle(route.handler()) },
-        )
-    }
+  routes.forEach { route ->
+    route(
+      path = route.path,
+      method = route.method,
+      build = { handle(route.handler()) },
+    )
+  }
 }

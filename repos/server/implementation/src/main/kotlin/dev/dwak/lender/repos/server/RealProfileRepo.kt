@@ -14,38 +14,38 @@ import kotlinx.coroutines.withContext
 
 @ContributesBinding(AppScope::class)
 class RealProfileRepo(
-    private val profileQueries: ProfileQueries,
-    @Io private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+  private val profileQueries: ProfileQueries,
+  @Io private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ProfileRepo {
-    override suspend fun getByEmail(email: String): ServerProfile = withContext(dispatcher) {
-        profileQueries.findByEmail(email) { id, _, first_name, last_name ->
-            ServerProfile(
-                id = ServerProfileId(id.id),
-                firstName = first_name,
-                lastName = last_name,
-            )
-        }.executeAsOne()
-    }
+  override suspend fun getByEmail(email: String): ServerProfile = withContext(dispatcher) {
+    profileQueries.findByEmail(email) { id, _, first_name, last_name ->
+      ServerProfile(
+        id = ServerProfileId(id.id),
+        firstName = first_name,
+        lastName = last_name,
+      )
+    }.executeAsOne()
+  }
 
-    override suspend fun listProfiles(): List<ServerProfile> {
-        return profileQueries.selectAll { id, _, first_name, last_name ->
-            ServerProfile(
-                id = ServerProfileId(id.id),
-                firstName = first_name,
-                lastName = last_name
-            )
-        }.executeAsList()
-    }
+  override suspend fun listProfiles(): List<ServerProfile> {
+    return profileQueries.selectAll { id, _, first_name, last_name ->
+      ServerProfile(
+        id = ServerProfileId(id.id),
+        firstName = first_name,
+        lastName = last_name
+      )
+    }.executeAsList()
+  }
 
-    override suspend fun getByUserId(userId: ServerUserId): ServerProfile {
-        return profileQueries.findByUserId(DbUser.Id(userId.id))
-        { id, _, first_name, last_name ->
-            ServerProfile(
-                id = ServerProfileId(id.id),
-                firstName = first_name,
-                lastName = last_name
-            )
-        }
-            .executeAsOne()
+  override suspend fun getByUserId(userId: ServerUserId): ServerProfile {
+    return profileQueries.findByUserId(DbUser.Id(userId.id))
+    { id, _, first_name, last_name ->
+      ServerProfile(
+        id = ServerProfileId(id.id),
+        firstName = first_name,
+        lastName = last_name
+      )
     }
+      .executeAsOne()
+  }
 }

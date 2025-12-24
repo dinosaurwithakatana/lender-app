@@ -16,56 +16,56 @@ import kotlin.time.Instant
 @SingleIn(AppScope::class)
 @ContributesBinding(AppScope::class)
 class RealUserRepo(
-    private val tokenQueries: TokenQueries,
-    private val userQueries: UserQueries,
+  private val tokenQueries: TokenQueries,
+  private val userQueries: UserQueries,
 ) : UserRepo {
 
-    override suspend fun tokenExists(token: String): Boolean = tokenQueries
-        .tokenExists(DbToken.Token(token))
-        .executeAsOne()
+  override suspend fun tokenExists(token: String): Boolean = tokenQueries
+    .tokenExists(DbToken.Token(token))
+    .executeAsOne()
 
-    override suspend fun getUserByToken(token: String): ServerUser {
-        return tokenQueries.getUserByToken(DbToken.Token(token)) { id, email, created_at ->
-            ServerUser(
-                id = ServerUserId(id.id),
-                email = email,
-                createdAt = created_at
-            )
-        }.executeAsOne()
+  override suspend fun getUserByToken(token: String): ServerUser {
+    return tokenQueries.getUserByToken(DbToken.Token(token)) { id, email, created_at ->
+      ServerUser(
+        id = ServerUserId(id.id),
+        email = email,
+        createdAt = created_at
+      )
+    }.executeAsOne()
+  }
+
+  override suspend fun getUserByEmail(email: String): ServerUser {
+    return userQueries.findByEmail(email) { id, email, password, created_at ->
+      ServerUser(
+        id = ServerUserId(id.id),
+        email = email,
+        createdAt = created_at
+      )
+    }.executeAsOne()
+  }
+
+  override suspend fun getUserById(id: String): ServerUser = userQueries
+    .getById(DbUser.Id(id)) { id, email, password, created_at ->
+      ServerUser(
+        id = ServerUserId(id.id),
+        email = email,
+        createdAt = created_at
+      )
     }
-
-    override suspend fun getUserByEmail(email: String): ServerUser {
-        return userQueries.findByEmail(email) { id, email, password, created_at ->
-            ServerUser(
-                id = ServerUserId(id.id),
-                email = email,
-                createdAt = created_at
-            )
-        }.executeAsOne()
-    }
-
-    override suspend fun getUserById(id: String): ServerUser = userQueries
-        .getById(DbUser.Id(id)) { id, email, password, created_at ->
-            ServerUser(
-                id = ServerUserId(id.id),
-                email = email,
-                createdAt = created_at
-            )
-        }
-        .executeAsOne()
+    .executeAsOne()
 
 
-    override suspend fun userExistsByEmail(email: String): Boolean {
-        return userQueries.userExists(email).executeAsOne()
-    }
+  override suspend fun userExistsByEmail(email: String): Boolean {
+    return userQueries.userExists(email).executeAsOne()
+  }
 
-    override suspend fun listAll(): List<ServerUser> {
-        return userQueries.selectAll { id, email, created_at ->
-            ServerUser(
-                id = ServerUserId(id.id),
-                email = email,
-                createdAt = created_at
-            )
-        }.executeAsList()
-    }
+  override suspend fun listAll(): List<ServerUser> {
+    return userQueries.selectAll { id, email, created_at ->
+      ServerUser(
+        id = ServerUserId(id.id),
+        email = email,
+        createdAt = created_at
+      )
+    }.executeAsList()
+  }
 }

@@ -27,25 +27,27 @@ import io.ktor.server.routing.RoutingContext
 @SingleIn(AppScope::class)
 @ContributesIntoSet(AppScope::class)
 class DeleteGroup(
-    private val dataModifier: DataModifier,
-    private val profileRepo: ProfileRepo,
+  private val dataModifier: DataModifier,
+  private val profileRepo: ProfileRepo,
 ) : LenderRoute {
-    override val method: HttpMethod = HttpMethod.Delete
-    override val path: String = "/groups"
+  override val method: HttpMethod = HttpMethod.Delete
+  override val path: String = "/groups"
 
-    override fun handler(): suspend RoutingContext.() -> Unit = {
-        val req = call.receive<ApiDeleteGroupRequest>()
-        val principal = call.principal<UserIdToken>()!!
+  override fun handler(): suspend RoutingContext.() -> Unit = {
+    val req = call.receive<ApiDeleteGroupRequest>()
+    val principal = call.principal<UserIdToken>()!!
 
-        val profile = profileRepo.getByUserId(principal.userId)
-        when (
-            val result = dataModifier.submit(DeleteGroup(
-                id = ServerGroupId(req.id),
-                requestingProfileId = profile.id
-            ))
-        ) {
-            DeleteGroup.Result.Success -> call.respond(HttpStatusCode.OK)
-            DeleteGroup.Result.Unauthorized -> call.respond(HttpStatusCode.Unauthorized)
-        }
+    val profile = profileRepo.getByUserId(principal.userId)
+    when (
+      val result = dataModifier.submit(
+        DeleteGroup(
+          id = ServerGroupId(req.id),
+          requestingProfileId = profile.id
+        )
+      )
+    ) {
+      DeleteGroup.Result.Success -> call.respond(HttpStatusCode.OK)
+      DeleteGroup.Result.Unauthorized -> call.respond(HttpStatusCode.Unauthorized)
     }
+  }
 }

@@ -23,26 +23,26 @@ import io.ktor.server.routing.RoutingContext
 @SingleIn(AppScope::class)
 @ContributesIntoSet(AppScope::class)
 class CreateGroup(
-    private val dataModifier: DataModifier,
-    private val profileRepo: ProfileRepo,
+  private val dataModifier: DataModifier,
+  private val profileRepo: ProfileRepo,
 ) : LenderRoute {
-    override val method: HttpMethod = HttpMethod.Post
-    override val path: String = "/groups"
+  override val method: HttpMethod = HttpMethod.Post
+  override val path: String = "/groups"
 
-    override fun handler(): suspend RoutingContext.() -> Unit = {
-        val req = call.receive<ApiCreateGroupRequest>()
-        val principal = call.principal<UserIdToken>()!!
+  override fun handler(): suspend RoutingContext.() -> Unit = {
+    val req = call.receive<ApiCreateGroupRequest>()
+    val principal = call.principal<UserIdToken>()!!
 
-        when (
-            val result = dataModifier.submit(
-                CreateGroup(
-                    name = req.name,
-                    owner = profileRepo.getByUserId(principal.userId).id
-                )
-            )) {
-            is CreateGroup.Result.Success -> {
-                call.respond(HttpStatusCode.OK, ApiCreateGroupResponse(result.groupId.id))
-            }
-        }
+    when (
+      val result = dataModifier.submit(
+        CreateGroup(
+          name = req.name,
+          owner = profileRepo.getByUserId(principal.userId).id
+        )
+      )) {
+      is CreateGroup.Result.Success -> {
+        call.respond(HttpStatusCode.OK, ApiCreateGroupResponse(result.groupId.id))
+      }
     }
+  }
 }

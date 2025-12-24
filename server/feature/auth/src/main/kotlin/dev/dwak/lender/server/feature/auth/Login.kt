@@ -20,28 +20,28 @@ import io.ktor.server.routing.*
 @ContributesIntoSet(AppScope::class)
 @Inject
 class Login(
-    private val dataModifier: DataModifier,
+  private val dataModifier: DataModifier,
 ) : LenderRoute {
-    override val method: HttpMethod = HttpMethod.Post
-    override val path: String = "/login"
+  override val method: HttpMethod = HttpMethod.Post
+  override val path: String = "/login"
 
-    override fun handler(): suspend RoutingContext.() -> Unit = {
-        val loginRequest = call.receive<ApiLoginRequest>()
-        when (
-            val result = dataModifier.submit(
-                LoginUser(
-                    email = loginRequest.email,
-                    password = loginRequest.password
-                )
-            )) {
-            is LoginUser.Result.Failure -> {
-                call.respond(HttpStatusCode.Unauthorized, result.error)
-            }
+  override fun handler(): suspend RoutingContext.() -> Unit = {
+    val loginRequest = call.receive<ApiLoginRequest>()
+    when (
+      val result = dataModifier.submit(
+        LoginUser(
+          email = loginRequest.email,
+          password = loginRequest.password
+        )
+      )) {
+      is LoginUser.Result.Failure -> {
+        call.respond(HttpStatusCode.Unauthorized, result.error)
+      }
 
-            is LoginUser.Result.Success -> {
-                call.respond(HttpStatusCode.OK, ApiLoginSuccessResponse(result.token))
-            }
-        }
-
+      is LoginUser.Result.Success -> {
+        call.respond(HttpStatusCode.OK, ApiLoginSuccessResponse(result.token))
+      }
     }
+
+  }
 }

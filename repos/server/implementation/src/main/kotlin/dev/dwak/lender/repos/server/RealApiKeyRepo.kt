@@ -12,10 +12,10 @@ import kotlinx.coroutines.withContext
 @SingleIn(AppScope::class)
 @ContributesBinding(AppScope::class)
 class RealApiKeyRepo(
-    private val queries: ApiKeyQueries,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+  private val queries: ApiKeyQueries,
+  private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ApiKeyRepo {
-    override suspend fun hasKey(key: String): Boolean = withContext(dispatcher) {
-        queries.hasKey(key).executeAsOne()
-    }
+  override suspend fun hasKey(key: String): Boolean = withContext(dispatcher) {
+    queries.hasKey(key).executeAsOne()
+  }
 }

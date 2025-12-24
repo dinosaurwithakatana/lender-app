@@ -12,21 +12,22 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
 @DependencyGraph(
-    scope = AppScope::class,
+  scope = AppScope::class,
 )
 interface LenderGraph {
 
-    @ApiRoutes
-    val apiRoutes: Set<LenderRoute>
+  @ApiRoutes
+  val apiRoutes: Set<LenderRoute>
 
-    @AuthenticatedApiRoutes
-    val authenticatedApiRoutes: Set<LenderRoute>
+  @AuthenticatedApiRoutes
+  val authenticatedApiRoutes: Set<LenderRoute>
 
-    val apiKeyPlugin: ApiKeyPlugin
+  val apiKeyPlugin: ApiKeyPlugin
 
-    val userRepo: UserRepo
+  val userRepo: UserRepo
 
-    @Provides @Io
-    fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
+  @Provides
+  @Io
+  fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
 }

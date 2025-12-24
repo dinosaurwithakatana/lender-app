@@ -7,10 +7,10 @@ import dev.zacsweers.metro.ContributesIntoSet
 
 @ContributesIntoSet(AppScope::class)
 class ListUsers(
-    private val userRepo: UserRepo,
-) : SuspendingCliktCommand(){
-    override suspend fun run() {
-        val users = userRepo.listAll()
-        echo(users.joinToString("\n"))
-    }
+  private val userRepo: UserRepo,
+) : SuspendingCliktCommand() {
+  override suspend fun run() {
+    val users = userRepo.listAll()
+    echo(users.joinToString("\n"))
+  }
 }

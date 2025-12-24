@@ -13,36 +13,36 @@ import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 
 @ContributesIntoMap(
-    scope = AppScope::class,
-    binding = binding<@ModificationKey(LoginUser::class) BoundHandler>()
+  scope = AppScope::class,
+  binding = binding<@ModificationKey(LoginUser::class) BoundHandler>()
 )
 class LoginUserHandler(
-    private val userQueries: UserQueries,
-    private val tokenQueries: TokenQueries,
-    private val passwordVerifier: PasswordVerifier,
+  private val userQueries: UserQueries,
+  private val tokenQueries: TokenQueries,
+  private val passwordVerifier: PasswordVerifier,
 ) : DataModification.Handler<LoginUser.Result, LoginUser> {
-    override suspend fun handle(mod: LoginUser): LoginUser.Result {
-        if (userQueries.userExists(mod.email).executeAsOne()) {
-            val authToken = generateToken()
+  override suspend fun handle(mod: LoginUser): LoginUser.Result {
+    if (userQueries.userExists(mod.email).executeAsOne()) {
+      val authToken = generateToken()
 
-            val dbUser = userQueries.findByEmail(mod.email).executeAsOne()
-            val passwordVerified = passwordVerifier(dbUser.password, mod.password)
+      val dbUser = userQueries.findByEmail(mod.email).executeAsOne()
+      val passwordVerified = passwordVerifier(dbUser.password, mod.password)
 
-            if (passwordVerified) {
-                tokenQueries.insertToken(
-                    DbToken(
-                        token = DbToken.Token(authToken),
-                        user_id = dbUser.id
-                    )
-                ).await()
-                return LoginUser.Result.Success(authToken)
-            } else {
-                return LoginUser.Result.Failure("Incorrect password")
-            }
+      if (passwordVerified) {
+        tokenQueries.insertToken(
+          DbToken(
+            token = DbToken.Token(authToken),
+            user_id = dbUser.id
+          )
+        ).await()
+        return LoginUser.Result.Success(authToken)
+      } else {
+        return LoginUser.Result.Failure("Incorrect password")
+      }
 
-        } else {
-            return LoginUser.Result.Failure("User ${mod.email} not found")
-        }
+    } else {
+      return LoginUser.Result.Failure("User ${mod.email} not found")
     }
+  }
 
 }

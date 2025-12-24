@@ -18,45 +18,45 @@ import java.util.*
 import kotlin.time.Clock
 
 @ContributesIntoMap(
-    scope = AppScope::class,
-    binding = binding<@ModificationKey(CreateUser::class) BoundHandler>()
+  scope = AppScope::class,
+  binding = binding<@ModificationKey(CreateUser::class) BoundHandler>()
 )
 class CreateUserHandler(
-    private val inviteLinkQueries: InviteLinkQueries,
-    private val profileQueries: ProfileQueries,
-    private val tokenQueries: TokenQueries,
-    private val passwordHasher: PasswordHasher,
+  private val inviteLinkQueries: InviteLinkQueries,
+  private val profileQueries: ProfileQueries,
+  private val tokenQueries: TokenQueries,
+  private val passwordHasher: PasswordHasher,
 ) : DataModification.Handler<CreateUser.Result, CreateUser> {
-    override suspend fun handle(mod: CreateUser): CreateUser.Result {
+  override suspend fun handle(mod: CreateUser): CreateUser.Result {
 
-        when {
-            mod.inviteLinkToken.isNullOrEmpty() -> return CreateUser.Result.InvalidInviteLink
-            !inviteLinkQueries.linkExists(DbInviteLink.Link_token(mod.inviteLinkToken!!))
-                .executeAsOne() -> return CreateUser.Result.InvalidInviteLink
-        }
-
-        val hashed = passwordHasher(mod.password)
-        val userId = DbUser.Id(UUID.randomUUID().toString())
-        val token = generateToken()
-
-        profileQueries.createUserWithProfile(
-            user_id = userId,
-            email = mod.email,
-            password = hashed,
-            profile_id = DbProfile.Id(UUID.randomUUID().toString()),
-            first_name = mod.firstName,
-            last_name = mod.lastName,
-            invite_token = DbInviteLink.Link_token(mod.inviteLinkToken!!),
-            created_at = Clock.System.now()
-        )
-
-        tokenQueries.insertToken(
-            DbToken(
-                token = DbToken.Token(token),
-                user_id = userId,
-            )
-        )
-
-        return CreateUser.Result.Success(token)
+    when {
+      mod.inviteLinkToken.isNullOrEmpty() -> return CreateUser.Result.InvalidInviteLink
+      !inviteLinkQueries.linkExists(DbInviteLink.Link_token(mod.inviteLinkToken!!))
+        .executeAsOne() -> return CreateUser.Result.InvalidInviteLink
     }
+
+    val hashed = passwordHasher(mod.password)
+    val userId = DbUser.Id(UUID.randomUUID().toString())
+    val token = generateToken()
+
+    profileQueries.createUserWithProfile(
+      user_id = userId,
+      email = mod.email,
+      password = hashed,
+      profile_id = DbProfile.Id(UUID.randomUUID().toString()),
+      first_name = mod.firstName,
+      last_name = mod.lastName,
+      invite_token = DbInviteLink.Link_token(mod.inviteLinkToken!!),
+      created_at = Clock.System.now()
+    )
+
+    tokenQueries.insertToken(
+      DbToken(
+        token = DbToken.Token(token),
+        user_id = userId,
+      )
+    )
+
+    return CreateUser.Result.Success(token)
+  }
 }

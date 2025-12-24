@@ -7,11 +7,11 @@ import dev.zacsweers.metro.ContributesIntoSet
 
 @ContributesIntoSet(AppScope::class)
 class ListProfiles(
-    private val profileRepo: ProfileRepo
-) : SuspendingCliktCommand(){
-    override suspend fun run() {
-        val profiles = profileRepo.listProfiles()
+  private val profileRepo: ProfileRepo
+) : SuspendingCliktCommand() {
+  override suspend fun run() {
+    val profiles = profileRepo.listProfiles()
 
-        echo(profiles.joinToString("\n"))
-    }
+    echo(profiles.joinToString("\n"))
+  }
 }

@@ -11,18 +11,18 @@ import dev.zacsweers.metro.ContributesIntoSet
 
 @ContributesIntoSet(AppScope::class)
 class CreateGroup(
-    private val dataModifier: DataModifier,
-    private val profileRepo: ProfileRepo
+  private val dataModifier: DataModifier,
+  private val profileRepo: ProfileRepo
 ) : SuspendingCliktCommand() {
-    val groupName by option().prompt()
-    val ownerEmail by option().prompt()
+  val groupName by option().prompt()
+  val ownerEmail by option().prompt()
 
-    override suspend fun run() {
-        dataModifier.submit(
-            CreateGroup(
-                name = groupName,
-                owner = profileRepo.getByEmail(ownerEmail).id
-            )
-        )
-    }
+  override suspend fun run() {
+    dataModifier.submit(
+      CreateGroup(
+        name = groupName,
+        owner = profileRepo.getByEmail(ownerEmail).id
+      )
+    )
+  }
 }

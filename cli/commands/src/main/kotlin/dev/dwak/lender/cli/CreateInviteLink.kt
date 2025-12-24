@@ -17,25 +17,25 @@ import kotlin.time.Duration.Companion.days
 
 @ContributesIntoSet(AppScope::class)
 class CreateInviteLink(
-    private val profileRepo: ProfileRepo,
-    private val dataModifier: DataModifier,
+  private val profileRepo: ProfileRepo,
+  private val dataModifier: DataModifier,
 ) : SuspendingCliktCommand() {
-    private val name: String by option().prompt()
-    private val invitingEmail: String by option().prompt()
-    private val expirationDays: Int by option().int()
-        .default(3)
+  private val name: String by option().prompt()
+  private val invitingEmail: String by option().prompt()
+  private val expirationDays: Int by option().int()
+    .default(3)
 
-    override suspend fun run() {
-        when (val result = dataModifier.submit(
-            CreateInviteLink(
-                name = name,
-                createdByProfileId = profileRepo.getByEmail(invitingEmail).id,
-                expiresOn = Clock.System.now().plus(expirationDays.days)
-            )
-        )) {
-            is CreateInviteLink.Result.Success -> {
-                echo("Successfully created invite link: $result")
-            }
-        }
+  override suspend fun run() {
+    when (val result = dataModifier.submit(
+      CreateInviteLink(
+        name = name,
+        createdByProfileId = profileRepo.getByEmail(invitingEmail).id,
+        expiresOn = Clock.System.now().plus(expirationDays.days)
+      )
+    )) {
+      is CreateInviteLink.Result.Success -> {
+        echo("Successfully created invite link: $result")
+      }
     }
+  }
 }

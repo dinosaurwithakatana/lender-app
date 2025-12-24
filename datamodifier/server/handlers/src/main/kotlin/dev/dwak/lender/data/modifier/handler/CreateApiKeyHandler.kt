@@ -11,21 +11,21 @@ import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.binding
 
 @ContributesIntoMap(
-    scope = AppScope::class,
-    binding = binding<@ModificationKey(CreateApiKey::class) BoundHandler>()
+  scope = AppScope::class,
+  binding = binding<@ModificationKey(CreateApiKey::class) BoundHandler>()
 )
 class CreateApiKeyHandler(
-    private val apiKeyQueries: ApiKeyQueries
+  private val apiKeyQueries: ApiKeyQueries
 ) : DataModification.Handler<CreateApiKey.Result, CreateApiKey> {
-    override suspend fun handle(mod: CreateApiKey): CreateApiKey.Result {
-        val apiKey = generateToken()
-        apiKeyQueries.insertKey(
-            DbApiKey(
-                apiKey = apiKey,
-                name = mod.name
-            )
-        )
+  override suspend fun handle(mod: CreateApiKey): CreateApiKey.Result {
+    val apiKey = generateToken()
+    apiKeyQueries.insertKey(
+      DbApiKey(
+        apiKey = apiKey,
+        name = mod.name
+      )
+    )
 
-        return CreateApiKey.Result.Success(ServerApiKey(apiKey))
-    }
+    return CreateApiKey.Result.Success(ServerApiKey(apiKey))
+  }
 }

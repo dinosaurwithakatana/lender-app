@@ -8,15 +8,15 @@ import dev.zacsweers.metro.ContributesBinding
 
 @ContributesBinding(AppScope::class)
 class RealGroupsRepo(
-    private val groupsQueries: GroupQueries
+  private val groupsQueries: GroupQueries
 ) : GroupsRepo {
-    override suspend fun listAll(): List<ServerGroup> {
-        return groupsQueries.selectAll { id, name, created_at ->
-            ServerGroup(
-                id = ServerGroupId(id.id),
-                name = name,
-                createdAt = created_at,
-            )
-        }.executeAsList()
-    }
+  override suspend fun listAll(): List<ServerGroup> {
+    return groupsQueries.selectAll { id, name, created_at ->
+      ServerGroup(
+        id = ServerGroupId(id.id),
+        name = name,
+        createdAt = created_at,
+      )
+    }.executeAsList()
+  }
 }

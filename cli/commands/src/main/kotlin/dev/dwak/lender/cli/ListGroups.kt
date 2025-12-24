@@ -7,9 +7,9 @@ import dev.zacsweers.metro.ContributesIntoSet
 
 @ContributesIntoSet(AppScope::class)
 class ListGroups(
-    private val groupsRepo: GroupsRepo,
+  private val groupsRepo: GroupsRepo,
 ) : SuspendingCliktCommand() {
-    override suspend fun run() {
-        echo(groupsRepo.listAll().joinToString("\n"))
-    }
+  override suspend fun run() {
+    echo(groupsRepo.listAll().joinToString("\n"))
+  }
 }
