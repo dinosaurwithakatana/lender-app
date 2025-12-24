@@ -1,19 +1,19 @@
 plugins {
-    alias(libs.plugins.kotlinJvm)
-    alias(libs.plugins.metro)
+  alias(libs.plugins.kotlinJvm)
+  alias(libs.plugins.metro)
 }
 
 metro {
-    contributesAsInject.set(true)
+  contributesAsInject.set(true)
 }
 
 dependencies {
-    implementation(projects.datamodifier.api)
-    implementation(projects.datamodifier.server.modifications)
+  implementation(projects.datamodifier.api)
+  implementation(projects.datamodifier.server.modifications)
 
-    implementation(projects.shared)
+  implementation(projects.shared)
 
-    implementation(projects.repos.server.api)
+  implementation(projects.repos.server.api)
 
-    implementation(libs.clikt)
+  implementation(libs.clikt)
 }

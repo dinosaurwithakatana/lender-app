@@ -4,17 +4,17 @@ import dev.zacsweers.metro.gradle.DelicateMetroGradleApi
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    alias(libs.plugins.kotlinJvm)
-    alias(libs.plugins.metro)
+  alias(libs.plugins.kotlinJvm)
+  alias(libs.plugins.metro)
 }
 
 dependencies {
-    implementation(libs.ktor.serverCore)
-    testImplementation(libs.ktor.serverTestHost)
-    testImplementation(libs.kotlin.testJunit)
+  implementation(libs.ktor.serverCore)
+  testImplementation(libs.ktor.serverTestHost)
+  testImplementation(libs.kotlin.testJunit)
 }
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.compilerOptions {
-    freeCompilerArgs.set(listOf("-Xcontext-parameters"))
+  freeCompilerArgs.set(listOf("-Xcontext-parameters"))
 }

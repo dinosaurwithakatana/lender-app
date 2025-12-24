@@ -1,3 +1,6 @@
+import com.android.build.api.dsl.androidLibrary
+import org.gradle.kotlin.dsl.kotlin
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -41,7 +44,13 @@ kotlin {
 
   sourceSets {
     commonMain.dependencies {
-      api(projects.datamodifier.api)
+      implementation(projects.shared)
+
+      implementation(projects.datamodifier.api)
+      implementation(projects.datamodifier.common.handlers)
+      implementation(projects.datamodifier.app.modifications)
+
+      implementation(projects.client.network)
     }
     commonTest.dependencies {
       implementation(libs.kotlin.test)
