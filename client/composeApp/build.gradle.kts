@@ -58,6 +58,11 @@ kotlin {
       implementation(compose.components.uiToolingPreview)
       implementation(libs.androidx.lifecycle.viewmodelCompose)
       implementation(libs.androidx.lifecycle.runtimeCompose)
+
+      implementation(projects.client.navigation.core)
+
+      implementation(projects.client.feature.auth.ui)
+
       implementation(projects.shared)
     }
     commonTest.dependencies {

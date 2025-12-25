@@ -22,7 +22,7 @@ class AppBackStack<T : Any>(startRoute: T, private val loginRoute: T) {
   val backStack = mutableStateListOf(startRoute)
 
   fun add(route: T) {
-    if (route is AuthenticatedRoute && !isLoggedIn) {
+    if (route is AuthenticatedLenderRoute && !isLoggedIn) {
       // Store the intended destination and redirect to login
       onLoginSuccessRoute = route
       backStack.add(loginRoute)
@@ -49,6 +49,6 @@ class AppBackStack<T : Any>(startRoute: T, private val loginRoute: T) {
 
   fun logout() {
     isLoggedIn = false
-    backStack.removeAll { it is AuthenticatedRoute }
+    backStack.removeAll { it is AuthenticatedLenderRoute }
   }
 }

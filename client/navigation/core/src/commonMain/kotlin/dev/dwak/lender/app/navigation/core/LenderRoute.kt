@@ -1,3 +1,5 @@
 package dev.dwak.lender.app.navigation.core
 
-interface LenderRoute
+import androidx.navigation3.runtime.NavKey
+
+interface LenderRoute : NavKey
