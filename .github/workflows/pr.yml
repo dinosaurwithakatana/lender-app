@@ -30,7 +30,7 @@ jobs:
         shell: bash
         run: chmod +x gradlew
       - name: Gradle assemble
-        run: ./gradlew :server:assemble
+        run: ./gradlew :server:app:assemble
   build-cli:
     runs-on: self-hosted
     needs: build-server
