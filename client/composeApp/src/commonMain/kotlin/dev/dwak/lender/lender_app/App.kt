@@ -15,6 +15,7 @@ import androidx.navigation3.ui.NavDisplay
 import dev.dwak.lender.app.navigation.core.AppBackStack
 import dev.dwak.lender.app.navigation.core.LoggedInRoutes
 import dev.dwak.lender.feature.auth.ui.AuthRoutes
+import dev.dwak.lender.feature.auth.ui.login.LoginUi
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -46,7 +47,7 @@ fun NavigationApp() {
       }
 
       entry<AuthRoutes.Login> {
-        Text("Login")
+        LoginUi()
       }
 
       entry<AuthRoutes.SignUp> {

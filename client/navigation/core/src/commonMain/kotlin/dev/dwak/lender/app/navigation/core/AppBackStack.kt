@@ -19,7 +19,8 @@ class AppBackStack<T : Any>(startRoute: T, private val loginRoute: T) {
   var isLoggedIn by mutableStateOf(false)
     private set
 
-  val backStack = mutableStateListOf(startRoute)
+  val backStack =
+    mutableStateListOf(if (startRoute is AuthenticatedLenderRoute && !isLoggedIn) loginRoute else startRoute)
 
   fun add(route: T) {
     if (route is AuthenticatedLenderRoute && !isLoggedIn) {
