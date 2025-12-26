@@ -9,6 +9,8 @@ import dev.dwak.lender.models.server.ServerApiKey
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.binding
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 @ContributesIntoMap(
   scope = AppScope::class,
@@ -17,8 +19,9 @@ import dev.zacsweers.metro.binding
 class CreateApiKeyHandler(
   private val apiKeyQueries: ApiKeyQueries
 ) : DataModification.Handler<CreateApiKey.Result, CreateApiKey> {
+  @OptIn(ExperimentalUuidApi::class)
   override suspend fun handle(mod: CreateApiKey): CreateApiKey.Result {
-    val apiKey = generateToken()
+    val apiKey: String = Uuid.generateV4().toHexString()
     apiKeyQueries.insertKey(
       DbApiKey(
         apiKey = apiKey,
