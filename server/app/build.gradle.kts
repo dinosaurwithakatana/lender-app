@@ -40,6 +40,7 @@ dependencies {
   implementation(libs.ktor.serverNetty)
   implementation(libs.ktor.serverContentNegotiation)
   implementation(libs.ktor.serialzationJson)
+
   testImplementation(libs.ktor.serverTestHost)
   testImplementation(libs.kotlin.testJunit)
 }
