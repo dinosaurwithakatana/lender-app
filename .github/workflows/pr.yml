@@ -17,31 +17,9 @@ jobs:
       group: high-performance
       labels: macOS
     steps:
-      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-env
         with:
-          fetch-depth: 1
-          lfs: 'true'
-      - name: set up JDK
-        uses: actions/setup-java@v5
-        with:
-          java-version: '21'
-          distribution: 'zulu'
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
-        with:
-          dependency-graph: generate-and-submit
-          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-          cache-read-only: false
-          build-scan-publish: true
-          build-scan-terms-of-use-url: 'https://gradle.com/terms-of-service'
-          build-scan-terms-of-use-agree: 'yes'
-      - name: Grant execute permission for gradlew
-        shell: bash
-        run: chmod +x gradlew
-
-      - name: Copy CI gradle.properties
-        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-
+          gradle_encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - name: Check build-logic
         run: ./gradlew :build-logic:check
 
@@ -49,63 +27,18 @@ jobs:
     runs-on: [self-hosted, linux]
     needs: build-logic
     steps:
-      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-env
         with:
-          fetch-depth: 1
-          lfs: 'true'
-
-      - name: set up JDK
-        uses: actions/setup-java@v5
-        with:
-          java-version: '21'
-          distribution: 'zulu'
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
-        with:
-          dependency-graph: generate-and-submit
-          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-          cache-read-only: false
-          build-scan-publish: true
-          build-scan-terms-of-use-url: 'https://gradle.com/terms-of-service'
-          build-scan-terms-of-use-agree: 'yes'
-      - name: Grant execute permission for gradlew
-        shell: bash
-        run: chmod +x gradlew
-
-      - name: Copy CI gradle.properties
-        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-
+          gradle_encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - name: Gradle assemble
         run: ./gradlew :server:app:assemble
   build-cli:
     runs-on: self-hosted
     needs: build-server
     steps:
-      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-env
         with:
-          fetch-depth: 1
-          lfs: 'true'
-      - name: set up JDK
-        uses: actions/setup-java@v5
-        with:
-          java-version: '21'
-          distribution: 'zulu'
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
-        with:
-          dependency-graph: generate-and-submit
-          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-          cache-read-only: false
-          build-scan-publish: true
-          build-scan-terms-of-use-url: 'https://gradle.com/terms-of-service'
-          build-scan-terms-of-use-agree: 'yes'
-      - name: Grant execute permission for gradlew
-        shell: bash
-        run: chmod +x gradlew
-
-      - name: Copy CI gradle.properties
-        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-
+          gradle_encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - name: Gradle assemble
         run: ./gradlew :cli:app:assemble
 
@@ -115,30 +48,8 @@ jobs:
       labels: macOS
     needs: build-logic
     steps:
-      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-env
         with:
-          fetch-depth: 1
-          lfs: 'true'
-      - name: set up JDK
-        uses: actions/setup-java@v5
-        with:
-          java-version: '21'
-          distribution: 'zulu'
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
-        with:
-          dependency-graph: generate-and-submit
-          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-          cache-read-only: false
-          build-scan-publish: true
-          build-scan-terms-of-use-url: 'https://gradle.com/terms-of-service'
-          build-scan-terms-of-use-agree: 'yes'
-      - name: Grant execute permission for gradlew
-        shell: bash
-        run: chmod +x gradlew
-
-      - name: Copy CI gradle.properties
-        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-
+          gradle_encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - name: Gradle assemble
         run: ./gradlew :client:composeApp:assemble

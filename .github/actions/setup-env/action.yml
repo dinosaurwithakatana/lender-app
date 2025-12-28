@@ -1,0 +1,34 @@
+name: Setup Environment
+inputs:
+  gradle_encryption_key:
+    description: "The Gradle cache encryption key"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v6
+      with:
+        fetch-depth: 1
+        lfs: 'true'
+    - name: set up JDK
+      uses: actions/setup-java@v5
+      with:
+        java-version: '21'
+        distribution: 'zulu'
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v5
+      with:
+        dependency-graph: generate-and-submit
+        cache-encryption-key: ${{ inputs.gradle_encryption_key }}
+        cache-read-only: false
+        build-scan-publish: true
+        build-scan-terms-of-use-url: 'https://gradle.com/terms-of-service'
+        build-scan-terms-of-use-agree: 'yes'
+    - name: Grant execute permission for gradlew
+      shell: bash
+      run: chmod +x gradlew
+    - name: Copy CI gradle.properties
+      shell: bash
+      run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
