@@ -12,7 +12,9 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build-logic:
-    runs-on: self-hosted
+    runs-on:
+      group: high-performance
+      labels: macOS
     steps:
       - uses: actions/checkout@v6
         with:
@@ -86,7 +88,9 @@ jobs:
         run: ./gradlew :cli:app:assemble
 
   build-client:
-    runs-on: [self-hosted, macOS]
+    runs-on:
+      group: high-performance
+      labels: macOS
     needs: build-logic
     steps:
       - uses: actions/checkout@v6
