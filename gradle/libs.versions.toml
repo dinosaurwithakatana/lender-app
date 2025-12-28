@@ -16,6 +16,7 @@ composeMultiplatform = "1.9.3"
 compose-multiplatform-adaptive = "1.3.0-alpha03"
 compose-multiplatform-lifecycle = "2.10.0-alpha07"
 compose-multiplatform-navigation3-browser = "0.2.0"
+java = "21"
 junit = "4.13.2"
 kotlin = "2.3.20-dev-7791"
 kotlinxSerialization = "1.9.0"
@@ -66,6 +67,33 @@ navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui",
 
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
 sqldelight-driver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
+
+android-gradle-plugin = { module = "com.android.application:com.android.application.gradle.plugin", version.ref = "agp" }
+android-kmpLibrary-gradle-plugin = { module = " com.android.kotlin.multiplatform.library:com.android.kotlin.multiplatform.library.gradle.plugin", version.ref = "agp" }
+compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+compose-multiplatform-gradle-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "composeMultiplatform"}
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlinx-serialization-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+ksp-gradle-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+ktor-gradle-plugin = { module = "io.ktor.plugin:io.ktor.plugin.gradle.plugin", version.ref = "ktor" }
+ktorfit-gradle-plugin = { module = "de.jensklingenberg.ktorfit:ktorfit-gradle-plugin", version.ref = "ktorfit" }
+metro-gradle-plugin = { module = "dev.zacsweers.metro:dev.zacsweers.metro.gradle.plugin", version.ref = "metro" }
+sqldelight-gradle-plugin = { module = "app.cash.sqldelight:gradle-plugin", version.ref = "sqldelight" }
+
+[bundles]
+build-plugins = [
+    "android-gradle-plugin",
+    "android-kmpLibrary-gradle-plugin",
+    "compose-compiler-gradle-plugin",
+    "compose-multiplatform-gradle-plugin",
+    "kotlin-gradle-plugin",
+    "kotlinx-serialization-gradle-plugin",
+    "ksp-gradle-plugin",
+    "ktorfit-gradle-plugin",
+    "ktor-gradle-plugin",
+    "metro-gradle-plugin",
+    "sqldelight-gradle-plugin"
+]
 
 
 [plugins]

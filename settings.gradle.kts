@@ -61,3 +61,5 @@ include(":server:feature:groups")
 include(":server:feature:profile")
 include(":server:common")
 include(":shared")
+
+includeBuild("build-logic")
