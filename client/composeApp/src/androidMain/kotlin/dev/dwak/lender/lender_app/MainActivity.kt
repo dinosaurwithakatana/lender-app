@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import dev.dwak.lender.app.navigation.core.LenderRoute
 import dev.zacsweers.metro.createGraph
 
 class MainActivity : ComponentActivity() {
@@ -20,13 +21,4 @@ class MainActivity : ComponentActivity() {
       App(graph)
     }
   }
-}
-
-@Preview
-@Composable
-fun AppAndroidPreview() {
-  App(object : ClientGraph {
-    override val entryBuilders: Set<EntryProviderScope<NavKey>.() -> Unit>
-      get() = TODO("Not yet implemented")
-  })
 }
