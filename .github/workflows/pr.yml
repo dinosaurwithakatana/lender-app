@@ -10,6 +10,7 @@ on:
 concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
+
 jobs:
   build-logic:
     runs-on:
@@ -38,7 +39,7 @@ jobs:
         run: ./gradlew :build-logic:check
 
   build-server:
-    runs-on: self-hosted
+    runs-on: [self-hosted, linux]
     needs: build-logic
     steps:
       - uses: actions/checkout@v6
