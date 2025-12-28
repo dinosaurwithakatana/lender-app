@@ -35,7 +35,7 @@ jobs:
         shell: bash
         run: chmod +x gradlew
       - name: Check build-logic
-        run: ./gradlew :build-logic:convention:check
+        run: ./gradlew :build-logic:check
 
   build-server:
     runs-on: self-hosted
