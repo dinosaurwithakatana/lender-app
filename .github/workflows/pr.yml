@@ -17,6 +17,10 @@ jobs:
       group: high-performance
       labels: macOS
     steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          lfs: 'true'
       - uses: ./.github/actions/setup-env
         with:
           gradle_encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
@@ -27,6 +31,10 @@ jobs:
     runs-on: [self-hosted, linux]
     needs: build-logic
     steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          lfs: 'true'
       - uses: ./.github/actions/setup-env
         with:
           gradle_encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
@@ -36,6 +44,10 @@ jobs:
     runs-on: self-hosted
     needs: build-server
     steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          lfs: 'true'
       - uses: ./.github/actions/setup-env
         with:
           gradle_encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
@@ -48,6 +60,10 @@ jobs:
       labels: macOS
     needs: build-logic
     steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          lfs: 'true'
       - uses: ./.github/actions/setup-env
         with:
           gradle_encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
