@@ -21,10 +21,6 @@ jobs:
         with:
           fetch-depth: 1
           lfs: 'true'
-
-      - name: Copy CI gradle.properties
-        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-
       - name: set up JDK
         uses: actions/setup-java@v5
         with:
@@ -39,6 +35,10 @@ jobs:
       - name: Grant execute permission for gradlew
         shell: bash
         run: chmod +x gradlew
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
       - name: Check build-logic
         run: ./gradlew :build-logic:check
 
@@ -51,9 +51,6 @@ jobs:
           fetch-depth: 1
           lfs: 'true'
 
-      - name: Copy CI gradle.properties
-        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-
       - name: set up JDK
         uses: actions/setup-java@v5
         with:
@@ -68,6 +65,9 @@ jobs:
       - name: Grant execute permission for gradlew
         shell: bash
         run: chmod +x gradlew
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
 
       - name: Gradle assemble
         run: ./gradlew :server:app:assemble
@@ -79,10 +79,6 @@ jobs:
         with:
           fetch-depth: 1
           lfs: 'true'
-
-      - name: Copy CI gradle.properties
-        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-
       - name: set up JDK
         uses: actions/setup-java@v5
         with:
@@ -97,6 +93,10 @@ jobs:
       - name: Grant execute permission for gradlew
         shell: bash
         run: chmod +x gradlew
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
       - name: Gradle assemble
         run: ./gradlew :cli:app:assemble
 
@@ -110,10 +110,6 @@ jobs:
         with:
           fetch-depth: 1
           lfs: 'true'
-
-      - name: Copy CI gradle.properties
-        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-
       - name: set up JDK
         uses: actions/setup-java@v5
         with:
@@ -128,5 +124,9 @@ jobs:
       - name: Grant execute permission for gradlew
         shell: bash
         run: chmod +x gradlew
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
       - name: Gradle assemble
         run: ./gradlew :client:composeApp:assemble
