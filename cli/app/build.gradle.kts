@@ -9,10 +9,6 @@ application {
   applicationName = "lender-cli"
 }
 
-repositories {
-  mavenCentral()
-}
-
 dependencies {
   implementation(projects.cli.commands)
 

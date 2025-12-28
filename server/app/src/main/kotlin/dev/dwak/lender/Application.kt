@@ -13,8 +13,6 @@ import io.github.aakira.napier.Napier
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.Authentication
-import io.ktor.server.auth.UserIdPrincipal
-import io.ktor.server.auth.UserPasswordCredential
 import io.ktor.server.auth.authenticate
 import io.ktor.server.auth.bearer
 import io.ktor.server.engine.*
@@ -25,7 +23,7 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.json.Json
 
 fun main() {
-  val graph = createGraph<LenderGraph>()
+  val graph = createGraph<ServerGraph>()
   Napier.base(DebugAntilog())
   embeddedServer(
     factory = Netty,
@@ -37,7 +35,7 @@ fun main() {
   ).start(wait = true)
 }
 
-fun Application.module(graph: LenderGraph) {
+fun Application.module(graph: ServerGraph) {
   install(ContentNegotiation) {
     json(Json {
       allowTrailingComma = true

@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 @DependencyGraph(
   scope = AppScope::class,
 )
-interface LenderGraph {
+interface ServerGraph {
 
   @ApiRoutes
   val apiRoutes: Set<LenderRoute>

@@ -1,5 +1,10 @@
 package dev.dwak.lender.lender_app
 
 import androidx.compose.ui.window.ComposeUIViewController
+import dev.zacsweers.metro.createGraph
+import platform.UIKit.UIViewController
 
-fun MainViewController() = ComposeUIViewController { App() }
+fun MainViewController(): UIViewController {
+  val graph = createGraph<ClientGraph>()
+  return ComposeUIViewController { App(graph) }
+}

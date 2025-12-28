@@ -9,6 +9,11 @@ plugins {
   alias(libs.plugins.androidLibrary)
   alias(libs.plugins.composeMultiplatform)
   alias(libs.plugins.composeCompiler)
+  alias(libs.plugins.metro)
+}
+
+metro {
+  generateContributionHintsInFir.set(true)
 }
 
 kotlin {
@@ -56,8 +61,10 @@ kotlin {
       implementation(compose.ui)
       implementation(compose.components.resources)
       implementation(compose.components.uiToolingPreview)
+
       implementation(libs.androidx.lifecycle.viewmodelCompose)
       implementation(libs.androidx.lifecycle.runtimeCompose)
+
       implementation(projects.shared)
       implementation(projects.client.navigation.core)
     }

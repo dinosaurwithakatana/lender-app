@@ -12,10 +12,14 @@ pluginManagement {
     }
     mavenCentral()
     gradlePluginPortal()
+    maven("https://redirector.kotlinlang.org/maven/bootstrap")
+    maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev/")
+    maven("https://packages.jetbrains.team/maven/p/kt/dev/")
   }
 }
 
 dependencyResolutionManagement {
+  repositoriesMode = RepositoriesMode.PREFER_PROJECT
   repositories {
     google {
       mavenContent {
@@ -25,6 +29,9 @@ dependencyResolutionManagement {
       }
     }
     mavenCentral()
+    maven("https://redirector.kotlinlang.org/maven/bootstrap")
+    maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev/")
+    maven("https://packages.jetbrains.team/maven/p/kt/dev/")
   }
 }
 
