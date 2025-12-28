@@ -1,5 +1,5 @@
 plugins {
-  id("client.kmp.jvm.library")
+  id("kmp.jvm.library")
   alias(libs.plugins.ksp)
   alias(libs.plugins.ktorfit)
 }

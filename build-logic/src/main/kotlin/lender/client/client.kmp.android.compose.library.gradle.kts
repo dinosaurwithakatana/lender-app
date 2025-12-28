@@ -18,6 +18,9 @@ val pathSegments = project.path.split(":").drop(1)
 // Set a convention that will be used if not overridden
 
 kotlin {
+  compilerOptions {
+    freeCompilerArgs.set(listOf("-Xcontext-parameters"))
+  }
   @Suppress("UnstableApiUsage")
   androidLibrary {
     namespace = pathSegments.joinToString("-")
@@ -62,11 +65,7 @@ kotlin {
       implementation(compose.ui)
       implementation(compose.components.resources)
       implementation(compose.components.uiToolingPreview)
-      implementation(libs.androidx.lifecycle.viewmodelCompose)
-      implementation(libs.androidx.lifecycle.runtimeCompose)
-
       implementation(project(":shared"))
-      implementation(project(":client:navigation:core"))
     }
     commonTest.dependencies {
       implementation(libs.kotlin.test)

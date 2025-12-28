@@ -3,12 +3,11 @@ import com.android.build.api.variant.impl.capitalizeFirstChar
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
   id("org.jetbrains.kotlin.multiplatform")
   id("com.android.kotlin.multiplatform.library")
-  id("org.jetbrains.compose")
-  id("org.jetbrains.kotlin.plugin.compose")
   id("dev.zacsweers.metro")
 }
 
@@ -18,6 +17,9 @@ val pathSegments = project.path.split(":").drop(1)
 // Set a convention that will be used if not overridden
 
 kotlin {
+  compilerOptions {
+    freeCompilerArgs.set(listOf("-Xcontext-parameters"))
+  }
   @Suppress("UnstableApiUsage")
   androidLibrary {
     namespace = pathSegments.joinToString("-")
@@ -50,29 +52,13 @@ kotlin {
   }
 
   sourceSets {
-    androidMain.dependencies {
-      implementation(compose.preview)
-      implementation(libs.androidx.activity.compose)
-      implementation(libs.androidx.core.ktx)
-    }
     commonMain.dependencies {
-      implementation(compose.runtime)
-      implementation(compose.foundation)
-      implementation(compose.material3)
-      implementation(compose.ui)
-      implementation(compose.components.resources)
-      implementation(compose.components.uiToolingPreview)
       implementation(project(":shared"))
     }
     commonTest.dependencies {
       implementation(libs.kotlin.test)
     }
   }
-}
-
-// build.gradle.kts
-dependencies {
-  "androidRuntimeClasspath"(compose.uiTooling)
 }
 
 metro {

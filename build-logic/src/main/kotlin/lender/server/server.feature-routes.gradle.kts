@@ -12,6 +12,12 @@ metro {
   contributesAsInject.set(true)
 }
 
+kotlin {
+  compilerOptions {
+    freeCompilerArgs.set(listOf("-Xcontext-parameters"))
+  }
+}
+
 dependencies {
   implementation(project(":server:common"))
 
@@ -29,9 +35,4 @@ dependencies {
 
   testImplementation(libs.ktor.serverTestHost)
   testImplementation(libs.kotlin.testJunit)
-}
-
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.compilerOptions {
-  freeCompilerArgs.set(listOf("-Xcontext-parameters"))
 }
