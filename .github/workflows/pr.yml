@@ -21,6 +21,10 @@ jobs:
         with:
           fetch-depth: 1
           lfs: 'true'
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
       - name: set up JDK
         uses: actions/setup-java@v5
         with:
@@ -46,6 +50,10 @@ jobs:
         with:
           fetch-depth: 1
           lfs: 'true'
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
       - name: set up JDK
         uses: actions/setup-java@v5
         with:
@@ -71,6 +79,10 @@ jobs:
         with:
           fetch-depth: 1
           lfs: 'true'
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
       - name: set up JDK
         uses: actions/setup-java@v5
         with:
@@ -98,6 +110,10 @@ jobs:
         with:
           fetch-depth: 1
           lfs: 'true'
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
       - name: set up JDK
         uses: actions/setup-java@v5
         with:
