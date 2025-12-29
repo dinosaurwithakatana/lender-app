@@ -40,7 +40,7 @@ fun NavigationApp(entryBuilders: Set<EntryProviderScope<LenderRoute>.() -> Unit>
   val backStack = remember {
     AppBackStack(
       startRoute = LoggedInRoutes.Home,
-      loginRoute = AuthRoutes.Login
+      loginRoute = AuthRoutes.Launch
     )
   }
   NavDisplay(

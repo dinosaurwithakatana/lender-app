@@ -5,6 +5,9 @@ import kotlinx.serialization.Serializable
 
 sealed interface AuthRoutes : LenderRoute {
   @Serializable
+  data object Launch: AuthRoutes
+
+  @Serializable
   data object Login : AuthRoutes
 
   @Serializable

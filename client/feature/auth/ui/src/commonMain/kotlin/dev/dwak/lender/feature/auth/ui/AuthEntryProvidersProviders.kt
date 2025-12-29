@@ -15,6 +15,10 @@ interface AuthEntryProvidersProviders {
   @IntoSet
   @SingleIn(AppScope::class)
   fun entryProviders(): EntryProviderScope<LenderRoute>.() -> Unit = {
+    entry<AuthRoutes.Launch> {
+      LaunchUi()
+    }
+    
     entry<AuthRoutes.Login> {
       LoginUi()
     }

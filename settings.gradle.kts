@@ -35,31 +35,33 @@ dependencyResolutionManagement {
   }
 }
 
-include(":cli:app")
-include(":cli:commands")
-include(":client:android")
-include(":client:feature:auth:ui")
-include(":client:navigation:core")
-include(":client:composeApp")
-include(":database")
-include(":datamodifier:api")
-include(":datamodifier:common:handlers")
-include(":datamodifier:implementation")
-include(":datamodifier:client:modifications")
-include(":datamodifier:client:handlers")
-include(":datamodifier:server:modifications")
-include(":datamodifier:server:handlers")
-include(":models:api")
-include(":models:server")
-include(":client:network")
-include(":repos:client:api")
-include(":repos:server:api")
-include(":repos:server:implementation")
-include(":server:app")
-include(":server:feature:auth")
-include(":server:feature:groups")
-include(":server:feature:profile")
-include(":server:common")
-include(":shared")
+include(
+  ":cli:app",
+  ":cli:commands",
+  ":client:android",
+  ":client:feature:auth:ui",
+  ":client:navigation:core",
+  ":client:composeApp",
+  ":database",
+  ":datamodifier:api",
+  ":datamodifier:common:handlers",
+  ":datamodifier:implementation",
+  ":datamodifier:client:modifications",
+  ":datamodifier:client:handlers",
+  ":datamodifier:server:modifications",
+  ":datamodifier:server:handlers",
+  ":models:api",
+  ":models:server",
+  ":client:network",
+  ":repos:client:api",
+  ":repos:server:api",
+  ":repos:server:implementation",
+  ":server:app",
+  ":server:feature:auth",
+  ":server:feature:groups",
+  ":server:feature:profile",
+  ":server:common",
+  ":shared",
+)
 
 includeBuild("build-logic")

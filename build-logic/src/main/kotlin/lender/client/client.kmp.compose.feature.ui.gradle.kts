@@ -84,4 +84,5 @@ dependencies {
 
 metro {
   generateContributionHintsInFir.set(true)
+  enableTopLevelFunctionInjection.set(true)
 }
