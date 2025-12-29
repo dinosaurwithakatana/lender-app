@@ -5,6 +5,6 @@ import dev.zacsweers.metro.createGraph
 import platform.UIKit.UIViewController
 
 fun MainViewController(): UIViewController {
-  val graph = createGraph<ClientGraph>()
+  val graph = createGraph<IosClientGraph>()
   return ComposeUIViewController { App(graph) }
 }

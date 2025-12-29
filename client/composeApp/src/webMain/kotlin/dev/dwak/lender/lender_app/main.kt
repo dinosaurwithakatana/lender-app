@@ -6,7 +6,7 @@ import dev.zacsweers.metro.createGraph
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-  val graph = createGraph<ClientGraph>()
+  val graph = createGraph<WebClientGraph>()
   ComposeViewport {
     App(graph)
   }

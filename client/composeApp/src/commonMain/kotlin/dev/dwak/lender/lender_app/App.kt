@@ -54,7 +54,6 @@ fun NavigationApp(entryBuilders: Set<EntryProviderScope<LenderRoute>.() -> Unit>
       entryBuilders.forEach { b->
         b(this@entryProvider)
       }
-
     }
   )
 }
