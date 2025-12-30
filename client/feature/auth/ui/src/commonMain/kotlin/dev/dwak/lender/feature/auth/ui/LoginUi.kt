@@ -1,4 +1,4 @@
-package dev.dwak.lender.feature.auth.ui.login
+package dev.dwak.lender.feature.auth.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,7 +8,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import dev.zacsweers.metro.Inject
 
 @Composable
 fun LoginUi() {

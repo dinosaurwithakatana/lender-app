@@ -14,13 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import androidx.savedstate.serialization.SavedStateConfiguration
 import dev.dwak.lender.app.navigation.core.AppBackStack
 import dev.dwak.lender.app.navigation.core.LenderRoute
 import dev.dwak.lender.app.navigation.core.LoggedInRoutes
-import dev.dwak.lender.feature.auth.ui.AuthRoutes
-import dev.dwak.lender.feature.auth.ui.login.LoginUi
-import io.github.aakira.napier.Napier
+import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -30,22 +32,39 @@ fun App(graph: ClientGraph) {
     var showContent by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize().safeContentPadding()) {
-      NavigationApp(graph.entryBuilders)
+      NavigationApp(
+        entryBuilders = graph.entryBuilders,
+        navigationSerializers = graph.navigationSerializers
+      )
     }
   }
 }
 
 @Composable
-fun NavigationApp(entryBuilders: Set<EntryProviderScope<LenderRoute>.() -> Unit>) {
-  val backStack = remember {
-    AppBackStack(
-      startRoute = LoggedInRoutes.Home,
-      loginRoute = AuthRoutes.Launch
-    )
-  }
+fun NavigationApp(
+  entryBuilders: Set<EntryProviderScope<NavKey>.() -> Unit>,
+  navigationSerializers: Set<SerializersModule>
+) {
+  val backStack = rememberNavBackStack(
+    configuration = SavedStateConfiguration {
+      serializersModule = SerializersModule {
+        polymorphic(NavKey::class) {
+          navigationSerializers.forEach { include(it) }
+        }
+      }
+    },
+    AuthRoutes.Launch
+  )
+  println("Hello $backStack")
+//  val backStack = remember {
+//    AppBackStack(
+//      startRoute = LoggedInRoutes.Home,
+//      loginRoute = AuthRoutes.Launch
+//    )
+//  }
   NavDisplay(
-    backStack = backStack.backStack,
-    onBack = { backStack.remove() },
+    backStack = backStack,
+    onBack = { backStack.removeLast() },
     entryProvider = entryProvider {
       entry<LoggedInRoutes.Home> {
         Text("Home")

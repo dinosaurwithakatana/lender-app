@@ -10,6 +10,7 @@ plugins {
   id("org.jetbrains.compose")
   id("org.jetbrains.kotlin.plugin.compose")
   id("dev.zacsweers.metro")
+  id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 val libs = the<LibrariesForLibs>()
@@ -36,7 +37,7 @@ kotlin {
     iosSimulatorArm64()
   ).forEach { iosTarget ->
     iosTarget.binaries.framework {
-      baseName = pathSegments.joinToString { it.capitalizeFirstChar() }
+      baseName = pathSegments.joinToString(separator = "") { it.capitalizeFirstChar() }
       isStatic = true
     }
   }

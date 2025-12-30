@@ -40,6 +40,7 @@ include(
   ":cli:commands",
   ":client:android",
   ":client:feature:auth:ui",
+  ":client:feature:auth:navigation:api",
   ":client:navigation:core",
   ":client:composeApp",
   ":database",

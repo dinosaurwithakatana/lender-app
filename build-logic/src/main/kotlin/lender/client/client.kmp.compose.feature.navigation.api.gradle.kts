@@ -54,11 +54,6 @@ kotlin {
   }
 
   sourceSets {
-    androidMain.dependencies {
-      implementation(compose.preview)
-      implementation(libs.androidx.activity.compose)
-      implementation(libs.androidx.core.ktx)
-    }
     commonMain.dependencies {
       implementation(compose.runtime)
       implementation(compose.foundation)
@@ -68,8 +63,6 @@ kotlin {
       implementation(compose.components.uiToolingPreview)
       implementation(libs.androidx.lifecycle.viewmodelCompose)
       implementation(libs.androidx.lifecycle.runtimeCompose)
-
-      implementation(libs.kotlinx.serialization.json)
 
       implementation(project(":shared"))
       implementation(project(":client:navigation:core"))
