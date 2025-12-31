@@ -1,4 +1,4 @@
-package dev.dwak.lender.app.navigation.core
+package dev.dwak.lender.app.navigation
 
 import androidx.navigation3.runtime.NavKey
 

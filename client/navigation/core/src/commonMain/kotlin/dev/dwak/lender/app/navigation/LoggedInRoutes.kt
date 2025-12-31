@@ -1,4 +1,4 @@
-package dev.dwak.lender.app.navigation.core
+package dev.dwak.lender.app.navigation
 
 import kotlinx.serialization.Serializable
 

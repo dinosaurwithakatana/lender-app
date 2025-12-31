@@ -5,7 +5,7 @@ plugins {
 kotlin {
   sourceSets {
     commonMain.dependencies {
-      api(projects.client.feature.auth.navigation.api)
+      api(projects.client.feature.auth.navigation)
     }
   }
 }

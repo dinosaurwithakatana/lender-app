@@ -17,7 +17,7 @@ fun LaunchUi(
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     Button(onClick = {
-
+      navigateToLogin()
     }) {
       Text("Login")
     }

@@ -1,10 +1,8 @@
 package dev.dwak.lender.feature.auth.ui
 
-import androidx.navigation3.runtime.EntryProviderScope
-import androidx.navigation3.runtime.NavKey
-import dev.dwak.lender.app.navigation.core.LenderRoute
-import dev.dwak.lender.app.navigation.core.LenderRouteEntryProvider
-import dev.dwak.lender.app.navigation.core.NavigationSerializers
+import dev.dwak.lender.app.navigation.LenderRoute
+import dev.dwak.lender.app.navigation.LenderRouteEntryProvider
+import dev.dwak.lender.app.navigation.NavigationSerializers
 import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesTo
@@ -20,17 +18,19 @@ interface AuthEntryProvidersProviders {
   @Provides
   @IntoSet
   @SingleIn(AppScope::class)
-  fun entryProviders(): LenderRouteEntryProvider = {
-    entry<AuthRoutes.Launch> {
-      LaunchUi(
-        navigateToLogin = {
+  fun entryProviders(): LenderRouteEntryProvider {
+    return { navigator ->
+      entry<AuthRoutes.Launch> {
+        LaunchUi(
+          navigateToLogin = {
+            navigator.navigate(AuthRoutes.Login)
+          }
+        )
+      }
 
-        }
-      )
-    }
-
-    entry<AuthRoutes.Login> {
-      LoginUi()
+      entry<AuthRoutes.Login> {
+        LoginUi()
+      }
     }
   }
 

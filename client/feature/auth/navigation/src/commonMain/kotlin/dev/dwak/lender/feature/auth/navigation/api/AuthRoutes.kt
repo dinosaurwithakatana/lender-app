@@ -1,8 +1,6 @@
 package dev.dwak.lender.feature.auth.navigation.api
 
-import dev.dwak.lender.app.navigation.core.LenderRoute
-import dev.zacsweers.metro.ContributesIntoSet
-import dev.zacsweers.metro.Inject
+import dev.dwak.lender.app.navigation.LenderRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
