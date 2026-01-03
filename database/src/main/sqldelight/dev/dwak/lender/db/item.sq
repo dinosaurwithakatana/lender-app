@@ -11,5 +11,16 @@ CREATE TABLE dbItem (
 );
 
 insert:
-INSERT INTO dbItem(id, name, owned_by_profile_id, created_at, description)
+INSERT INTO dbItem(id, name, owned_by_profile_id, created_at, description, total_quantity)
 VALUES ?;
+
+delete:
+DELETE FROM dbItem
+WHERE id = ?;
+
+itemOwnedBy:
+SELECT EXISTS(
+    SELECT 1 FROM dbItem
+    WHERE id = :item_id
+    AND owned_by_profile_id = :profile_id
+) AS is_owner;

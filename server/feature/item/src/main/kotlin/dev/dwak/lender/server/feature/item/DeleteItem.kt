@@ -1,9 +1,9 @@
 package dev.dwak.lender.server.feature.item
 
-import dev.dwak.lender.data.modification.item.CreateItem
+import dev.dwak.lender.data.modification.item.DeleteItem
 import dev.dwak.lender.data.modifier.DataModifier
-import dev.dwak.lender.models.api.request.item.ApiCreateItem
-import dev.dwak.lender.models.api.response.ApiCreateItemResponse
+import dev.dwak.lender.models.api.request.item.ApiDeleteItem
+import dev.dwak.lender.models.server.ServerItemId
 import dev.dwak.lender.models.server.UserIdToken
 import dev.dwak.lender.repos.server.ProfileRepo
 import dev.dwak.lender.server.common.AuthenticatedApiRoutes
@@ -21,29 +21,26 @@ import io.ktor.server.routing.RoutingHandler
 @AuthenticatedApiRoutes
 @SingleIn(AppScope::class)
 @ContributesIntoSet(AppScope::class)
-class CreateItem(
+class DeleteItem(
   private val profileRepo: ProfileRepo,
   private val dataModifier: DataModifier,
 ) : LenderRoute {
-  override val method: HttpMethod = HttpMethod.Post
+  override val method: HttpMethod = HttpMethod.Delete
   override val path: String = "/item"
 
   override fun handler(): RoutingHandler = {
     val principal = call.principal<UserIdToken>()!!
-    val req = call.receive<ApiCreateItem>()
-
+    val req = call.receive<ApiDeleteItem>()
     val profileId = profileRepo.getByUserId(principal.userId).id
-    when (val result = dataModifier.submit(
-      CreateItem(
-        name = req.name,
-        description = req.description,
-        quantity = req.quantity,
+    when (dataModifier.submit(
+      DeleteItem(
+        id = ServerItemId(req.id),
         ownedBy = profileId
       )
     )) {
-      is CreateItem.Result.Success -> {
-        call.respond(HttpStatusCode.OK, ApiCreateItemResponse(result.id.id))
-      }
+      DeleteItem.Result.Failure -> call.respond(HttpStatusCode.NotFound)
+      DeleteItem.Result.Success -> call.respond(HttpStatusCode.OK)
+      DeleteItem.Result.Unauthorized -> call.respond(HttpStatusCode.Unauthorized)
     }
   }
 }
