@@ -2,7 +2,7 @@ package dev.dwak.lender.cli
 
 import com.github.ajalt.clikt.command.SuspendingCliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
-import dev.dwak.lender.data.modification.CreateApiKey
+import dev.dwak.lender.data.modification.auth.CreateApiKey
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet

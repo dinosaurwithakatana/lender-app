@@ -24,7 +24,7 @@ class BearerTest(
   override val path: String
     get() = "/test-auth"
 
-  override fun handler(): suspend RoutingContext.() -> Unit = {
+  override fun handler(): RoutingHandler = {
     val userId = call.principal<UserIdPrincipal>()?.name
     val user = userRepo.getUserById(userId!!)
     call.respondText("Hello ${user.email}!")

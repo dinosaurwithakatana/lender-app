@@ -6,6 +6,7 @@ CREATE TABLE dbItem (
     owned_by_profile_id TEXT NOT NULL,
     created_at TEXT AS Instant NOT NULL,
     description TEXT,
+    total_quantity INTEGER NOT NULL DEFAULT 1,
     FOREIGN KEY (owned_by_profile_id) REFERENCES dbProfile(id)
 );
 

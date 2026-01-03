@@ -1,6 +1,6 @@
 package dev.dwak.lender.server.feature.groups
 
-import dev.dwak.lender.data.modification.DeleteGroup
+import dev.dwak.lender.data.modification.group.DeleteGroup
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.models.api.request.group.ApiDeleteGroupRequest
 import dev.dwak.lender.models.server.ServerGroupId
@@ -16,7 +16,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.auth.principal
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
-import io.ktor.server.routing.RoutingContext
+import io.ktor.server.routing.RoutingHandler
 
 @AuthenticatedApiRoutes
 @SingleIn(AppScope::class)
@@ -28,7 +28,7 @@ class DeleteGroup(
   override val method: HttpMethod = HttpMethod.Delete
   override val path: String = "/groups"
 
-  override fun handler(): suspend RoutingContext.() -> Unit = {
+  override fun handler(): RoutingHandler = {
     val req = call.receive<ApiDeleteGroupRequest>()
     val principal = call.principal<UserIdToken>()!!
 

@@ -1,7 +1,9 @@
-package dev.dwak.lender.data.modifier.handler
+package dev.dwak.lender.data.modifier.handler.group
 
-import dev.dwak.lender.data.modification.CreateGroup
+import dev.dwak.lender.data.modification.group.CreateGroup
 import dev.dwak.lender.data.modifier.DataModification
+import dev.dwak.lender.data.modifier.handler.BoundHandler
+import dev.dwak.lender.data.modifier.handler.ModificationKey
 import dev.dwak.lender.db.DbGroup
 import dev.dwak.lender.db.DbGroupMembership
 import dev.dwak.lender.db.DbProfile

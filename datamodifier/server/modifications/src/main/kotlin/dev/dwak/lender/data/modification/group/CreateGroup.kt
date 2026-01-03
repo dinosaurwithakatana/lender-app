@@ -1,4 +1,4 @@
-package dev.dwak.lender.data.modification
+package dev.dwak.lender.data.modification.group
 
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.models.server.ServerGroupId

@@ -1,7 +1,7 @@
 package dev.dwak.lender.server.feature.auth
 
 import dev.dwak.lender.data.modifier.DataModifier
-import dev.dwak.lender.data.modification.LoginUser
+import dev.dwak.lender.data.modification.auth.LoginUser
 import dev.dwak.lender.models.api.request.auth.ApiLoginRequest
 import dev.dwak.lender.models.api.response.ApiLoginSuccessResponse
 import dev.dwak.lender.server.common.ApiRoutes
@@ -25,7 +25,7 @@ class Login(
   override val method: HttpMethod = HttpMethod.Post
   override val path: String = "/login"
 
-  override fun handler(): suspend RoutingContext.() -> Unit = {
+  override fun handler(): RoutingHandler = {
     val loginRequest = call.receive<ApiLoginRequest>()
     when (
       val result = dataModifier.submit(

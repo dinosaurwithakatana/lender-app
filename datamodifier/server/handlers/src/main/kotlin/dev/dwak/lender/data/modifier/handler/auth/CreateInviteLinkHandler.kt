@@ -1,10 +1,11 @@
-package dev.dwak.lender.data.modifier.handler
+package dev.dwak.lender.data.modifier.handler.auth
 
-import dev.dwak.lender.data.modification.CreateInviteLink
+import dev.dwak.lender.data.modification.auth.CreateInviteLink
 import dev.dwak.lender.data.modifier.DataModification
+import dev.dwak.lender.data.modifier.handler.BoundHandler
+import dev.dwak.lender.data.modifier.handler.ModificationKey
 import dev.dwak.lender.db.DbInviteLink
 import dev.dwak.lender.db.DbProfile
-import dev.dwak.lender.db.DbToken
 import dev.dwak.lender.db.InviteLinkQueries
 import dev.dwak.lender.lender_app.generateToken
 import dev.zacsweers.metro.AppScope

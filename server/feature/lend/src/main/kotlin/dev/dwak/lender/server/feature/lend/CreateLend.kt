@@ -6,7 +6,7 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.SingleIn
 import io.ktor.http.HttpMethod
-import io.ktor.server.routing.RoutingContext
+import io.ktor.server.routing.RoutingHandler
 
 @AuthenticatedApiRoutes
 @SingleIn(AppScope::class)
@@ -17,7 +17,7 @@ class CreateLend : LenderRoute {
   override val path: String
     get() = TODO("Not yet implemented")
 
-  override fun handler(): suspend RoutingContext.() -> Unit = {
+  override fun handler(): RoutingHandler = {
     TODO("Not yet implemented")
   }
 }

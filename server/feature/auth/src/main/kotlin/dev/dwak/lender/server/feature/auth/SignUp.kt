@@ -1,6 +1,6 @@
 package dev.dwak.lender.server.feature.auth
 
-import dev.dwak.lender.data.modification.CreateUser
+import dev.dwak.lender.data.modification.auth.CreateUser
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.models.api.request.auth.ApiSignUpRequest
 import dev.dwak.lender.models.api.response.ApiSignupSuccessResponse
@@ -14,7 +14,7 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
-import io.ktor.server.routing.RoutingContext
+import io.ktor.server.routing.RoutingHandler
 
 @ApiRoutes
 @SingleIn(AppScope::class)
@@ -26,7 +26,7 @@ class SignUp(
   override val method: HttpMethod = HttpMethod.Post
   override val path: String = "/signup"
 
-  override fun handler(): suspend RoutingContext.() -> Unit = {
+  override fun handler(): RoutingHandler = {
     val request = call.receive<ApiSignUpRequest>()
 
     if (request.password == request.confirmPassword) {

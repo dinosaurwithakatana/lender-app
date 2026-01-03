@@ -1,9 +1,8 @@
 package dev.dwak.lender.server.feature.auth
 
 import dev.dwak.lender.data.modifier.DataModifier
-import dev.dwak.lender.data.modification.LogoutUser
+import dev.dwak.lender.data.modification.auth.LogoutUser
 import dev.dwak.lender.repos.server.UserRepo
-import dev.dwak.lender.server.common.ApiRoutes
 import dev.dwak.lender.server.common.AuthenticatedApiRoutes
 import dev.dwak.lender.server.common.LenderRoute
 import dev.dwak.lender.models.server.UserIdToken
@@ -13,11 +12,9 @@ import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.auth.UserIdPrincipal
-import io.ktor.server.auth.UserPasswordCredential
 import io.ktor.server.auth.principal
 import io.ktor.server.response.respond
-import io.ktor.server.routing.RoutingContext
+import io.ktor.server.routing.RoutingHandler
 
 @AuthenticatedApiRoutes
 @SingleIn(AppScope::class)
@@ -32,7 +29,7 @@ class Logout(
   override val path: String
     get() = "/logout"
 
-  override fun handler(): suspend RoutingContext.() -> Unit = {
+  override fun handler(): RoutingHandler = {
     val principal = call.principal<UserIdToken>()
 
     when (

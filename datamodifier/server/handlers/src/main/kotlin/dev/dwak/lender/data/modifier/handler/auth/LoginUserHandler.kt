@@ -1,15 +1,16 @@
-package dev.dwak.lender.data.modifier.handler
+package dev.dwak.lender.data.modifier.handler.auth
 
-import dev.dwak.lender.data.modification.CreateUser
-import dev.dwak.lender.data.modification.LoginUser
+import dev.dwak.lender.data.modification.auth.LoginUser
 import dev.dwak.lender.data.modifier.DataModification
+import dev.dwak.lender.data.modifier.handler.BoundHandler
+import dev.dwak.lender.data.modifier.handler.ModificationKey
+import dev.dwak.lender.data.modifier.handler.PasswordVerifier
 import dev.dwak.lender.db.DbToken
 import dev.dwak.lender.db.TokenQueries
 import dev.dwak.lender.db.UserQueries
 import dev.dwak.lender.lender_app.generateToken
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 
 @ContributesIntoMap(

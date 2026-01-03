@@ -96,4 +96,8 @@ interface DatabaseProviders {
   @SingleIn(AppScope::class)
   @Provides
   fun itemGroupAccessQueries(db: Database): ItemGroupAccessQueries = db.itemGroupAccessQueries
+
+  @SingleIn(AppScope::class)
+  @Provides
+  fun itemLendQueries(db: Database): ItemLendQueries = db.itemLendQueries
 }

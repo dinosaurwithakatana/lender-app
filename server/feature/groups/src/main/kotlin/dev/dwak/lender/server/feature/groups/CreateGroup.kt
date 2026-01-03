@@ -1,6 +1,6 @@
 package dev.dwak.lender.server.feature.groups
 
-import dev.dwak.lender.data.modification.CreateGroup
+import dev.dwak.lender.data.modification.group.CreateGroup
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.models.api.request.group.ApiCreateGroupRequest
 import dev.dwak.lender.models.api.response.ApiCreateGroupResponse
@@ -16,7 +16,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.auth.principal
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
-import io.ktor.server.routing.RoutingContext
+import io.ktor.server.routing.RoutingHandler
 
 @AuthenticatedApiRoutes
 @SingleIn(AppScope::class)
@@ -28,7 +28,7 @@ class CreateGroup(
   override val method: HttpMethod = HttpMethod.Post
   override val path: String = "/groups"
 
-  override fun handler(): suspend RoutingContext.() -> Unit = {
+  override fun handler(): RoutingHandler = {
     val req = call.receive<ApiCreateGroupRequest>()
     val principal = call.principal<UserIdToken>()!!
 

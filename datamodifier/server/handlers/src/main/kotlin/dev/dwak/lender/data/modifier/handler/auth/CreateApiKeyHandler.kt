@@ -1,10 +1,11 @@
-package dev.dwak.lender.data.modifier.handler
+package dev.dwak.lender.data.modifier.handler.auth
 
-import dev.dwak.lender.data.modification.CreateApiKey
+import dev.dwak.lender.data.modification.auth.CreateApiKey
 import dev.dwak.lender.data.modifier.DataModification
+import dev.dwak.lender.data.modifier.handler.BoundHandler
+import dev.dwak.lender.data.modifier.handler.ModificationKey
 import dev.dwak.lender.db.ApiKeyQueries
 import dev.dwak.lender.db.DbApiKey
-import dev.dwak.lender.lender_app.generateToken
 import dev.dwak.lender.models.server.ServerApiKey
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
