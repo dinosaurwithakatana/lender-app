@@ -61,6 +61,8 @@ include(
   ":server:app",
   ":server:feature:auth",
   ":server:feature:groups",
+  ":server:feature:item",
+  ":server:feature:lend",
   ":server:feature:profile",
   ":server:common",
   ":shared",

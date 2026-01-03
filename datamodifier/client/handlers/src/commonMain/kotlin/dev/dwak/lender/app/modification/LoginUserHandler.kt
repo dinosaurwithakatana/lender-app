@@ -4,7 +4,7 @@ import dev.dwak.lender.app.network.LoginApi
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
-import dev.dwak.lender.models.api.auth.request.ApiLoginRequest
+import dev.dwak.lender.models.api.request.auth.ApiLoginRequest
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.binding

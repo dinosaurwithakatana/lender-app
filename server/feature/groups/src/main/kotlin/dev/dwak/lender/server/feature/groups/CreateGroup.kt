@@ -2,11 +2,10 @@ package dev.dwak.lender.server.feature.groups
 
 import dev.dwak.lender.data.modification.CreateGroup
 import dev.dwak.lender.data.modifier.DataModifier
-import dev.dwak.lender.models.api.auth.request.ApiCreateGroupRequest
-import dev.dwak.lender.models.api.auth.response.ApiCreateGroupResponse
+import dev.dwak.lender.models.api.request.group.ApiCreateGroupRequest
+import dev.dwak.lender.models.api.response.ApiCreateGroupResponse
 import dev.dwak.lender.models.server.UserIdToken
 import dev.dwak.lender.repos.server.ProfileRepo
-import dev.dwak.lender.server.common.ApiRoutes
 import dev.dwak.lender.server.common.AuthenticatedApiRoutes
 import dev.dwak.lender.server.common.LenderRoute
 import dev.zacsweers.metro.AppScope

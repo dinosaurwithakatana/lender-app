@@ -1,4 +1,4 @@
-package dev.dwak.lender.models.api.auth.response
+package dev.dwak.lender.models.api.response
 
 import kotlinx.serialization.Serializable
 
