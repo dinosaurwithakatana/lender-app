@@ -42,6 +42,11 @@ interface DatabaseProviders {
     dbItemAdapter = DbItem.Adapter(created_atAdapter = instantAdapter),
     dbUserAdapter = DbUser.Adapter(created_atAdapter = instantAdapter),
     dbGroupAdapter = DbGroup.Adapter(created_atAdapter = instantAdapter),
+    dbItemLendAdapter = DbItemLend.Adapter(
+      lend_createdAdapter = instantAdapter,
+      lend_updatedAdapter = instantAdapter(),
+      lend_statusAdapter = EnumColumnAdapter()
+    )
   )
 
   @SingleIn(AppScope::class)

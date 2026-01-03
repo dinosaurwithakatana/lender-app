@@ -1,0 +1,193 @@
+import dev.dwak.lender.db.DbLendStatus;
+import kotlin.time.Instant;
+
+CREATE TABLE dbItemLend (
+    lend_id TEXT AS VALUE NOT NULL PRIMARY KEY,
+    item_id TEXT NOT NULL,
+    group_id TEXT,
+    from_profile_id TEXT NOT NULL,
+    to_profile_id TEXT NOT NULL,
+    lend_created TEXT AS Instant NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    lend_updated TEXT AS Instant NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    lend_status TEXT AS DbLendStatus NOT NULL,
+    FOREIGN KEY (item_id) REFERENCES dbItem(id) ON DELETE CASCADE,
+    FOREIGN KEY (group_id) REFERENCES dbGroup(id) ON DELETE CASCADE,
+    FOREIGN KEY (from_profile_id) REFERENCES dbProfile(id) ON DELETE CASCADE,
+    FOREIGN KEY (to_profile_id) REFERENCES dbProfile(id) ON DELETE CASCADE
+);
+
+-- CREATE
+insertLendRequest:
+INSERT INTO dbItemLend(
+    lend_id,
+    item_id,
+    group_id,
+    from_profile_id,
+    to_profile_id,
+    lend_created,
+    lend_updated,
+    lend_status
+)
+VALUES (?, ?, ?, ?, ?, ?, ?, 'REQUESTED');
+
+getLendById:
+SELECT * FROM dbItemLend
+WHERE lend_id = :lend_id;
+
+updateLendStatus:
+UPDATE dbItemLend
+SET lend_status = :lend_status,
+    lend_updated = :lend_updated
+WHERE lend_id = :lend_id;
+
+deleteLend:
+DELETE FROM dbItemLend
+WHERE lend_id = :lend_id;
+
+getItemsLentByProfile:
+SELECT
+    il.*,
+    i.name AS item_name,
+    i.description AS item_description,
+    p.first_name AS borrower_first_name,
+    p.last_name AS borrower_last_name
+FROM dbItemLend il
+JOIN dbItem i ON il.item_id = i.id
+JOIN dbProfile p ON il.to_profile_id = p.id
+WHERE il.from_profile_id = :profile_id
+AND il.lend_status IN ('APPROVED', 'LENT')
+ORDER BY il.lend_created DESC;
+
+getItemsBorrowedByProfile:
+SELECT
+    il.*,
+    i.name AS item_name,
+    i.description AS item_description,
+    p.first_name AS lender_first_name,
+    p.last_name AS lender_last_name
+FROM dbItemLend il
+JOIN dbItem i ON il.item_id = i.id
+JOIN dbProfile p ON il.from_profile_id = p.id
+WHERE il.to_profile_id = :profile_id
+AND il.lend_status IN ('APPROVED', 'LENT')
+ORDER BY il.lend_created DESC;
+
+getActiveLendsForProfile:
+SELECT
+    il.*,
+    i.name AS item_name,
+    CASE
+        WHEN il.from_profile_id = :profile_id THEN 'LENDER'
+        ELSE 'BORROWER'
+    END AS role
+FROM dbItemLend il
+JOIN dbItem i ON il.item_id = i.id
+WHERE (il.from_profile_id = :profile_id OR il.to_profile_id = :profile_id)
+AND il.lend_status IN ('REQUESTED', 'APPROVED', 'LENT')
+ORDER BY il.lend_created DESC;
+
+getIncomingLendRequests:
+SELECT
+    il.*,
+    i.name AS item_name,
+    i.description AS item_description,
+    p.first_name AS requester_first_name,
+    p.last_name AS requester_last_name,
+    p.id AS requester_profile_id
+FROM dbItemLend il
+JOIN dbItem i ON il.item_id = i.id
+JOIN dbProfile p ON il.to_profile_id = p.id
+WHERE il.from_profile_id = :profile_id
+AND il.lend_status = 'REQUESTED'
+ORDER BY il.lend_created DESC;
+
+getOutgoingLendRequests:
+SELECT
+    il.*,
+    i.name AS item_name,
+    i.description AS item_description,
+    p.first_name AS lender_first_name,
+    p.last_name AS lender_last_name,
+    p.id AS lender_profile_id
+FROM dbItemLend il
+JOIN dbItem i ON il.item_id = i.id
+JOIN dbProfile p ON il.from_profile_id = p.id
+WHERE il.to_profile_id = :profile_id
+AND il.lend_status = 'REQUESTED'
+ORDER BY il.lend_created DESC;
+
+getApprovedLends:
+SELECT
+    il.*,
+    i.name AS item_name,
+    p1.first_name AS lender_first_name,
+    p1.last_name AS lender_last_name,
+    p2.first_name AS borrower_first_name,
+    p2.last_name AS borrower_last_name
+FROM dbItemLend il
+JOIN dbItem i ON il.item_id = i.id
+JOIN dbProfile p1 ON il.from_profile_id = p1.id
+JOIN dbProfile p2 ON il.to_profile_id = p2.id
+WHERE il.lend_status = 'APPROVED'
+ORDER BY il.lend_created DESC;
+
+getCurrentlyLentItems:
+SELECT
+    il.*,
+    i.name AS item_name,
+    p1.first_name AS lender_first_name,
+    p1.last_name AS lender_last_name,
+    p2.first_name AS borrower_first_name,
+    p2.last_name AS borrower_last_name
+FROM dbItemLend il
+JOIN dbItem i ON il.item_id = i.id
+JOIN dbProfile p1 ON il.from_profile_id = p1.id
+JOIN dbProfile p2 ON il.to_profile_id = p2.id
+WHERE il.lend_status = 'LENT'
+ORDER BY il.lend_created DESC;
+
+getDeniedRequests:
+SELECT
+    il.*,
+    i.name AS item_name,
+    p1.first_name AS lender_first_name,
+    p2.first_name AS borrower_first_name
+FROM dbItemLend il
+JOIN dbItem i ON il.item_id = i.id
+JOIN dbProfile p1 ON il.from_profile_id = p1.id
+JOIN dbProfile p2 ON il.to_profile_id = p2.id
+WHERE il.lend_status = 'DENIED'
+ORDER BY il.lend_updated DESC;
+
+approveLendRequest:
+UPDATE dbItemLend
+SET lend_status = 'APPROVED',
+    lend_updated = :lend_updated
+WHERE lend_id = :lend_id
+AND lend_status = 'REQUESTED';
+
+denyLendRequest:
+UPDATE dbItemLend
+SET lend_status = 'DENIED',
+    lend_updated = :lend_updated
+WHERE lend_id = :lend_id
+AND lend_status = 'REQUESTED';
+
+markAsLent:
+UPDATE dbItemLend
+SET lend_status = 'LENT',
+    lend_updated = :lend_updated
+WHERE lend_id = :lend_id
+AND lend_status = 'APPROVED';
+
+markAsReturned:
+UPDATE dbItemLend
+SET lend_status = 'RETURNED',
+    lend_updated = :lend_updated
+WHERE lend_id = :lend_id
+AND lend_status = 'LENT';
+
+cancelLendRequest:
+DELETE FROM dbItemLend
+WHERE lend_id = :lend_id
+AND lend_status = 'REQUESTED';

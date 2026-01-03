@@ -5,9 +5,10 @@ CREATE TABLE dbItem (
     name TEXT NOT NULL,
     owned_by_profile_id TEXT NOT NULL,
     created_at TEXT AS Instant NOT NULL,
+    description TEXT,
     FOREIGN KEY (owned_by_profile_id) REFERENCES dbProfile(id)
 );
 
 insert:
-INSERT INTO dbItem(id, name, owned_by_profile_id, created_at)
+INSERT INTO dbItem(id, name, owned_by_profile_id, created_at, description)
 VALUES ?;
