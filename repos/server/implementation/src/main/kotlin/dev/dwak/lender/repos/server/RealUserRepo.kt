@@ -44,8 +44,8 @@ class RealUserRepo(
     }.executeAsOne()
   }
 
-  override suspend fun getUserById(id: String): ServerUser = userQueries
-    .getById(DbUser.Id(id)) { id, email, password, created_at ->
+  override suspend fun getUserById(id: ServerUserId): ServerUser = userQueries
+    .getById(DbUser.Id(id.id)) { id, email, password, created_at ->
       ServerUser(
         id = ServerUserId(id.id),
         email = email,

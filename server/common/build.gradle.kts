@@ -8,6 +8,7 @@ plugins {
 }
 
 dependencies {
+  implementation(projects.models.server)
   implementation(libs.ktor.serverCore)
   testImplementation(libs.ktor.serverTestHost)
   testImplementation(libs.kotlin.testJunit)

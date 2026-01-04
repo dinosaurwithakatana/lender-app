@@ -1,21 +1,20 @@
 package dev.dwak.lender.server.feature.auth
 
-import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.data.modification.auth.LoginUser
+import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.models.api.request.auth.ApiLoginRequest
 import dev.dwak.lender.models.api.response.ApiLoginSuccessResponse
-import dev.dwak.lender.server.common.ApiRoutes
 import dev.dwak.lender.server.common.LenderRoute
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
-import io.ktor.http.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.request.receive
+import io.ktor.server.response.respond
+import io.ktor.server.routing.RoutingHandler
 
-@ApiRoutes
 @SingleIn(AppScope::class)
 @ContributesIntoSet(AppScope::class)
 @Inject

@@ -1,10 +1,9 @@
 package dev.dwak.lender
 
 import dev.dwak.lender.lender_app.coroutines.Io
-import dev.dwak.lender.server.common.ApiRoutes
-import dev.dwak.lender.server.common.AuthenticatedApiRoutes
-import dev.dwak.lender.server.common.LenderRoute
 import dev.dwak.lender.repos.server.UserRepo
+import dev.dwak.lender.server.common.AuthenticatedLenderRoute
+import dev.dwak.lender.server.common.LenderRoute
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.DependencyGraph
 import dev.zacsweers.metro.Provides
@@ -16,11 +15,8 @@ import kotlinx.coroutines.Dispatchers
 )
 interface ServerGraph {
 
-  @ApiRoutes
   val apiRoutes: Set<LenderRoute>
-
-  @AuthenticatedApiRoutes
-  val authenticatedApiRoutes: Set<LenderRoute>
+  val authenticatedApiRoutes: Set<AuthenticatedLenderRoute>
 
   val apiKeyPlugin: ApiKeyPlugin
 

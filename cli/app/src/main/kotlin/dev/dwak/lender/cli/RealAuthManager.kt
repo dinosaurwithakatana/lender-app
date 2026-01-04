@@ -2,6 +2,7 @@ package dev.dwak.lender.cli
 
 import dev.dwak.lender.data.modification.auth.LoginUser
 import dev.dwak.lender.data.modifier.DataModifier
+import dev.dwak.lender.lender_app.coroutines.Io
 import dev.dwak.lender.models.cli.CliProfile
 import dev.dwak.lender.models.server.ServerProfile
 import dev.dwak.lender.repos.server.ProfileRepo
@@ -9,6 +10,8 @@ import dev.dwak.lender.repos.server.UserRepo
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import java.io.File
 
@@ -19,12 +22,13 @@ class RealAuthManager(
   private val dataModifier: DataModifier,
   private val profileRepo: ProfileRepo,
   private val userRepo: UserRepo,
+  @Io private val ioDispatcher: CoroutineDispatcher
 ) : AuthManager {
   private val loginStore by lazy { File(appDir, "profile.json") }
   override suspend fun login(
     email: String,
     password: String
-  ): Result<Unit> {
+  ): Result<Unit> = withContext(ioDispatcher) {
     when (val result = dataModifier.submit(
       LoginUser(
         email = email,
@@ -32,7 +36,7 @@ class RealAuthManager(
       )
     )) {
       is LoginUser.Result.Failure -> {
-        return Result.failure(Exception("Login failure"))
+        Result.failure(Exception("Login failure"))
       }
 
       is LoginUser.Result.Success -> {
@@ -49,7 +53,7 @@ class RealAuthManager(
         loginStore.writeText(
           Json.encodeToString(cliProfile)
         )
-        return Result.success(Unit)
+        Result.success(Unit)
       }
     }
   }
@@ -64,11 +68,10 @@ class RealAuthManager(
     return loginStore.exists()
   }
 
-  override suspend fun currentProfile(): CliProfile {
+  override suspend fun currentProfile(): CliProfile = withContext(ioDispatcher) {
     if (loginStore.exists()) {
-      return Json.decodeFromString<CliProfile>(loginStore.readText())
-    }
-    else {
+      Json.decodeFromString<CliProfile>(loginStore.readText())
+    } else {
       error("Not logged in!")
     }
   }

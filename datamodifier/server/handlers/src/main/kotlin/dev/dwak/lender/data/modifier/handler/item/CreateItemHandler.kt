@@ -24,7 +24,7 @@ class CreateItemHandler(
 ) : DataModification.Handler<CreateItem.Result, CreateItem> {
   @OptIn(ExperimentalUuidApi::class)
   override suspend fun handle(mod: CreateItem): CreateItem.Result {
-    val itemID = DbItem.Id(Uuid.Companion.generateV4().toString())
+    val itemID = DbItem.Id(Uuid.generateV4().toString())
     itemQueries.insert(
       dbItem = DbItem(
           id = itemID,

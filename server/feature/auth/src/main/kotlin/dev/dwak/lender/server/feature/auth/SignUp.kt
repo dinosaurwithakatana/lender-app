@@ -4,7 +4,6 @@ import dev.dwak.lender.data.modification.auth.CreateUser
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.models.api.request.auth.ApiSignUpRequest
 import dev.dwak.lender.models.api.response.ApiSignupSuccessResponse
-import dev.dwak.lender.server.common.ApiRoutes
 import dev.dwak.lender.server.common.LenderRoute
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
@@ -16,7 +15,6 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.RoutingHandler
 
-@ApiRoutes
 @SingleIn(AppScope::class)
 @ContributesIntoSet(AppScope::class)
 @Inject
