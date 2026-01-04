@@ -1,6 +1,7 @@
 plugins {
   alias(libs.plugins.kotlinJvm)
   alias(libs.plugins.metro)
+  alias(libs.plugins.kotlinxSerialization)
   application
 }
 
@@ -10,6 +11,7 @@ application {
 }
 
 dependencies {
+  implementation(projects.models.cli)
   implementation(projects.cli.commands)
 
   implementation(projects.datamodifier.implementation)
@@ -21,4 +23,5 @@ dependencies {
   implementation(projects.repos.server.implementation)
 
   implementation(libs.clikt)
+  implementation(libs.kotlinx.serialization.json)
 }

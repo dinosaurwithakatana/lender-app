@@ -53,6 +53,7 @@ include(
   ":datamodifier:server:modifications",
   ":datamodifier:server:handlers",
   ":models:api",
+  ":models:cli",
   ":models:server",
   ":client:network",
   ":repos:client:api",

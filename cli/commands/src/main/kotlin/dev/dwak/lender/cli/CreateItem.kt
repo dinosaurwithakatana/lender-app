@@ -3,10 +3,10 @@ package dev.dwak.lender.cli
 import com.github.ajalt.clikt.command.SuspendingCliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
-import dev.dwak.lender.data.modification.group.CreateGroup
+import com.github.ajalt.clikt.parameters.types.int
+import dev.dwak.lender.data.modification.item.CreateItem
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.models.server.ServerProfileId
-import dev.dwak.lender.repos.server.ProfileRepo
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.binding
@@ -15,19 +15,27 @@ import dev.zacsweers.metro.binding
   scope = AppScope::class,
   binding = binding<SuspendingCliktCommand>()
 )
-class CreateGroup(
-  private val authManager: AuthManager,
+class CreateItem(
   private val dataModifier: DataModifier,
-  private val profileRepo: ProfileRepo
+  private val authManager: AuthManager
 ) : AuthCheckSuspendingCliktCommand(authManager) {
-  val groupName by option().prompt()
+
+  val name by option().prompt()
+  val description: String? by option().prompt()
+  val quantity by option().int().prompt(default = 1)
 
   override suspend fun runWithAuthCheck() {
-    dataModifier.submit(
-      CreateGroup(
-        name = groupName,
-        owner = ServerProfileId(authManager.currentProfile().id)
+    when (val result = dataModifier.submit(
+      CreateItem(
+        name = name,
+        description = description,
+        quantity = quantity,
+        ownedBy = ServerProfileId(authManager.currentProfile().id)
       )
-    )
+    )) {
+      is CreateItem.Result.Success -> {
+        echo("Item $name created")
+      }
+    }
   }
 }

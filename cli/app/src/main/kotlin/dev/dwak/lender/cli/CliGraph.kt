@@ -11,6 +11,8 @@ import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import java.io.File
+
 
 @DependencyGraph(AppScope::class)
 interface CliGraph {
@@ -34,6 +36,16 @@ interface CliGraph {
   @Provides
   @Io
   fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+  @Provides
+  fun dataDirectory(): File {
+    val userHome = System.getProperty("user.home")
+    val localStorageDir = File(userHome, ".config/lender-cli")
+    if (!localStorageDir.exists()) {
+      localStorageDir.mkdir();
+    }
+    return localStorageDir
+  }
 
   @DependencyGraph.Factory
   fun interface Factory {

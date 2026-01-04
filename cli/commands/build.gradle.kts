@@ -8,6 +8,7 @@ metro {
 }
 
 dependencies {
+  implementation(projects.models.cli)
   implementation(projects.datamodifier.api)
   implementation(projects.datamodifier.server.modifications)
 
