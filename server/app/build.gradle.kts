@@ -17,6 +17,13 @@ application {
   applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
+ktor {
+  docker {
+    jreVersion.set(JavaVersion.valueOf("VERSION_${libs.versions.java.get()}"))
+    localImageName.set("lender-api-server")
+  }
+}
+
 metro {
   enableTopLevelFunctionInjection.set(true)
 }
