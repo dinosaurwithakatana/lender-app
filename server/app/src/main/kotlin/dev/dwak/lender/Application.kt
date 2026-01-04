@@ -63,7 +63,7 @@ fun Application.module(graph: ServerGraph) {
 
   routing {
     route("/api") {
-      install(graph.apiKeyPlugin.plugin) { headerName = "X-API-Key" }
+      install(graph.apiKeyPlugin.plugin)
       apiRoutes(graph.apiRoutes)
 
       authenticate("bearer") {
