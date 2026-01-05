@@ -24,3 +24,13 @@ SELECT EXISTS(
     WHERE id = :item_id
     AND owned_by_profile_id = :profile_id
 ) AS is_owner;
+
+itemExists:
+SELECT EXISTS(
+SELECT 1 FROM dbItem
+WHERE id = :item_id
+);
+
+itemsForProfile:
+SELECT * FROM dbItem
+WHERE owned_by_profile_id = ?;

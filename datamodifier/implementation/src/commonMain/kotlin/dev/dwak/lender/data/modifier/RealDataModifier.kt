@@ -22,7 +22,9 @@ class RealDataModifier(
     withContext(dispatcher) {
       Napier.d { "Received: $mod" }
       @Suppress("UNCHECKED_CAST")
-      (handlerMap[mod::class] as Provider<DataModification.Handler<R, DataModification<R>>>)()
+      val res  = (handlerMap[mod::class] as Provider<DataModification.Handler<R, DataModification<R>>>)()
         .handle(mod)
+      Napier.d { "Returned: $res" }
+      res
     }
 }

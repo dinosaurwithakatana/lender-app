@@ -46,6 +46,9 @@ interface DatabaseProviders {
       lend_createdAdapter = instantAdapter,
       lend_updatedAdapter = instantAdapter(),
       lend_statusAdapter = EnumColumnAdapter()
+    ),
+    dbItemGroupAccessAdapter = DbItemGroupAccess.Adapter(
+      granted_atAdapter = instantAdapter
     )
   )
 

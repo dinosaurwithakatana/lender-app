@@ -33,3 +33,9 @@ updateName:
 UPDATE dbGroup
 SET name = ?
 WHERE id = ?;
+
+exists:
+SELECT EXISTS(
+SELECT 1 FROM dbGroup
+WHERE id = ?
+);
