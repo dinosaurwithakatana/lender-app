@@ -23,6 +23,7 @@ class CreateItem(
   val name by option().prompt()
   val description: String? by option().prompt()
   val quantity by option().int().prompt(default = 1)
+  val forProfile by option()
 
   override suspend fun runWithAuthCheck() {
     when (val result = dataModifier.submit(
@@ -30,7 +31,7 @@ class CreateItem(
         name = name,
         description = description,
         quantity = quantity,
-        ownedBy = ServerProfileId(authManager.currentProfile().id)
+        ownedBy = ServerProfileId(if (forProfile != null) forProfile!! else authManager.currentProfile().id)
       )
     )) {
       is CreateItem.Result.Success -> {

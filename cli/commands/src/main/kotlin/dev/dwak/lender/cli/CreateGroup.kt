@@ -18,15 +18,15 @@ import dev.zacsweers.metro.binding
 class CreateGroup(
   private val authManager: AuthManager,
   private val dataModifier: DataModifier,
-  private val profileRepo: ProfileRepo
 ) : AuthCheckSuspendingCliktCommand(authManager) {
   val groupName by option().prompt()
+  val forProfile by option()
 
   override suspend fun runWithAuthCheck() {
     dataModifier.submit(
       CreateGroup(
         name = groupName,
-        owner = ServerProfileId(authManager.currentProfile().id)
+        owner = ServerProfileId(if (forProfile != null) forProfile!! else authManager.currentProfile().id)
       )
     )
   }

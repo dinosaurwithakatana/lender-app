@@ -24,15 +24,20 @@ class ShareItem(
   val groupId by option().required()
 
   override suspend fun runWithAuthCheck() {
-    when (val result = dataModifier.submit(ShareItem(
-      itemId = ServerItemId(itemId),
-      groupId = ServerGroupId(groupId),
-      profileId = ServerProfileId(authManager.currentProfile().id)
-    ))) {
+    when (val result = dataModifier.submit(
+      ShareItem(
+        itemId = ServerItemId(itemId),
+        groupId = ServerGroupId(groupId),
+        profileId = ServerProfileId(authManager.currentProfile().id)
+      )
+    )) {
       ShareItem.Result.GroupNotFound,
       ShareItem.Result.ItemNotFound,
       ShareItem.Result.Unauthorized,
-      ShareItem.Result.UnknownError -> {echo("error")}
+      ShareItem.Result.UnknownError -> {
+        echo("error $result")
+      }
+
       ShareItem.Result.Success -> echo("Successfully shared!")
     }
   }

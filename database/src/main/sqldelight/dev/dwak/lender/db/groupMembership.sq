@@ -33,6 +33,7 @@ SELECT EXISTS (
     SELECT 1 FROM dbGroupMembership
     WHERE profile_id = :profile_id
     AND group_id = :group_id
+    AND status != 'REQUESTED'
 ) AS is_member;
 
 getGroupsWhereOwner:
