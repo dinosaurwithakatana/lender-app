@@ -17,7 +17,7 @@ import dev.zacsweers.metro.binding
   binding = binding<SuspendingCliktCommand>()
 )
 class ShareItem(
-  private val authManager: AuthManager,
+  authManager: AuthManager,
   private val dataModifier: DataModifier,
 ) : AuthCheckSuspendingCliktCommand(authManager) {
   val itemId by option().required()
@@ -28,7 +28,7 @@ class ShareItem(
       ShareItem(
         itemId = ServerItemId(itemId),
         groupId = ServerGroupId(groupId),
-        profileId = ServerProfileId(authManager.currentProfile().id)
+        profileId = profileId
       )
     )) {
       ShareItem.Result.GroupNotFound,

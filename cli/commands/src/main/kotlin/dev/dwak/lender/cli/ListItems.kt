@@ -1,8 +1,6 @@
 package dev.dwak.lender.cli
 
 import com.github.ajalt.clikt.command.SuspendingCliktCommand
-import com.github.ajalt.clikt.parameters.options.option
-import dev.dwak.lender.models.server.ServerProfileId
 import dev.dwak.lender.repos.server.ItemRepo
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
@@ -13,18 +11,14 @@ import dev.zacsweers.metro.binding
   binding = binding<SuspendingCliktCommand>()
 )
 class ListItems(
-  private val authManager: AuthManager,
+  authManager: AuthManager,
   private val itemRepo: ItemRepo,
 ) : AuthCheckSuspendingCliktCommand(authManager) {
-  val forProfile by option()
 
   override suspend fun runWithAuthCheck() {
     echo(
       itemRepo.getItemsForProfile(
-        ServerProfileId(
-          if (forProfile != null) forProfile!!
-          else authManager.currentProfile().id
-        )
+        profileId
       ).joinToString("\n")
     )
   }

@@ -16,14 +16,15 @@ import dev.zacsweers.metro.binding
   binding = binding<SuspendingCliktCommand>()
 )
 class DeleteItem(
-  private val authManager: AuthManager,
+  authManager: AuthManager,
   private val dataModifier: DataModifier
 ): AuthCheckSuspendingCliktCommand(authManager) {
   val itemId by option().required()
+
   override suspend fun runWithAuthCheck() {
     when (val result = dataModifier.submit(DeleteItem(
       id = ServerItemId(itemId),
-      ownedBy = ServerProfileId(authManager.currentProfile().id)
+      ownedBy = profileId
     ))) {
       DeleteItem.Result.Failure,
       DeleteItem.Result.Unauthorized -> echo("error: $result")

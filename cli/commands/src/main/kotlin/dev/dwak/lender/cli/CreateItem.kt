@@ -17,13 +17,12 @@ import dev.zacsweers.metro.binding
 )
 class CreateItem(
   private val dataModifier: DataModifier,
-  private val authManager: AuthManager
+  authManager: AuthManager
 ) : AuthCheckSuspendingCliktCommand(authManager) {
 
   val name by option().prompt()
   val description: String? by option().prompt()
   val quantity by option().int().prompt(default = 1)
-  val forProfile by option()
 
   override suspend fun runWithAuthCheck() {
     when (val result = dataModifier.submit(
@@ -31,7 +30,7 @@ class CreateItem(
         name = name,
         description = description,
         quantity = quantity,
-        ownedBy = ServerProfileId(if (forProfile != null) forProfile!! else authManager.currentProfile().id)
+        ownedBy = profileId
       )
     )) {
       is CreateItem.Result.Success -> {
