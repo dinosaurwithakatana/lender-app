@@ -10,6 +10,7 @@ plugins {
 dependencies {
   implementation(projects.models.server)
   implementation(libs.ktor.serverCore)
+  implementation(libs.ktor.serverAuth)
   testImplementation(libs.ktor.serverTestHost)
   testImplementation(libs.kotlin.testJunit)
 }

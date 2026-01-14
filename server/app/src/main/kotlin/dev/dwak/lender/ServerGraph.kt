@@ -16,7 +16,6 @@ import kotlinx.coroutines.Dispatchers
 interface ServerGraph {
 
   val apiRoutes: Set<LenderRoute>
-  val authenticatedApiRoutes: Set<AuthenticatedLenderRoute>
 
   val apiKeyPlugin: ApiKeyPlugin
 

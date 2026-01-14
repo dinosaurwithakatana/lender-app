@@ -5,6 +5,7 @@ import dev.dwak.lender.lender_app.SERVER_PORT
 import dev.dwak.lender.models.server.ServerToken
 import dev.dwak.lender.models.server.UserIdToken
 import dev.dwak.lender.server.common.AuthenticatedLenderRoute
+import dev.dwak.lender.server.common.AuthenticatedTypedLenderRoute
 import dev.dwak.lender.server.common.LenderRoute
 import dev.zacsweers.metro.createGraph
 import io.github.aakira.napier.DebugAntilog
@@ -64,10 +65,15 @@ fun Application.module(graph: ServerGraph) {
   routing {
     route("/api") {
       install(graph.apiKeyPlugin.plugin)
-      apiRoutes(graph.apiRoutes)
+      apiRoutes(graph.apiRoutes.filterNot {
+        it is AuthenticatedLenderRoute || it is AuthenticatedTypedLenderRoute<*>
+      }.toSet())
+
 
       authenticate("bearer") {
-        authenticatedApiRoutes(graph.authenticatedApiRoutes)
+        apiRoutes(graph.apiRoutes.filter {
+          it is AuthenticatedLenderRoute || it is AuthenticatedTypedLenderRoute<*>
+        }.toSet())
       }
     }
     get("/") {
@@ -81,19 +87,11 @@ fun Route.apiRoutes(routes: Set<LenderRoute>) {
     route(
       path = route.path,
       method = route.method,
-      build = { handle(route.handler()) },
-    )
-  }
-}
-
-fun Route.authenticatedApiRoutes(routes: Set<AuthenticatedLenderRoute>) {
-  routes.forEach { route ->
-    route(
-      path = route.path,
-      method = route.method,
       build = {
         handle {
-          route.handler(call.principal<UserIdToken>()!!)(this)
+          with(this.call) {
+            route.routeHandler()
+          }
         }
       },
     )

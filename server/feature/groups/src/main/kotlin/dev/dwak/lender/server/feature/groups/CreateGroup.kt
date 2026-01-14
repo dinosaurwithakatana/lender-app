@@ -7,31 +7,38 @@ import dev.dwak.lender.models.api.response.ApiCreateGroupResponse
 import dev.dwak.lender.models.server.UserIdToken
 import dev.dwak.lender.repos.server.ProfileRepo
 import dev.dwak.lender.server.common.AuthenticatedLenderRoute
+import dev.dwak.lender.server.common.AuthenticatedTypedLenderRoute
+import dev.dwak.lender.server.common.LenderRoute
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.SingleIn
+import dev.zacsweers.metro.binding
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.ApplicationCall
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.RoutingHandler
+import io.ktor.util.reflect.TypeInfo
+import io.ktor.util.reflect.typeInfo
 
 @SingleIn(AppScope::class)
-@ContributesIntoSet(AppScope::class)
+@ContributesIntoSet(AppScope::class, binding = binding<LenderRoute>())
 class CreateGroup(
   private val dataModifier: DataModifier,
   private val profileRepo: ProfileRepo,
-) : AuthenticatedLenderRoute {
+) : AuthenticatedTypedLenderRoute<ApiCreateGroupRequest> {
   override val method: HttpMethod = HttpMethod.Post
   override val path: String = "/groups"
 
-  override fun handler(principal: UserIdToken): RoutingHandler = {
-    val req = call.receive<ApiCreateGroupRequest>()
+  override val requestType: TypeInfo = typeInfo<ApiCreateGroupRequest>()
 
+  context(call: ApplicationCall)
+  override suspend fun handle(request: ApiCreateGroupRequest, principal: UserIdToken) {
     when (
       val result = dataModifier.submit(
         CreateGroup(
-          name = req.name,
+          name = request.name,
           owner = profileRepo.getByUserId(principal.userId).id
         )
       )) {

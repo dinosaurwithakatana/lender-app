@@ -2,17 +2,53 @@ package dev.dwak.lender.server.common
 
 import dev.dwak.lender.models.server.UserIdToken
 import io.ktor.http.*
-import io.ktor.server.routing.*
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.auth.principal
+import io.ktor.server.request.receive
+import io.ktor.util.reflect.TypeInfo
+import io.ktor.util.reflect.typeInfo
 
 interface LenderRoute {
   val method: HttpMethod
   val path: String
-  fun handler(): RoutingHandler
+  val requestType: TypeInfo
+
+  context(call: ApplicationCall)
+  suspend fun routeHandler()
 }
 
-interface AuthenticatedLenderRoute {
-  val method: HttpMethod
-  val path: String
+interface TypedLenderRoute<T : Any> : LenderRoute {
+  override val requestType: TypeInfo
 
-  fun handler(principal: UserIdToken): RoutingHandler
+  context(call: ApplicationCall)
+  suspend fun handle(request: T)
+
+  context(call: ApplicationCall)
+  override suspend fun routeHandler() {
+    val request = call.receive<T>(requestType)
+    handle(request)
+  }
+}
+
+interface AuthenticatedLenderRoute : LenderRoute {
+  override val requestType: TypeInfo
+    get() = typeInfo<Unit>()
+
+  context(call: ApplicationCall)
+  suspend fun handle(principal: UserIdToken)
+
+  context(call: ApplicationCall)
+  override suspend fun routeHandler() {
+    handle(call.principal<UserIdToken>()!!)
+  }
+}
+
+interface AuthenticatedTypedLenderRoute<T : Any> : TypedLenderRoute<T> {
+  context(call: ApplicationCall)
+  suspend fun handle(request: T, principal: UserIdToken)
+
+  context(call: ApplicationCall)
+  override suspend fun handle(request: T) {
+    handle(request, call.principal<UserIdToken>()!!)
+  }
 }
