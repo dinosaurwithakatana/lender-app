@@ -2,16 +2,13 @@ package dev.dwak.lender.data.modification.auth
 
 import dev.dwak.lender.data.modifier.DataModification
 
-data class CreateAdminUser(
+data class LoginUserMod(
   val email: String,
-  val password: String,
-  val firstName: String,
-  val lastName: String,
-) : DataModification<CreateAdminUser.Result> {
+  val password: String
+) : DataModification<LoginUserMod.Result> {
   sealed interface Result : DataModification.Result {
     data class Success(val token: String) : Result
-    data object InvalidPassword : Result
-    data object InvalidEmail : Result
+    data class Failure(val error: String) : Result
   }
 }
 

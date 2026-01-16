@@ -1,6 +1,6 @@
 package dev.dwak.lender.data.modifier.handler.auth
 
-import dev.dwak.lender.data.modification.auth.CreateApiKey
+import dev.dwak.lender.data.modification.auth.CreateApiKeyMod
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
@@ -15,13 +15,13 @@ import kotlin.uuid.Uuid
 
 @ContributesIntoMap(
   scope = AppScope::class,
-  binding = binding<@ModificationKey(CreateApiKey::class) BoundHandler>()
+  binding = binding<@ModificationKey(CreateApiKeyMod::class) BoundHandler>()
 )
 class CreateApiKeyHandler(
   private val apiKeyQueries: ApiKeyQueries
-) : DataModification.Handler<CreateApiKey.Result, CreateApiKey> {
+) : DataModification.Handler<CreateApiKeyMod.Result, CreateApiKeyMod> {
   @OptIn(ExperimentalUuidApi::class)
-  override suspend fun handle(mod: CreateApiKey): CreateApiKey.Result {
+  override suspend fun handle(mod: CreateApiKeyMod): CreateApiKeyMod.Result {
     val apiKey: String = Uuid.generateV4().toHexString()
     apiKeyQueries.insertKey(
       DbApiKey(
@@ -30,6 +30,6 @@ class CreateApiKeyHandler(
       )
     )
 
-    return CreateApiKey.Result.Success(ServerApiKey(apiKey))
+    return CreateApiKeyMod.Result.Success(ServerApiKey(apiKey))
   }
 }

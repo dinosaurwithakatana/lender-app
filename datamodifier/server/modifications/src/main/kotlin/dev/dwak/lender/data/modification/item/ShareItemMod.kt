@@ -5,11 +5,11 @@ import dev.dwak.lender.models.server.ServerGroupId
 import dev.dwak.lender.models.server.ServerItemId
 import dev.dwak.lender.models.server.ServerProfileId
 
-data class ShareItem(
+data class ShareItemMod(
   val itemId: ServerItemId,
   val groupId: ServerGroupId,
   val profileId: ServerProfileId
-): DataModification<ShareItem.Result> {
+): DataModification<ShareItemMod.Result> {
   sealed interface Result: DataModification.Result {
     data object Success: Result
     data object Unauthorized: Result

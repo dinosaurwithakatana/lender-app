@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import com.github.ajalt.clikt.parameters.types.int
-import dev.dwak.lender.data.modification.auth.CreateInviteLink
+import dev.dwak.lender.data.modification.auth.CreateInviteLinkMod
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.repos.server.ProfileRepo
 import dev.zacsweers.metro.AppScope
@@ -25,13 +25,13 @@ class CreateInviteLink(
 
   override suspend fun run() {
     when (val result = dataModifier.submit(
-      CreateInviteLink(
+      CreateInviteLinkMod(
         name = name,
         createdByProfileId = profileRepo.getByEmail(invitingEmail).id,
         expiresOn = Clock.System.now().plus(expirationDays.days)
       )
     )) {
-      is CreateInviteLink.Result.Success -> {
+      is CreateInviteLinkMod.Result.Success -> {
         echo("Successfully created invite link: $result")
       }
     }

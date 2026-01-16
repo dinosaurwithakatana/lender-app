@@ -1,12 +1,11 @@
 package dev.dwak.lender.server.feature.item
 
-import dev.dwak.lender.data.modification.item.CreateItem
+import dev.dwak.lender.data.modification.item.DeleteItemMod
 import dev.dwak.lender.data.modifier.DataModifier
-import dev.dwak.lender.models.api.request.item.ApiCreateItem
-import dev.dwak.lender.models.api.response.ApiCreateItemResponse
+import dev.dwak.lender.models.api.request.item.ApiDeleteItem
+import dev.dwak.lender.models.server.ServerItemId
 import dev.dwak.lender.models.server.UserIdToken
 import dev.dwak.lender.repos.server.ProfileRepo
-import dev.dwak.lender.server.common.AuthenticatedLenderRoute
 import dev.dwak.lender.server.common.AuthenticatedTypedLenderRoute
 import dev.dwak.lender.server.common.LenderRoute
 import dev.zacsweers.metro.AppScope
@@ -16,37 +15,33 @@ import dev.zacsweers.metro.binding
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
-import io.ktor.server.request.receive
 import io.ktor.server.response.respond
-import io.ktor.server.routing.RoutingHandler
 import io.ktor.util.reflect.TypeInfo
 import io.ktor.util.reflect.typeInfo
 
 @SingleIn(AppScope::class)
 @ContributesIntoSet(AppScope::class, binding = binding<LenderRoute>())
-class CreateItem(
+class DeleteItemRoute(
   private val profileRepo: ProfileRepo,
   private val dataModifier: DataModifier,
-) : AuthenticatedTypedLenderRoute<ApiCreateItem> {
-  override val method: HttpMethod = HttpMethod.Post
+) : AuthenticatedTypedLenderRoute<ApiDeleteItem> {
+  override val method: HttpMethod = HttpMethod.Delete
   override val path: String = "/item"
-  override val requestType: TypeInfo = typeInfo<Unit>()
+  override val requestType: TypeInfo
+    get() = typeInfo<ApiDeleteItem>()
 
   context(call: ApplicationCall)
-  override suspend fun handle(request: ApiCreateItem, principal: UserIdToken) {
+  override suspend fun handle(request: ApiDeleteItem, principal: UserIdToken) {
     val profileId = profileRepo.getByUserId(principal.userId).id
-
-    when (val result = dataModifier.submit(
-      CreateItem(
-        name = request.name,
-        description = request.description,
-        quantity = request.quantity,
+    when (dataModifier.submit(
+      DeleteItemMod(
+        id = ServerItemId(request.id),
         ownedBy = profileId
       )
     )) {
-      is CreateItem.Result.Success -> {
-        call.respond(HttpStatusCode.OK, ApiCreateItemResponse(result.id.id))
-      }
+      DeleteItemMod.Result.Failure -> call.respond(HttpStatusCode.NotFound)
+      DeleteItemMod.Result.Success -> call.respond(HttpStatusCode.OK)
+      DeleteItemMod.Result.Unauthorized -> call.respond(HttpStatusCode.Unauthorized)
     }
   }
 }

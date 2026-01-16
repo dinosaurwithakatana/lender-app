@@ -1,6 +1,6 @@
 package dev.dwak.lender.data.modifier.handler.group
 
-import dev.dwak.lender.data.modification.group.CreateGroup
+import dev.dwak.lender.data.modification.group.CreateGroupMod
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
@@ -17,12 +17,12 @@ import kotlin.time.Clock
 
 @ContributesIntoMap(
   scope = AppScope::class,
-  binding = binding<@ModificationKey(CreateGroup::class) BoundHandler>()
+  binding = binding<@ModificationKey(CreateGroupMod::class) BoundHandler>()
 )
 class CreateGroupHandler(
   private val groupQueries: GroupQueries
-) : DataModification.Handler<CreateGroup.Result, CreateGroup> {
-  override suspend fun handle(mod: CreateGroup): CreateGroup.Result {
+) : DataModification.Handler<CreateGroupMod.Result, CreateGroupMod> {
+  override suspend fun handle(mod: CreateGroupMod): CreateGroupMod.Result {
     val groupId = DbGroup.Id(UUID.randomUUID().toString())
     groupQueries.createGroupAndAddCreator(
       group_id = groupId,
@@ -32,6 +32,6 @@ class CreateGroupHandler(
       created_at = Clock.System.now()
     )
 
-    return CreateGroup.Result.Success(ServerGroupId(id = groupId.id))
+    return CreateGroupMod.Result.Success(ServerGroupId(id = groupId.id))
   }
 }

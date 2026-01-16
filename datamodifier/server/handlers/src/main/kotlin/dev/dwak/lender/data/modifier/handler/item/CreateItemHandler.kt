@@ -1,6 +1,6 @@
 package dev.dwak.lender.data.modifier.handler.item
 
-import dev.dwak.lender.data.modification.item.CreateItem
+import dev.dwak.lender.data.modification.item.CreateItemMod
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
@@ -17,13 +17,13 @@ import kotlin.uuid.Uuid
 
 @ContributesIntoMap(
   scope = AppScope::class,
-  binding = binding<@ModificationKey(CreateItem::class) BoundHandler>()
+  binding = binding<@ModificationKey(CreateItemMod::class) BoundHandler>()
 )
 class CreateItemHandler(
     private val itemQueries: ItemQueries,
-) : DataModification.Handler<CreateItem.Result, CreateItem> {
+) : DataModification.Handler<CreateItemMod.Result, CreateItemMod> {
   @OptIn(ExperimentalUuidApi::class)
-  override suspend fun handle(mod: CreateItem): CreateItem.Result {
+  override suspend fun handle(mod: CreateItemMod): CreateItemMod.Result {
     val itemID = DbItem.Id(Uuid.generateV4().toString())
     itemQueries.insert(
       dbItem = DbItem(
@@ -36,6 +36,6 @@ class CreateItemHandler(
       )
     ).await()
 
-    return CreateItem.Result.Success(ServerItemId(itemID.id))
+    return CreateItemMod.Result.Success(ServerItemId(itemID.id))
   }
 }

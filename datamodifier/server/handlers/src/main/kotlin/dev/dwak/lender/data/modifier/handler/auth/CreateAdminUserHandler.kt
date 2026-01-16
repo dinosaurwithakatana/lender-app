@@ -1,6 +1,6 @@
 package dev.dwak.lender.data.modifier.handler.auth
 
-import dev.dwak.lender.data.modification.auth.CreateAdminUser
+import dev.dwak.lender.data.modification.auth.CreateAdminUserMod
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
@@ -17,14 +17,14 @@ import kotlin.time.Clock
 
 @ContributesIntoMap(
   scope = AppScope::class,
-  binding = binding<@ModificationKey(CreateAdminUser::class) BoundHandler>()
+  binding = binding<@ModificationKey(CreateAdminUserMod::class) BoundHandler>()
 )
 class CreateAdminUserHandler(
   private val profileQueries: ProfileQueries,
   private val tokenQueries: TokenQueries,
   private val passwordHasher: PasswordHasher,
-) : DataModification.Handler<CreateAdminUser.Result, CreateAdminUser> {
-  override suspend fun handle(mod: CreateAdminUser): CreateAdminUser.Result {
+) : DataModification.Handler<CreateAdminUserMod.Result, CreateAdminUserMod> {
+  override suspend fun handle(mod: CreateAdminUserMod): CreateAdminUserMod.Result {
     val hashed = passwordHasher(mod.password)
     val userId = DbUser.Id(UUID.randomUUID().toString())
     val token = generateToken()
@@ -46,6 +46,6 @@ class CreateAdminUserHandler(
       )
     )
 
-    return CreateAdminUser.Result.Success(token)
+    return CreateAdminUserMod.Result.Success(token)
   }
 }

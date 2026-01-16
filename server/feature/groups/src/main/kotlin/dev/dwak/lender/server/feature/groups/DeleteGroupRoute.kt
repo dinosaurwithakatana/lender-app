@@ -1,12 +1,11 @@
 package dev.dwak.lender.server.feature.groups
 
-import dev.dwak.lender.data.modification.group.DeleteGroup
+import dev.dwak.lender.data.modification.group.DeleteGroupMod
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.models.api.request.group.ApiDeleteGroupRequest
 import dev.dwak.lender.models.server.ServerGroupId
 import dev.dwak.lender.models.server.UserIdToken
 import dev.dwak.lender.repos.server.ProfileRepo
-import dev.dwak.lender.server.common.AuthenticatedLenderRoute
 import dev.dwak.lender.server.common.AuthenticatedTypedLenderRoute
 import dev.dwak.lender.server.common.LenderRoute
 import dev.zacsweers.metro.AppScope
@@ -16,15 +15,13 @@ import dev.zacsweers.metro.binding
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
-import io.ktor.server.request.receive
 import io.ktor.server.response.respond
-import io.ktor.server.routing.RoutingHandler
 import io.ktor.util.reflect.TypeInfo
 import io.ktor.util.reflect.typeInfo
 
 @SingleIn(AppScope::class)
 @ContributesIntoSet(AppScope::class, binding = binding<LenderRoute>())
-class DeleteGroup(
+class DeleteGroupRoute(
   private val dataModifier: DataModifier,
   private val profileRepo: ProfileRepo,
 ) : AuthenticatedTypedLenderRoute<ApiDeleteGroupRequest> {
@@ -39,14 +36,14 @@ class DeleteGroup(
     val profile = profileRepo.getByUserId(principal.userId)
     when (
       val result = dataModifier.submit(
-        DeleteGroup(
+        DeleteGroupMod(
           id = ServerGroupId(request.id),
           requestingProfileId = profile.id
         )
       )
     ) {
-      DeleteGroup.Result.Success -> call.respond(HttpStatusCode.OK)
-      DeleteGroup.Result.Unauthorized -> call.respond(HttpStatusCode.Unauthorized)
+      DeleteGroupMod.Result.Success -> call.respond(HttpStatusCode.OK)
+      DeleteGroupMod.Result.Unauthorized -> call.respond(HttpStatusCode.Unauthorized)
     }
   }
 }

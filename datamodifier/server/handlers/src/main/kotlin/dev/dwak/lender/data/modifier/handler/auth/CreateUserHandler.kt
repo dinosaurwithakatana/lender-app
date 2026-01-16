@@ -1,6 +1,6 @@
 package dev.dwak.lender.data.modifier.handler.auth
 
-import dev.dwak.lender.data.modification.auth.CreateUser
+import dev.dwak.lender.data.modification.auth.CreateUserMod
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
@@ -21,20 +21,20 @@ import kotlin.time.Clock
 
 @ContributesIntoMap(
   scope = AppScope::class,
-  binding = binding<@ModificationKey(CreateUser::class) BoundHandler>()
+  binding = binding<@ModificationKey(CreateUserMod::class) BoundHandler>()
 )
 class CreateUserHandler(
   private val inviteLinkQueries: InviteLinkQueries,
   private val profileQueries: ProfileQueries,
   private val tokenQueries: TokenQueries,
   private val passwordHasher: PasswordHasher,
-) : DataModification.Handler<CreateUser.Result, CreateUser> {
-  override suspend fun handle(mod: CreateUser): CreateUser.Result {
+) : DataModification.Handler<CreateUserMod.Result, CreateUserMod> {
+  override suspend fun handle(mod: CreateUserMod): CreateUserMod.Result {
 
     when {
-      mod.inviteLinkToken.isNullOrEmpty() -> return CreateUser.Result.InvalidInviteLink
+      mod.inviteLinkToken.isNullOrEmpty() -> return CreateUserMod.Result.InvalidInviteLink
       !inviteLinkQueries.linkExists(DbInviteLink.Link_token(mod.inviteLinkToken!!))
-        .executeAsOne() -> return CreateUser.Result.InvalidInviteLink
+        .executeAsOne() -> return CreateUserMod.Result.InvalidInviteLink
     }
 
     val hashed = passwordHasher(mod.password)
@@ -59,6 +59,6 @@ class CreateUserHandler(
       )
     )
 
-    return CreateUser.Result.Success(token)
+    return CreateUserMod.Result.Success(token)
   }
 }

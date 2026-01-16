@@ -1,10 +1,9 @@
 package dev.dwak.lender.cli
 
-import dev.dwak.lender.data.modification.auth.LoginUser
+import dev.dwak.lender.data.modification.auth.LoginUserMod
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.lender_app.coroutines.Io
 import dev.dwak.lender.models.cli.CliProfile
-import dev.dwak.lender.models.server.ServerProfile
 import dev.dwak.lender.repos.server.ProfileRepo
 import dev.dwak.lender.repos.server.UserRepo
 import dev.zacsweers.metro.AppScope
@@ -30,16 +29,16 @@ class RealAuthManager(
     password: String
   ): Result<Unit> = withContext(ioDispatcher) {
     when (val result = dataModifier.submit(
-      LoginUser(
+      LoginUserMod(
         email = email,
         password = password
       )
     )) {
-      is LoginUser.Result.Failure -> {
+      is LoginUserMod.Result.Failure -> {
         Result.failure(Exception("Login failure"))
       }
 
-      is LoginUser.Result.Success -> {
+      is LoginUserMod.Result.Success -> {
         if (!loginStore.exists()) {
           loginStore.createNewFile()
         }

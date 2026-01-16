@@ -4,7 +4,7 @@ import com.github.ajalt.clikt.command.SuspendingCliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
-import dev.dwak.lender.data.modification.auth.CreateUser
+import dev.dwak.lender.data.modification.auth.CreateUserMod
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
@@ -21,7 +21,7 @@ class CreateUser(
 
   override suspend fun run() {
     when (val result = dataModifier.submit(
-      CreateUser(
+      CreateUserMod(
         email = email,
         password = password,
         firstName = firstName,
@@ -29,13 +29,13 @@ class CreateUser(
         inviteLinkToken = inviteLinkToken,
       )
     )) {
-      CreateUser.Result.InvalidEmail -> TODO()
-      CreateUser.Result.InvalidInviteLink -> {
+      CreateUserMod.Result.InvalidEmail -> TODO()
+      CreateUserMod.Result.InvalidInviteLink -> {
         echo("Invalid invite link")
       }
 
-      CreateUser.Result.InvalidPassword -> TODO()
-      is CreateUser.Result.Success -> {
+      CreateUserMod.Result.InvalidPassword -> TODO()
+      is CreateUserMod.Result.Success -> {
         echo("Admin user $email created, login token ${result.token}")
 
       }

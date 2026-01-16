@@ -1,6 +1,6 @@
 package dev.dwak.lender.data.modifier.handler.auth
 
-import dev.dwak.lender.data.modification.auth.LoginUser
+import dev.dwak.lender.data.modification.auth.LoginUserMod
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
@@ -15,14 +15,14 @@ import dev.zacsweers.metro.binding
 
 @ContributesIntoMap(
   scope = AppScope::class,
-  binding = binding<@ModificationKey(LoginUser::class) BoundHandler>()
+  binding = binding<@ModificationKey(LoginUserMod::class) BoundHandler>()
 )
 class LoginUserHandler(
   private val userQueries: UserQueries,
   private val tokenQueries: TokenQueries,
   private val passwordVerifier: PasswordVerifier,
-) : DataModification.Handler<LoginUser.Result, LoginUser> {
-  override suspend fun handle(mod: LoginUser): LoginUser.Result {
+) : DataModification.Handler<LoginUserMod.Result, LoginUserMod> {
+  override suspend fun handle(mod: LoginUserMod): LoginUserMod.Result {
     if (userQueries.userExists(mod.email).executeAsOne()) {
       val authToken = generateToken()
 
@@ -36,13 +36,13 @@ class LoginUserHandler(
             user_id = dbUser.id
           )
         ).await()
-        return LoginUser.Result.Success(authToken)
+        return LoginUserMod.Result.Success(authToken)
       } else {
-        return LoginUser.Result.Failure("Incorrect password")
+        return LoginUserMod.Result.Failure("Incorrect password")
       }
 
     } else {
-      return LoginUser.Result.Failure("User ${mod.email} not found")
+      return LoginUserMod.Result.Failure("User ${mod.email} not found")
     }
   }
 

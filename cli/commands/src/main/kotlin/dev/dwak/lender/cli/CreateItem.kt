@@ -4,9 +4,8 @@ import com.github.ajalt.clikt.command.SuspendingCliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import com.github.ajalt.clikt.parameters.types.int
-import dev.dwak.lender.data.modification.item.CreateItem
+import dev.dwak.lender.data.modification.item.CreateItemMod
 import dev.dwak.lender.data.modifier.DataModifier
-import dev.dwak.lender.models.server.ServerProfileId
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.binding
@@ -26,14 +25,14 @@ class CreateItem(
 
   override suspend fun runWithAuthCheck() {
     when (val result = dataModifier.submit(
-      CreateItem(
+      CreateItemMod(
         name = name,
         description = description,
         quantity = quantity,
         ownedBy = profileId
       )
     )) {
-      is CreateItem.Result.Success -> {
+      is CreateItemMod.Result.Success -> {
         echo("Item $name created")
       }
     }

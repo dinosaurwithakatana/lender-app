@@ -1,6 +1,6 @@
 package dev.dwak.lender.data.modifier.handler.auth
 
-import dev.dwak.lender.data.modification.auth.LogoutUser
+import dev.dwak.lender.data.modification.auth.LogoutUserMod
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
@@ -12,13 +12,13 @@ import dev.zacsweers.metro.binding
 
 @ContributesIntoMap(
   scope = AppScope::class,
-  binding = binding<@ModificationKey(LogoutUser::class) BoundHandler>()
+  binding = binding<@ModificationKey(LogoutUserMod::class) BoundHandler>()
 )
 class LogoutUserHandler(
   private val tokenQueries: TokenQueries
-) : DataModification.Handler<LogoutUser.Result, LogoutUser> {
-  override suspend fun handle(mod: LogoutUser): LogoutUser.Result {
+) : DataModification.Handler<LogoutUserMod.Result, LogoutUserMod> {
+  override suspend fun handle(mod: LogoutUserMod): LogoutUserMod.Result {
     tokenQueries.deleteToken(DbToken.Token(mod.token.token)).await()
-    return LogoutUser.Result.Success
+    return LogoutUserMod.Result.Success
   }
 }

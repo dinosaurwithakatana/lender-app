@@ -1,6 +1,6 @@
 package dev.dwak.lender.data.modifier.handler.group
 
-import dev.dwak.lender.data.modification.group.DeleteGroup
+import dev.dwak.lender.data.modification.group.DeleteGroupMod
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
@@ -14,13 +14,13 @@ import dev.zacsweers.metro.binding
 
 @ContributesIntoMap(
   scope = AppScope::class,
-  binding = binding<@ModificationKey(DeleteGroup::class) BoundHandler>()
+  binding = binding<@ModificationKey(DeleteGroupMod::class) BoundHandler>()
 )
 class DeleteGroupHandler(
   private val groupQueries: GroupQueries,
   private val groupMembershipQueries: GroupMembershipQueries,
-) : DataModification.Handler<DeleteGroup.Result, DeleteGroup> {
-  override suspend fun handle(mod: DeleteGroup): DeleteGroup.Result {
+) : DataModification.Handler<DeleteGroupMod.Result, DeleteGroupMod> {
+  override suspend fun handle(mod: DeleteGroupMod): DeleteGroupMod.Result {
     val id = DbGroup.Id(mod.id.id)
     val isOwner = groupMembershipQueries.isOwnerForGroup(
       profile_id = DbProfile.Id(mod.requestingProfileId.id),
@@ -29,9 +29,9 @@ class DeleteGroupHandler(
 
     if (isOwner) {
       groupQueries.delete(id).await()
-      return DeleteGroup.Result.Success
+      return DeleteGroupMod.Result.Success
     } else {
-      return DeleteGroup.Result.Unauthorized
+      return DeleteGroupMod.Result.Unauthorized
     }
   }
 }

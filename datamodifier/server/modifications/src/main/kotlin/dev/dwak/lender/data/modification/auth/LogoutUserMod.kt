@@ -3,9 +3,9 @@ package dev.dwak.lender.data.modification.auth
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.models.server.ServerToken
 
-data class LogoutUser(
+data class LogoutUserMod(
   val token: ServerToken,
-) : DataModification<LogoutUser.Result> {
+) : DataModification<LogoutUserMod.Result> {
   sealed interface Result : DataModification.Result {
     data object Success : Result
   }
