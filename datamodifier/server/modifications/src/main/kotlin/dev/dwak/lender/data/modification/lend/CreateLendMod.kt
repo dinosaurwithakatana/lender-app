@@ -11,9 +11,11 @@ data class CreateLendMod(
   val groupId: ServerGroupId,
   val fromProfileId: ServerProfileId,
   val toProfileId: ServerProfileId,
-  val status: ServerLendStatus
+  val status: ServerLendStatus,
+  val quantity: Int,
 ) : DataModification<CreateLendMod.Result> {
   sealed interface Result : DataModification.Result {
+    data object Success: Result
 
   }
 }
