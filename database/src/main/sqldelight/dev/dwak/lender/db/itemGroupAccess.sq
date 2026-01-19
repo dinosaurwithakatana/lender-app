@@ -17,6 +17,32 @@ insert:
 INSERT INTO dbItemGroupAccess(item_id, group_id, granted_at)
 VALUES ?;
 
-removeFromGroup:
+removeItemFromGroup:
 DELETE FROM dbItemGroupAccess
-WHERE group_id = ?;
+WHERE item_id = :item_id
+AND group_id = :group_id;
+
+removeItemFromAllGroups:
+DELETE FROM dbItemGroupAccess
+WHERE item_id = :item_id;
+
+getGroupsForItem:
+SELECT
+    g.*,
+    iga.granted_at
+FROM dbItemGroupAccess iga
+JOIN dbGroup g ON iga.group_id = g.id
+WHERE iga.item_id = :item_id
+ORDER BY g.name;
+
+getItemsForGroup:
+SELECT
+    i.*,
+    iga.granted_at,
+    p.first_name AS owner_first_name,
+    p.last_name AS owner_last_name
+FROM dbItemGroupAccess iga
+JOIN dbItem i ON iga.item_id = i.id
+JOIN dbProfile p ON i.owned_by_profile_id = p.id
+WHERE iga.group_id = :group_id
+ORDER BY i.name;

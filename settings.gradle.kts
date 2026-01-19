@@ -17,6 +17,9 @@ pluginManagement {
     maven("https://packages.jetbrains.team/maven/p/kt/dev/")
   }
 }
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+}
 
 dependencyResolutionManagement {
   repositoriesMode = RepositoriesMode.PREFER_PROJECT
