@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.options.required
 import dev.dwak.lender.data.modification.item.DeleteItemMod
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.models.server.ServerItemId
+import dev.dwak.lender.models.server.ServerProfileId
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.binding
@@ -20,7 +21,7 @@ class DeleteItem(
 ): AuthCheckSuspendingCliktCommand(authManager) {
   val itemId by option().required()
 
-  override suspend fun runWithAuthCheck() {
+  override suspend fun run(profileId: ServerProfileId) {
     when (val result = dataModifier.submit(DeleteItemMod(
       id = ServerItemId(itemId),
       ownedBy = profileId

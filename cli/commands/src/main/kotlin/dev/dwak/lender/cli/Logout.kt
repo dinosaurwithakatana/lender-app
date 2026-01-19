@@ -1,6 +1,7 @@
 package dev.dwak.lender.cli
 
 import com.github.ajalt.clikt.command.SuspendingCliktCommand
+import dev.dwak.lender.models.server.ServerProfileId
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.binding
@@ -12,7 +13,7 @@ import dev.zacsweers.metro.binding
 class Logout(
   private val authManager: AuthManager
 ) : AuthCheckSuspendingCliktCommand(authManager) {
-  override suspend fun runWithAuthCheck() {
+  override suspend fun run(profileId: ServerProfileId) {
     authManager.logout()
   }
 }

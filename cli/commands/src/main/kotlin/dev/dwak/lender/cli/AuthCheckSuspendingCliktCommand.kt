@@ -8,7 +8,7 @@ import kotlinx.coroutines.runBlocking
 abstract class AuthCheckSuspendingCliktCommand(private val authManager: AuthManager) :
   SuspendingCliktCommand() {
   private val forProfile by option()
-  val profileId by lazy {
+  private val profileId by lazy {
     runBlocking {
       ServerProfileId(
         if (forProfile != null) {
@@ -22,11 +22,11 @@ abstract class AuthCheckSuspendingCliktCommand(private val authManager: AuthMana
 
   override suspend fun run() {
     if (authManager.isLoggedIn()) {
-      runWithAuthCheck()
+      run(profileId)
     } else {
       error("Not logged in!")
     }
   }
 
-  abstract suspend fun runWithAuthCheck()
+  abstract suspend fun run(profileId: ServerProfileId)
 }

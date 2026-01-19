@@ -7,6 +7,7 @@ import dev.dwak.lender.data.modification.item.ShareItemMod
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.models.server.ServerGroupId
 import dev.dwak.lender.models.server.ServerItemId
+import dev.dwak.lender.models.server.ServerProfileId
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.binding
@@ -22,7 +23,7 @@ class ShareItem(
   val itemId by option().required()
   val groupId by option().required()
 
-  override suspend fun runWithAuthCheck() {
+  override suspend fun run(profileId: ServerProfileId) {
     when (val result = dataModifier.submit(
       ShareItemMod(
         itemId = ServerItemId(itemId),

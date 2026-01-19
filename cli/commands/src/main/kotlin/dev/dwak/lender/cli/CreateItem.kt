@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.options.prompt
 import com.github.ajalt.clikt.parameters.types.int
 import dev.dwak.lender.data.modification.item.CreateItemMod
 import dev.dwak.lender.data.modifier.DataModifier
+import dev.dwak.lender.models.server.ServerProfileId
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.binding
@@ -23,7 +24,7 @@ class CreateItem(
   val description: String? by option().prompt()
   val quantity by option().int().prompt(default = 1)
 
-  override suspend fun runWithAuthCheck() {
+  override suspend fun run(profileId: ServerProfileId) {
     when (val result = dataModifier.submit(
       CreateItemMod(
         name = name,

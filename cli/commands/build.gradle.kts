@@ -17,4 +17,6 @@ dependencies {
   implementation(projects.repos.server.api)
 
   implementation(libs.clikt)
+  implementation(libs.mordant)
+  implementation(libs.mordant.coroutines)
 }
