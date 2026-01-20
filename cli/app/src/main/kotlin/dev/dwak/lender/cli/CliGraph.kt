@@ -23,7 +23,7 @@ interface CliGraph {
     subCommands: Set<SuspendingCliktCommand>,
     args: Array<String>
   ): suspend () -> Unit = {
-    Napier.base(DebugAntilog())
+//    Napier.base(DebugAntilog())
     LenderCli()
       .subcommands(
         subCommands
