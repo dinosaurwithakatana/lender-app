@@ -1,3 +1,4 @@
+rootProject.name = "build-logic"
 pluginManagement {
   repositories {
     google {
