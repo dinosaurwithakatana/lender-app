@@ -16,10 +16,17 @@ application {
 }
 
 ktor {
-  docker {
-    jreVersion.set(JavaVersion.valueOf("VERSION_${libs.versions.java.get()}"))
-    localImageName.set("lender-api-server")
-  }
+//  docker {
+//    jreVersion.set(JavaVersion.valueOf("VERSION_${libs.versions.java.get()}"))
+//    localImageName.set("lender-api-server")
+//  }
+
+//  openApi {
+//    enabled = true
+//    codeInferenceEnabled = true
+//    onlyCommented = false
+//    debug = true
+//  }
 }
 
 metro {
@@ -42,6 +49,7 @@ dependencies {
   implementation(libs.ktor.serverAuth)
   implementation(libs.ktor.serverDi)
   implementation(libs.ktor.serverCore)
+  implementation(libs.ktor.serverRoutingOpenApi)
   implementation(libs.ktor.serverNetty)
   implementation(libs.ktor.serverContentNegotiation)
   implementation(libs.ktor.serialzationJson)
