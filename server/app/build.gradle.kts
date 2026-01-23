@@ -47,6 +47,7 @@ dependencies {
 
   implementation(libs.logback)
   implementation(libs.ktor.serverAuth)
+  implementation(libs.ktor.serverAuth.apiKey)
   implementation(libs.ktor.serverDi)
   implementation(libs.ktor.serverCore)
   implementation(libs.ktor.serverRoutingOpenApi)
