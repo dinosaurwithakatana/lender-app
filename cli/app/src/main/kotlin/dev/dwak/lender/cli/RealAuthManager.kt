@@ -2,6 +2,7 @@ package dev.dwak.lender.cli
 
 import dev.dwak.lender.data.modification.auth.LoginUserMod
 import dev.dwak.lender.data.modifier.DataModifier
+import dev.dwak.lender.lender_app.AppDir
 import dev.dwak.lender.lender_app.coroutines.Io
 import dev.dwak.lender.models.cli.CliProfile
 import dev.dwak.lender.repos.server.ProfileRepo
@@ -17,7 +18,7 @@ import java.io.File
 @ContributesBinding(AppScope::class)
 @Inject
 class RealAuthManager(
-  private val appDir: File,
+  @AppDir private val appDir: File,
   private val dataModifier: DataModifier,
   private val profileRepo: ProfileRepo,
   private val userRepo: UserRepo,

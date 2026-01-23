@@ -4,10 +4,12 @@ import app.cash.sqldelight.ColumnAdapter
 import app.cash.sqldelight.EnumColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
+import dev.dwak.lender.lender_app.AppDir
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesTo
 import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
+import java.io.File
 import java.util.Properties
 import kotlin.time.Instant
 
@@ -16,11 +18,15 @@ interface DatabaseProviders {
 
   @SingleIn(AppScope::class)
   @Provides
-  fun driver(): SqlDriver = JdbcSqliteDriver(
-    url = "jdbc:sqlite:/tmp/data.db",
-    properties = Properties().apply { put("foreign_keys", "true") },
-    schema = Database.Schema
-  )
+  fun driver(
+    @AppDir dir: File,
+  ): SqlDriver {
+    return JdbcSqliteDriver(
+      url = "jdbc:sqlite:/${dir.absolutePath}/data.db",
+      properties = Properties().apply { put("foreign_keys", "true") },
+      schema = Database.Schema
+    )
+  }
 
   @SingleIn(AppScope::class)
   @Provides

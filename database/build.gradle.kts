@@ -15,4 +15,5 @@ sqldelight {
 dependencies {
   implementation(libs.sqldelight.coroutines)
   implementation(libs.sqldelight.driver)
+  implementation(projects.shared)
 }
