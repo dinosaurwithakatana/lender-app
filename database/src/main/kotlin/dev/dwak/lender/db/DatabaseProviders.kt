@@ -9,6 +9,8 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesTo
 import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
+import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
 import java.io.File
 import java.util.Properties
 import kotlin.time.Instant
@@ -19,10 +21,11 @@ interface DatabaseProviders {
   @SingleIn(AppScope::class)
   @Provides
   fun driver(
-    @AppDir dir: File,
+    @AppDir dir: Path
   ): SqlDriver {
+    val appPath = SystemFileSystem.resolve(dir)
     return JdbcSqliteDriver(
-      url = "jdbc:sqlite:/${dir.absolutePath}/data.db",
+      url = "jdbc:sqlite:${appPath}/data.db",
       properties = Properties().apply { put("foreign_keys", "true") },
       schema = Database.Schema
     )

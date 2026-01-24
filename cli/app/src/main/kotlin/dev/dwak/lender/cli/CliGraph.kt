@@ -12,6 +12,8 @@ import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
 import java.io.File
 
 
@@ -40,11 +42,11 @@ interface CliGraph {
 
   @Provides
   @AppDir
-  fun dataDirectory(): File {
+  fun dataDirectory(): Path {
     val userHome = System.getProperty("user.home")
-    val localStorageDir = File(userHome, ".config/lender-cli")
-    if (!localStorageDir.exists()) {
-      localStorageDir.mkdir();
+    val localStorageDir = Path(userHome, ".config/lender/cli")
+    if(!SystemFileSystem.exists(localStorageDir)) {
+      SystemFileSystem.createDirectories(localStorageDir, true)
     }
     return localStorageDir
   }

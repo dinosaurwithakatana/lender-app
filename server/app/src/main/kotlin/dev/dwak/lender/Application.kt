@@ -13,13 +13,11 @@ import io.github.aakira.napier.Napier
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
-import io.ktor.server.application.Plugin
 import io.ktor.server.application.install
 import io.ktor.server.auth.Authentication
 import io.ktor.server.auth.apikey.apiKey
 import io.ktor.server.auth.authenticate
 import io.ktor.server.auth.bearer
-import io.ktor.server.auth.principal
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
@@ -66,7 +64,6 @@ fun Application.module(graph: ServerGraph) {
     }
     apiKey("api-key") {
       validate { apiKey ->
-
         val validKey = graph.apiKeyRepo.hasKey(apiKey)
         if (validKey) {
           ApiKeyPrincipal(apiKey)

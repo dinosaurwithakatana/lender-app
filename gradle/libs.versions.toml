@@ -20,6 +20,7 @@ compose-multiplatform-navigation3-browser = "0.3.1"
 java = "21"
 junit = "4.13.2"
 kotlin = "2.3.20-Beta2-31"
+kotlinxIo = "0.8.2"
 kotlinxSerialization = "1.10.0"
 ksp = "2.3.4"
 ktor = "3.4.0"
@@ -63,6 +64,7 @@ navigation3-browser = { module = "com.github.terrakok:navigation3-browser", vers
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+kotlinx-io = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinxIo"}
 ktor-serverAuth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
 ktor-serverAuth-apiKey = { module = "io.ktor:ktor-server-auth-api-key", version.ref = "ktor" }
 ktor-serverDi = { module = "io.ktor:ktor-server-di", version.ref = "ktor" }
