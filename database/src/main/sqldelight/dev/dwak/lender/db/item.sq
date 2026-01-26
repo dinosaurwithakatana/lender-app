@@ -34,3 +34,7 @@ WHERE id = :item_id
 itemsForProfile:
 SELECT * FROM dbItem
 WHERE owned_by_profile_id = ?;
+
+select:
+SELECT * FROM dbItem
+WHERE id = :item_id;

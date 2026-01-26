@@ -1,5 +1,6 @@
 package dev.dwak.lender.repos.server
 
+import dev.dwak.lender.db.DbGroup
 import dev.dwak.lender.db.DbItem
 import dev.dwak.lender.db.DbProfile
 import dev.dwak.lender.db.GroupMembershipQueries
@@ -47,5 +48,15 @@ class RealGroupsRepo(
         createdAt = created_at
       )
     }.executeAsList()
+  }
+
+  override suspend fun groupById(id: ServerGroupId): ServerGroup? {
+    return groupsQueries.select(DbGroup.Id(id.id)) { id, name, created_at ->
+      ServerGroup(
+        id = ServerGroupId(id.id),
+        name = name,
+        createdAt = created_at
+      )
+    }.executeAsOneOrNull()
   }
 }

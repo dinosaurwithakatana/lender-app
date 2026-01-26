@@ -1,6 +1,7 @@
 package dev.dwak.lender.repos.server
 
 import dev.dwak.lender.db.DbGroup
+import dev.dwak.lender.db.DbProfile
 import dev.dwak.lender.db.DbUser
 import dev.dwak.lender.db.GroupMembershipQueries
 import dev.dwak.lender.db.ProfileQueries
@@ -21,14 +22,14 @@ class RealProfileRepo(
   private val groupMembershipQueries: GroupMembershipQueries,
   @Io private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ProfileRepo {
-  override suspend fun getByEmail(email: String): ServerProfile = withContext(dispatcher) {
+  override suspend fun getByEmail(email: String): ServerProfile? = withContext(dispatcher) {
     profileQueries.findByEmail(email) { id, _, first_name, last_name ->
       ServerProfile(
         id = ServerProfileId(id.id),
         firstName = first_name,
         lastName = last_name,
       )
-    }.executeAsOne()
+    }.executeAsOneOrNull()
   }
 
   override suspend fun listProfiles(): List<ServerProfile> {
@@ -41,7 +42,7 @@ class RealProfileRepo(
     }.executeAsList()
   }
 
-  override suspend fun getByUserId(userId: ServerUserId): ServerProfile {
+  override suspend fun getByUserId(userId: ServerUserId): ServerProfile? {
     return profileQueries.findByUserId(DbUser.Id(userId.id))
     { id, _, first_name, last_name ->
       ServerProfile(
@@ -50,7 +51,7 @@ class RealProfileRepo(
         lastName = last_name
       )
     }
-      .executeAsOne()
+      .executeAsOneOrNull()
   }
 
   override suspend fun getProfilesInGroup(id: ServerGroupId): List<ServerProfile> =
@@ -64,5 +65,16 @@ class RealProfileRepo(
 
       }
         .executeAsList()
+    }
+
+  override suspend fun getProfileById(id: ServerProfileId): ServerProfile? =
+    withContext(dispatcher) {
+      profileQueries.findById(DbProfile.Id(id.id)) { id, user_id, first_name, last_name ->
+        ServerProfile(
+          id = ServerProfileId(id.id),
+          firstName = first_name,
+          lastName = last_name
+        )
+      }.executeAsOneOrNull()
     }
 }
