@@ -30,7 +30,7 @@ material3 = "1.9.0"
 metro = "0.10.1"
 mordant = "3.0.2"
 napier = "2.7.1"
-nav3-ui = "1.1.0-alpha01"
+nav3-ui = "1.1.0-alpha02"
 sqldelight = "2.2.1"
 
 [libraries]
