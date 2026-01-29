@@ -1,4 +1,4 @@
-package dev.dwak.lender.feature.auth.presenter
+package dev.dwak.lender.feature.auth.presenter.login
 
 import androidx.compose.runtime.Composable
 import com.slack.circuit.codegen.annotations.CircuitInject

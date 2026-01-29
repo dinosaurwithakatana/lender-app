@@ -19,10 +19,6 @@ import kotlin.reflect.KClass
 interface ClientGraph {
   val circuit: Circuit
 
-  val entryBuilders: Set<LenderRouteEntryProvider>
-
-  val savedStateConfiguration: SavedStateConfiguration
-
   @OptIn(ExperimentalCircuitApi::class)
   @SingleIn(AppScope::class)
   @Provides

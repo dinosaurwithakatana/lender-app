@@ -7,24 +7,38 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.runtime.ui.Ui
+import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
+import dev.dwak.lender.feature.auth.presenter.launch.LaunchEvents
+import dev.dwak.lender.feature.auth.presenter.launch.LaunchState
+import dev.zacsweers.metro.AppScope
 
-@Composable
-fun LaunchUi(
-  navigateToLogin: () -> Unit,
-) {
-  Column(
-    modifier = Modifier.fillMaxSize(),
-    horizontalAlignment = Alignment.CenterHorizontally
+@CircuitInject(
+  screen = AuthRoutes.Launch::class,
+  scope = AppScope::class
+)
+class LaunchUi : Ui<LaunchState> {
+  @Composable
+  override fun Content(
+    state: LaunchState,
+    modifier: Modifier
   ) {
-    Button(onClick = {
-      navigateToLogin()
-    }) {
-      Text("Login")
-    }
-    Button(onClick = {
+    Column(
+      modifier = modifier.fillMaxSize(),
+      horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+      Button(onClick = {
+        state.dispatch(LaunchEvents.GoToLogin)
+      }) {
+        Text("Login")
+      }
+      Button(onClick = {
 
-    }) {
-      Text("Sign Up")
+      }) {
+        Text("Sign Up")
+      }
     }
   }
+
 }

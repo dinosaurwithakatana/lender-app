@@ -1,7 +1,7 @@
-package dev.dwak.lender.feature.auth.presenter
+package dev.dwak.lender.feature.auth.presenter.login
 
 import com.slack.circuit.runtime.CircuitUiState
 
 data class LoginState(
-  val eventSink: (LoginEvents) -> Unit
+  val dispatch: (LoginEvents) -> Unit
 ): CircuitUiState
