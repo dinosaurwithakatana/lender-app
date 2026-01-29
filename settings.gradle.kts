@@ -44,6 +44,7 @@ include(
   ":client:android",
   ":client:feature:auth:ui",
   ":client:feature:auth:navigation",
+  ":client:feature:auth:presenter",
   ":client:navigation:core",
   ":client:navigation:integration",
   ":client:composeApp",

@@ -2,6 +2,8 @@ import com.android.build.api.variant.impl.capitalizeFirstChar
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
   id("org.jetbrains.kotlin.multiplatform")
@@ -75,4 +77,14 @@ kotlin {
 // build.gradle.kts
 dependencies {
   "androidRuntimeClasspath"(compose.uiTooling)
+}
+
+tasks.withType<KotlinCompilationTask<*>>().configureEach {
+  if (this is AbstractKotlinCompile<*>) {
+    // Disable incremental in this project because we're generating top-level declarations
+    // TODO remove after Soon™️ (2.2?)
+    incremental = false
+  }
+
+//  dependsOn("kspCommonMainKotlinMetadata")
 }

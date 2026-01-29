@@ -39,7 +39,7 @@ kotlin {
     iosSimulatorArm64()
   ).forEach { iosTarget ->
     iosTarget.binaries.framework {
-      baseName = pathSegments.joinToString(separator = "") { it.capitalizeFirstChar() }
+      baseName = pathSegments.joinToString { it.capitalizeFirstChar() }
       isStatic = true
     }
   }
@@ -57,19 +57,16 @@ kotlin {
 
   sourceSets {
     androidMain.dependencies {
-      implementation(libs.compose.ui.tooling.preview)
+      implementation(compose.preview)
       implementation(libs.androidx.activity.compose)
       implementation(libs.androidx.core.ktx)
-
-      implementation(libs.metro.android)
     }
-    commonMain{
-      kotlin {
-        kotlin {
-          srcDir("build/generated/ksp/metadata/commonMain/kotlin")
-        }
+    commonMain {
 
+      kotlin {
+        srcDir("build/generated/ksp/metadata/commonMain/kotlin")
       }
+
       dependencies {
         implementation(libs.compose.runtime)
         implementation(libs.compose.foundation)
@@ -77,7 +74,13 @@ kotlin {
         implementation(libs.compose.ui)
         implementation(libs.compose.components.resources)
         implementation(libs.compose.ui.tooling.preview)
+        implementation(libs.androidx.lifecycle.viewmodelCompose)
+        implementation(libs.androidx.lifecycle.runtimeCompose)
+
+        implementation(libs.kotlinx.serialization.json)
+
         implementation(project(":shared"))
+        implementation(project(":client:navigation:core"))
 
         implementation(libs.circuit.foundation)
         implementation(libs.circuit.codegen.annotations)
@@ -92,7 +95,7 @@ kotlin {
 
 // build.gradle.kts
 dependencies {
-  "androidRuntimeClasspath"(libs.compose.ui.tooling.preview)
+  "androidRuntimeClasspath"(compose.uiTooling)
   add("kspCommonMainMetadata", libs.circuit.codegen)
 }
 

@@ -30,7 +30,6 @@ import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.serializer
 
 @Composable
-@Preview
 fun App(graph: ClientGraph) {
   MaterialTheme {
     var showContent by remember { mutableStateOf(false) }
