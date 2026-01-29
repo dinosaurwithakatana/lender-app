@@ -58,7 +58,3 @@ kotlin {
     }
   }
 }
-
-metro {
-  generateContributionHintsInFir.set(true)
-}

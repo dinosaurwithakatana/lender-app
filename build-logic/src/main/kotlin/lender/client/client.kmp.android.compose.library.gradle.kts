@@ -79,7 +79,3 @@ kotlin {
 dependencies {
   "androidRuntimeClasspath"(libs.compose.ui.tooling.preview)
 }
-
-metro {
-  generateContributionHintsInFir.set(true)
-}

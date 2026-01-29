@@ -76,8 +76,3 @@ kotlin {
 dependencies {
   "androidRuntimeClasspath"(compose.uiTooling)
 }
-
-metro {
-  generateContributionHintsInFir.set(true)
-  enableTopLevelFunctionInjection.set(true)
-}
