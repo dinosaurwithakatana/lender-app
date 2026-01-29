@@ -9,6 +9,7 @@ kotlin {
       implementation(libs.androidx.lifecycle.viewmodelCompose)
       implementation(libs.androidx.lifecycle.runtimeCompose)
       implementation(libs.androidx.savedstate)
+      implementation(libs.circuit.foundation)
 
       implementation(projects.client.navigation.integration)
 

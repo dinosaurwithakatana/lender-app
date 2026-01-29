@@ -19,6 +19,10 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.serialization.NavBackStackSerializer
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
+import com.slack.circuit.backstack.rememberSaveableBackStack
+import com.slack.circuit.foundation.CircuitCompositionLocals
+import com.slack.circuit.foundation.NavigableCircuitContent
+import com.slack.circuit.foundation.rememberCircuitNavigator
 import dev.dwak.lender.app.navigation.LenderRoute
 import dev.dwak.lender.app.navigation.LenderRouteEntryProvider
 import dev.dwak.lender.app.navigation.LoggedInRoutes
@@ -35,10 +39,18 @@ fun App(graph: ClientGraph) {
     var showContent by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize().safeContentPadding()) {
-      NavigationApp(
-        entryBuilders = graph.entryBuilders,
-        savedStateConfiguration = graph.savedStateConfiguration,
-      )
+//      NavigationApp(
+//        entryBuilders = graph.entryBuilders,
+//        savedStateConfiguration = graph.savedStateConfiguration,
+//      )
+
+      val backStack = rememberSaveableBackStack(root = AuthRoutes.Login)
+      val navigator = rememberCircuitNavigator(backStack) {
+        // Do something when the root screen is popped, usually exiting the app
+      }
+      CircuitCompositionLocals(graph.circuit) {
+        NavigableCircuitContent(navigator = navigator, backStack = backStack)
+      }
     }
   }
 }

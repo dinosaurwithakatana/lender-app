@@ -79,7 +79,7 @@ kotlin {
         implementation(libs.compose.ui.tooling.preview)
         implementation(project(":shared"))
 
-        implementation(libs.circuit.foundation)
+        implementation(libs.circuit.runtime)
         implementation(libs.circuit.codegen.annotations)
       }
     }

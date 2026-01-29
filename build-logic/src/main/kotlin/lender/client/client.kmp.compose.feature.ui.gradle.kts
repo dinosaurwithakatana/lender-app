@@ -96,6 +96,7 @@ kotlin {
 // build.gradle.kts
 dependencies {
   "androidRuntimeClasspath"(compose.uiTooling)
+  add("kspCommonMainMetadata", libs.circuit.codegen)
 }
 
 ksp { arg("circuit.codegen.mode", "metro") }

@@ -1,5 +1,6 @@
 package dev.dwak.lender.feature.auth.navigation.api
 
+import com.slack.circuit.runtime.screen.Screen
 import dev.dwak.lender.app.navigation.LenderRoute
 import kotlinx.serialization.Serializable
 

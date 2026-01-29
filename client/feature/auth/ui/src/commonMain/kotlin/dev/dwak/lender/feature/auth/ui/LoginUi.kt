@@ -8,18 +8,36 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.runtime.ui.Ui
+import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
+import dev.dwak.lender.feature.auth.presenter.LoginState
+import dev.zacsweers.metro.AppScope
 
 @Composable
 fun LoginUi() {
-  Column(
-    modifier = Modifier.fillMaxSize(),
-    horizontalAlignment = Alignment.CenterHorizontally
+}
+
+@CircuitInject(
+  screen = AuthRoutes.Login::class,
+  scope = AppScope::class
+)
+class LoginScreen() : Ui<LoginState> {
+  @Composable
+  override fun Content(
+    state: LoginState,
+    modifier: Modifier
   ) {
-    val username = rememberTextFieldState()
-    val password = rememberTextFieldState()
-    Text("Username")
-    TextField(username)
-    Text("Password")
-    TextField(password)
+    Column(
+      modifier = modifier.fillMaxSize(),
+      horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+      val username = rememberTextFieldState()
+      val password = rememberTextFieldState()
+      Text("Username")
+      TextField(username)
+      Text("Password")
+      TextField(password)
+    }
   }
 }

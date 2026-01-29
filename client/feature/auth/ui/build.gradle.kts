@@ -6,6 +6,7 @@ kotlin {
   sourceSets {
     commonMain.dependencies {
       api(projects.client.feature.auth.navigation)
+      api(projects.client.feature.auth.presenter)
     }
   }
 }
