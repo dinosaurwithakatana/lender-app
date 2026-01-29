@@ -82,7 +82,7 @@ kotlin {
         implementation(project(":shared"))
         implementation(project(":client:navigation:core"))
 
-        implementation(libs.circuit.foundation)
+        implementation(libs.circuit.presenter)
         implementation(libs.circuit.codegen.annotations)
       }
     }

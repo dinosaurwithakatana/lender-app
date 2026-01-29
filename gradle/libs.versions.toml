@@ -52,6 +52,9 @@ androidx-savedstate = { module = "org.jetbrains.androidx.savedstate:savedstate",
 circuit-codegen-annotations = { module = "com.slack.circuit:circuit-codegen-annotations", version.ref = "circuit" }
 circuit-codegen = { module = "com.slack.circuit:circuit-codegen", version.ref = "circuit" }
 circuit-foundation = { module = "com.slack.circuit:circuit-foundation", version.ref = "circuit" }
+circuit-runtime = { module = "com.slack.circuit:circuit-runtime", version.ref = "circuit" }
+circuit-presenter = { module = "com.slack.circuit:circuit-runtime-presenter", version.ref = "circuit" }
+circuit-ui = { module = "com.slack.circuit:circuit-runtime-ui", version.ref = "circuit" }
 
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "composeMultiplatform" }

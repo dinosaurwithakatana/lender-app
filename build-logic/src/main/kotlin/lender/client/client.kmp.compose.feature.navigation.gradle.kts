@@ -67,6 +67,8 @@ kotlin {
 
       implementation(project(":shared"))
       implementation(project(":client:navigation:core"))
+
+      implementation(libs.circuit.runtime)
     }
     commonTest.dependencies {
       implementation(libs.kotlin.test)
