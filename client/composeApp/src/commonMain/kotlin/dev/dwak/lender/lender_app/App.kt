@@ -22,7 +22,10 @@ fun App(graph: ClientGraph) {
         // Do something when the root screen is popped, usually exiting the app
       }
       CircuitCompositionLocals(graph.circuit) {
-        NavigableCircuitContent(navigator = navigator, backStack = backStack)
+        NavigableCircuitContent(
+          navigator = navigator,
+          backStack = backStack,
+        )
       }
     }
   }

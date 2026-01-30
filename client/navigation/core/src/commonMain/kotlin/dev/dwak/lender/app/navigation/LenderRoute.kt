@@ -1,5 +1,5 @@
 package dev.dwak.lender.app.navigation
 
-import androidx.navigation3.runtime.NavKey
+import com.slack.circuit.runtime.screen.Screen
 
-interface LenderRoute : NavKey
+interface LenderRoute : Screen
