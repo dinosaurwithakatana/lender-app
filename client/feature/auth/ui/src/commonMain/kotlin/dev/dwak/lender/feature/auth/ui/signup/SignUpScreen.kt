@@ -1,4 +1,4 @@
-package dev.dwak.lender.feature.auth.ui.login
+package dev.dwak.lender.feature.auth.ui.signup
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,17 +13,18 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.ui.Ui
 import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
 import dev.dwak.lender.feature.auth.presenter.login.LoginEvents
-import dev.dwak.lender.feature.auth.presenter.login.LoginState
+import dev.dwak.lender.feature.auth.presenter.signup.SignUpEvents
+import dev.dwak.lender.feature.auth.presenter.signup.SignUpState
 import dev.zacsweers.metro.AppScope
 
 @CircuitInject(
-  screen = AuthRoutes.Login::class,
+  screen = AuthRoutes.SignUp::class,
   scope = AppScope::class
 )
-class LoginScreen() : Ui<LoginState> {
+class SignUpScreen : Ui<SignUpState>{
   @Composable
   override fun Content(
-    state: LoginState,
+    state: SignUpState,
     modifier: Modifier
   ) {
     Column(
@@ -37,10 +38,11 @@ class LoginScreen() : Ui<LoginState> {
       Text("Password")
       TextField(password)
       Button(onClick = {
-        state.dispatch(LoginEvents.Login)
+        state.dispatch(SignUpEvents.SignUp)
       }) {
-        Text("Login")
+        Text("Sign Up")
       }
     }
+
   }
 }

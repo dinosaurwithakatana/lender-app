@@ -34,7 +34,7 @@ class LaunchUi : Ui<LaunchState> {
         Text("Login")
       }
       Button(onClick = {
-
+        state.dispatch(LaunchEvents.GoToSignUp)
       }) {
         Text("Sign Up")
       }

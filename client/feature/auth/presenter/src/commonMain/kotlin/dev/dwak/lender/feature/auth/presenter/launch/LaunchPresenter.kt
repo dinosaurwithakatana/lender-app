@@ -19,6 +19,7 @@ class LaunchPresenter(
     return LaunchState() { event ->
       when (event) {
         LaunchEvents.GoToLogin -> navigator.goTo(AuthRoutes.Login)
+        LaunchEvents.GoToSignUp -> navigator.goTo(AuthRoutes.SignUp)
       }
     }
   }

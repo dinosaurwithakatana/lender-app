@@ -5,11 +5,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
+import com.slack.circuitx.gesturenavigation.GestureNavigationDecorationFactory
+import com.slack.circuitx.navigation.intercepting.rememberInterceptingNavigator
 import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
 
 @Composable
@@ -21,10 +24,21 @@ fun App(graph: ClientGraph) {
       val navigator = rememberCircuitNavigator(backStack) {
         // Do something when the root screen is popped, usually exiting the app
       }
+      val interceptedNavigator = rememberInterceptingNavigator(
+        navigator = navigator,
+        interceptors = graph.navigationInterceptors.toList()
+      )
       CircuitCompositionLocals(graph.circuit) {
         NavigableCircuitContent(
           navigator = navigator,
           backStack = backStack,
+          decoratorFactory =
+            remember(navigator) {
+              GestureNavigationDecorationFactory(
+                // Pop the back stack once the user has gone 'back'
+                onBackInvoked = navigator::pop
+              )
+            }
         )
       }
     }
