@@ -16,6 +16,7 @@ kotlin {
       implementation(projects.client.navigation.integration)
 
       implementation(projects.client.feature.auth.ui)
+      implementation(projects.client.feature.home.ui)
 
     }
   }

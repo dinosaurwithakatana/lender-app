@@ -3,6 +3,7 @@ import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
@@ -101,12 +102,11 @@ dependencies {
 
 ksp { arg("circuit.codegen.mode", "metro") }
 
-tasks.withType<KotlinCompilationTask<*>>().configureEach {
-  if (this is AbstractKotlinCompile<*>) {
-    // Disable incremental in this project because we're generating top-level declarations
-    // TODO remove after Soon™️ (2.2?)
+tasks.withType(AbstractKotlinCompile::class.java).configureEach {
     incremental = false
-  }
-
+    if (this is Kotlin2JsCompile) {
+      @Suppress("INVISIBLE_REFERENCE")
+      incrementalJsKlib = false
+    }
   dependsOn("kspCommonMainKotlinMetadata")
 }

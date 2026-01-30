@@ -80,13 +80,10 @@ kotlin {
 dependencies {
   "androidRuntimeClasspath"(compose.uiTooling)
 }
-
 tasks.withType<KotlinCompilationTask<*>>().configureEach {
   if (this is AbstractKotlinCompile<*>) {
     // Disable incremental in this project because we're generating top-level declarations
     // TODO remove after Soon™️ (2.2?)
     incremental = false
   }
-
-//  dependsOn("kspCommonMainKotlinMetadata")
 }

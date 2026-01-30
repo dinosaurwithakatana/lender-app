@@ -13,30 +13,28 @@ import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import com.slack.circuitx.gesturenavigation.GestureNavigationDecorationFactory
 import com.slack.circuitx.navigation.intercepting.rememberInterceptingNavigator
-import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
+import dev.dwak.lender.feature.home.navigation.HomeRoutes
 
 @Composable
 fun App(graph: ClientGraph) {
   MaterialTheme {
-
     Box(modifier = Modifier.fillMaxSize().safeContentPadding()) {
-      val backStack = rememberSaveableBackStack(root = AuthRoutes.Launch)
-      val navigator = rememberCircuitNavigator(backStack) {
-        // Do something when the root screen is popped, usually exiting the app
-      }
+      val backStack = rememberSaveableBackStack(root = HomeRoutes.Home)
       val interceptedNavigator = rememberInterceptingNavigator(
-        navigator = navigator,
+        navigator = rememberCircuitNavigator(backStack) {
+          // Do something when the root screen is popped, usually exiting the app
+        },
         interceptors = graph.navigationInterceptors.toList()
       )
       CircuitCompositionLocals(graph.circuit) {
         NavigableCircuitContent(
-          navigator = navigator,
+          navigator = interceptedNavigator,
           backStack = backStack,
           decoratorFactory =
-            remember(navigator) {
+            remember(interceptedNavigator) {
               GestureNavigationDecorationFactory(
                 // Pop the back stack once the user has gone 'back'
-                onBackInvoked = navigator::pop
+                onBackInvoked = interceptedNavigator::pop
               )
             }
         )
