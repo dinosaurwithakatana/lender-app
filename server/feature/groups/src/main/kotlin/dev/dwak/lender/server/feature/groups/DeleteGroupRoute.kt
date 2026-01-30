@@ -38,7 +38,7 @@ class DeleteGroupRoute(
       val result = dataModifier.submit(
         DeleteGroupMod(
           id = ServerGroupId(request.id),
-          requestingProfileId = profile.id
+          requestingProfileId = profile!!.id
         )
       )
     ) {

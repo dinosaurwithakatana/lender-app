@@ -36,7 +36,7 @@ class CreateGroupRoute(
       val result = dataModifier.submit(
         CreateGroupMod(
           name = request.name,
-          owner = profileRepo.getByUserId(principal.userId).id
+          owner = profileRepo.getByUserId(principal.userId)!!.id
         )
       )) {
       is CreateGroupMod.Result.Success -> {
