@@ -64,13 +64,13 @@ kotlin {
 
       implementation(libs.metro.android)
     }
-    commonMain{
+    commonMain {
       kotlin {
         kotlin {
           srcDir("build/generated/ksp/metadata/commonMain/kotlin")
         }
-
       }
+
       dependencies {
         implementation(libs.compose.runtime)
         implementation(libs.compose.foundation)
@@ -98,6 +98,7 @@ dependencies {
 }
 
 ksp { arg("circuit.codegen.mode", "metro") }
+
 tasks.withType(AbstractKotlinCompile::class.java).configureEach {
   incremental = false
   if (this is Kotlin2JsCompile) {

@@ -12,6 +12,7 @@ kotlin {
       implementation(libs.circuit.foundation)
       implementation(libs.circuit.gestures)
       implementation(libs.circuit.navigation)
+      implementation(libs.circuit.codegen.annotations)
 
       implementation(projects.client.navigation.integration)
 
