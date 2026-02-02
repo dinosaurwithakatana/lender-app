@@ -40,5 +40,4 @@ class LaunchUi : Ui<LaunchState> {
       }
     }
   }
-
 }

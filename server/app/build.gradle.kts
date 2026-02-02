@@ -15,24 +15,6 @@ application {
   applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
-ktor {
-//  docker {
-//    jreVersion.set(JavaVersion.valueOf("VERSION_${libs.versions.java.get()}"))
-//    localImageName.set("lender-api-server")
-//  }
-
-//  openApi {
-//    enabled = true
-//    codeInferenceEnabled = true
-//    onlyCommented = false
-//    debug = true
-//  }
-}
-
-metro {
-  enableTopLevelFunctionInjection.set(true)
-}
-
 dependencies {
   implementation(projects.datamodifier.implementation)
   implementation(projects.datamodifier.server.handlers)

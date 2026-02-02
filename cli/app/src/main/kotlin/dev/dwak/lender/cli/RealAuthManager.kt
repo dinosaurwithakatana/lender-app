@@ -46,7 +46,7 @@ class RealAuthManager(
         val serverUser = userRepo.getUserByToken(result.token)
         val serverProfile = profileRepo.getByUserId(serverUser.id)
         val cliProfile = CliProfile(
-          id = serverProfile.id.id,
+          id = serverProfile!!.id.id,
           token = result.token,
           email = serverUser.email
         )

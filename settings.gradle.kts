@@ -59,6 +59,7 @@ include(
   ":datamodifier:client:handlers",
   ":datamodifier:server:modifications",
   ":datamodifier:server:handlers",
+  ":datastore:client:api",
   ":models:api",
   ":models:cli",
   ":models:server",
