@@ -8,7 +8,7 @@ kotlin {
     commonMain {
       dependencies {
         api(projects.datastore.client.models)
-        api(libs.androidx.datastore)
+        api(libs.androidx.datastore.core.okio)
         implementation(libs.kotlinx.serialization.json)
         implementation(libs.kotlinx.serialization.json.okio)
       }

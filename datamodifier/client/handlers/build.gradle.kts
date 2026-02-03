@@ -12,6 +12,7 @@ kotlin {
       implementation(projects.datamodifier.client.modifications)
 
       implementation(projects.client.network)
+      implementation(projects.datastore.client.models)
     }
   }
 }
