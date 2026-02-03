@@ -76,6 +76,7 @@ navigation3-browser = { module = "com.github.terrakok:navigation3-browser", vers
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+kotlinx-serialization-json-okio = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json-okio", version.ref = "kotlinxSerialization" }
 kotlinx-io = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinxIo" }
 ktor-serverAuth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
 ktor-serverAuth-apiKey = { module = "io.ktor:ktor-server-auth-api-key", version.ref = "ktor" }

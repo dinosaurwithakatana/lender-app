@@ -27,7 +27,7 @@ class CreateInviteLink(
     when (val result = dataModifier.submit(
       CreateInviteLinkMod(
         name = name,
-        createdByProfileId = profileRepo.getByEmail(invitingEmail).id,
+        createdByProfileId = profileRepo.getByEmail(invitingEmail)!!.id,
         expiresOn = Clock.System.now().plus(expirationDays.days)
       )
     )) {

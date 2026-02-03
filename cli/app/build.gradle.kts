@@ -17,6 +17,8 @@ dependencies {
   implementation(projects.datamodifier.implementation)
   implementation(projects.datamodifier.server.handlers)
 
+  implementation(projects.datastore.client.serializers)
+
   implementation(projects.database)
   implementation(projects.shared)
 
