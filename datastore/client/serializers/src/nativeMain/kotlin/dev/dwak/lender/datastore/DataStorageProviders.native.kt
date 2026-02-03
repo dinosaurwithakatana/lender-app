@@ -11,6 +11,6 @@ actual fun createUserInfoStorage(appDir: Path): Storage<DsUserInfo> = OkioStorag
   fileSystem = FileSystem.SYSTEM,
   serializer = UserInfoSerializer,
   producePath = {
-    appDir.toString().toPath()
+    "$appDir/user_info.json".toPath()
   }
 )
