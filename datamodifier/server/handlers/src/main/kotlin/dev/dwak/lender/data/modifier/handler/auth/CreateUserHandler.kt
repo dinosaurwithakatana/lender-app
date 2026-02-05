@@ -13,6 +13,7 @@ import dev.dwak.lender.db.InviteLinkQueries
 import dev.dwak.lender.db.ProfileQueries
 import dev.dwak.lender.db.TokenQueries
 import dev.dwak.lender.lender_app.generateToken
+import dev.dwak.lender.models.server.ServerUserId
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.binding
@@ -59,6 +60,9 @@ class CreateUserHandler(
       )
     )
 
-    return CreateUserMod.Result.Success(token)
+    return CreateUserMod.Result.Success(
+      token = token,
+      userId = ServerUserId(userId.id)
+    )
   }
 }

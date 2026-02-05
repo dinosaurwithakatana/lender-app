@@ -40,7 +40,13 @@ class LoginRoute(
       }
 
       is LoginUserMod.Result.Success -> {
-        call.respond(HttpStatusCode.OK, ApiLoginSuccessResponse(result.token))
+        call.respond(
+          status = HttpStatusCode.OK,
+          message = ApiLoginSuccessResponse(
+            token = result.token,
+            userId = result.id.id
+          )
+        )
       }
     }
   }

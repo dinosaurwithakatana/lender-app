@@ -6,7 +6,8 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
-        api(projects.models.client)
+        api(projects.repos.client.api)
+        implementation(projects.datastore.client.models)
       }
     }
   }

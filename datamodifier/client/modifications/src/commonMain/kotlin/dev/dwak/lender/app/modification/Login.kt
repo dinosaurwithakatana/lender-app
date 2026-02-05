@@ -11,5 +11,6 @@ data class LoginUser(
 ): DataModification<LoginUser.Result> {
   sealed interface Result: DataModification.Result {
     data object Success: Result
+    data object Error: Result
   }
 }

@@ -5,7 +5,6 @@ import dev.dwak.lender.data.modification.auth.LoginUserMod
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.datastore.DsUserInfo
 import dev.dwak.lender.datastore.UserState
-import dev.dwak.lender.lender_app.AppDir
 import dev.dwak.lender.lender_app.coroutines.Io
 import dev.dwak.lender.models.cli.CliProfile
 import dev.dwak.lender.repos.server.ProfileRepo
@@ -18,9 +17,6 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import kotlinx.io.files.Path
-import kotlinx.serialization.json.Json
-import java.io.File
 
 @ContributesBinding(AppScope::class)
 @Inject
@@ -55,7 +51,7 @@ class RealAuthManager(
         )
         datastore.updateData {
           it.copy(
-            token = UserState.LoggedIn(
+            userState = UserState.LoggedIn(
               token = cliProfile.token,
               userId = cliProfile.id,
               email = cliProfile.email
@@ -70,13 +66,13 @@ class RealAuthManager(
   override suspend fun logout() {
     datastore.updateData {
       it.copy(
-        token = UserState.LoggedOut,
+        userState = UserState.LoggedOut,
       )
     }
   }
 
   override suspend fun isLoggedIn(): Boolean {
-    return datastore.data.first().token is UserState.LoggedIn
+    return datastore.data.first().userState is UserState.LoggedIn
   }
 
   override suspend fun currentProfile(): CliProfile = withContext(ioDispatcher) {

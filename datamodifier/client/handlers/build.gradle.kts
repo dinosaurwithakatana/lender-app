@@ -7,9 +7,8 @@ kotlin {
     commonMain.dependencies {
       implementation(projects.shared)
 
-      implementation(projects.datamodifier.api)
-      implementation(projects.datamodifier.common.handlers)
-      implementation(projects.datamodifier.client.modifications)
+      api(projects.datamodifier.common.handlers)
+      api(projects.datamodifier.client.modifications)
 
       implementation(projects.client.network)
       implementation(projects.datastore.client.models)

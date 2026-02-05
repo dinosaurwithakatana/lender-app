@@ -30,12 +30,10 @@ class LoginScreen() : Ui<LoginState> {
       modifier = modifier.fillMaxSize(),
       horizontalAlignment = Alignment.CenterHorizontally
     ) {
-      val username = rememberTextFieldState()
-      val password = rememberTextFieldState()
       Text("Username")
-      TextField(username)
+      TextField(state.username)
       Text("Password")
-      TextField(password)
+      TextField(state.password)
       Button(onClick = {
         state.dispatch(LoginEvents.Login)
       }) {

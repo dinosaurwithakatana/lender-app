@@ -8,6 +8,9 @@ kotlin {
   sourceSets {
     commonMain.dependencies {
       implementation(libs.ktorfit)
+      implementation(libs.ktor.clientContentNegotiation)
+      implementation(libs.ktor.serialzationJson)
+      api(libs.ktorfit.response)
       api(projects.models.api)
     }
   }

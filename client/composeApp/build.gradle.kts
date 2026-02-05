@@ -19,6 +19,11 @@ kotlin {
       implementation(projects.client.feature.auth.ui)
       implementation(projects.client.feature.home.ui)
 
+      implementation(projects.repos.client.implementation)
+      implementation(projects.datastore.client.serializers)
+      implementation(projects.datamodifier.implementation)
+      implementation(projects.datamodifier.client.handlers)
+
     }
   }
 }

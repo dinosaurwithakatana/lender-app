@@ -15,7 +15,7 @@ class GenerateApiKey(
 
   override suspend fun run() {
     when (val result = dataModifier.submit(CreateApiKeyMod(name = name))) {
-      is CreateApiKeyMod.Result.Success -> echo("Successfully created API key ${result.apiKey}")
+      is CreateApiKeyMod.Result.Success -> echo("Successfully created API key ${result.apiKey.key}")
     }
   }
 }

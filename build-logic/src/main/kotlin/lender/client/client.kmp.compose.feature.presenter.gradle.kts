@@ -82,6 +82,8 @@ kotlin {
 
         implementation(project(":shared"))
         implementation(project(":client:navigation:core"))
+        implementation(project(":datamodifier:api"))
+        implementation(project(":datamodifier:client:modifications"))
 
         implementation(libs.circuit.presenter)
         implementation(libs.circuit.codegen.annotations)

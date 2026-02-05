@@ -41,7 +41,13 @@ class SignUpRoute(
       )
       when (result) {
         is CreateUserMod.Result.Success -> {
-          call.respond(HttpStatusCode.OK, ApiSignupSuccessResponse(result.token))
+          call.respond(
+            HttpStatusCode.OK,
+            ApiSignupSuccessResponse(
+              token = result.token,
+              userId = result.userId.id
+            )
+          )
         }
 
         CreateUserMod.Result.InvalidEmail -> TODO()

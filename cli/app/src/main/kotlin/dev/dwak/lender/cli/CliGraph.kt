@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.command.SuspendingCliktCommand
 import com.github.ajalt.clikt.command.main
 import com.github.ajalt.clikt.core.subcommands
 import dev.dwak.lender.lender_app.AppDir
+import dev.dwak.lender.lender_app.DbDir
 import dev.dwak.lender.lender_app.coroutines.Io
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.DependencyGraph
@@ -42,9 +43,20 @@ interface CliGraph {
 
   @Provides
   @AppDir
-  fun dataDirectory(): Path {
+  fun appDirectory(): Path {
     val userHome = System.getProperty("user.home")
     val localStorageDir = Path(userHome, ".config/lender/cli")
+    if(!SystemFileSystem.exists(localStorageDir)) {
+      SystemFileSystem.createDirectories(localStorageDir, true)
+    }
+    return localStorageDir
+  }
+
+  @Provides
+  @DbDir
+  fun dbDirectory(): Path {
+    val userHome = System.getProperty("user.home")
+    val localStorageDir = Path(userHome, ".config/lender/data")
     if(!SystemFileSystem.exists(localStorageDir)) {
       SystemFileSystem.createDirectories(localStorageDir, true)
     }

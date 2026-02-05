@@ -9,6 +9,7 @@ import dev.dwak.lender.db.DbToken
 import dev.dwak.lender.db.TokenQueries
 import dev.dwak.lender.db.UserQueries
 import dev.dwak.lender.lender_app.generateToken
+import dev.dwak.lender.models.server.ServerUserId
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.binding
@@ -36,7 +37,10 @@ class LoginUserHandler(
             user_id = dbUser.id
           )
         ).await()
-        return LoginUserMod.Result.Success(authToken)
+        return LoginUserMod.Result.Success(
+          token = authToken,
+          id = ServerUserId(dbUser.id.id)
+        )
       } else {
         return LoginUserMod.Result.Failure("Incorrect password")
       }
