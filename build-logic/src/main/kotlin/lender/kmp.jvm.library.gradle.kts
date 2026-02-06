@@ -1,6 +1,9 @@
 import com.android.build.api.variant.impl.capitalizeFirstChar
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+import kotlin.jvm.java
 
 plugins {
   id("org.jetbrains.kotlin.multiplatform")
@@ -46,5 +49,13 @@ kotlin {
     commonTest.dependencies {
       implementation(libs.kotlin.test)
     }
+  }
+}
+
+tasks.withType(AbstractKotlinCompile::class.java).configureEach {
+  incremental = false
+  if (this is Kotlin2JsCompile) {
+    @Suppress("INVISIBLE_REFERENCE")
+    incrementalJsKlib = false
   }
 }

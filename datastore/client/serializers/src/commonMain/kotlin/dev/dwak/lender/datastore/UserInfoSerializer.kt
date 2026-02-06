@@ -15,11 +15,11 @@ object UserInfoSerializer : OkioSerializer<DsUserInfo> {
 
   @OptIn(ExperimentalSerializationApi::class)
   override suspend fun readFrom(source: BufferedSource): DsUserInfo {
-    return Json.Default.decodeFromBufferedSource<DsUserInfo>(source)
+    return Json.decodeFromBufferedSource<DsUserInfo>(source)
   }
 
   @OptIn(ExperimentalSerializationApi::class)
   override suspend fun writeTo(t: DsUserInfo, sink: BufferedSink) {
-    Json.Default.encodeToBufferedSink(t, sink)
+    Json.encodeToBufferedSink(t, sink)
   }
 }

@@ -5,10 +5,7 @@ plugins {
 kotlin {
   sourceSets {
     commonMain.dependencies {
-      implementation(projects.shared)
-
       implementation(projects.datamodifier.api)
-      implementation(projects.client.network)
     }
   }
 }

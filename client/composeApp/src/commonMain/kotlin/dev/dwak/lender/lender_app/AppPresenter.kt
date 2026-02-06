@@ -26,7 +26,6 @@ class AppPresenter(
 ) : Presenter<AppState> {
   @Composable
   override fun present(): AppState {
-    var isLoggedIn by remember { mutableStateOf(false) }
     val state by produceState(
       AppState(
         navigationInterceptors = navigationInterceptors,

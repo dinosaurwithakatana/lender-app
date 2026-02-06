@@ -31,12 +31,14 @@ class SignUpScreen : Ui<SignUpState>{
       modifier = modifier.fillMaxSize(),
       horizontalAlignment = Alignment.CenterHorizontally
     ) {
-      val username = rememberTextFieldState()
-      val password = rememberTextFieldState()
       Text("Username")
-      TextField(username)
+      TextField(state.username)
       Text("Password")
-      TextField(password)
+      TextField(state.password)
+      Text("Confirm Password")
+      TextField(state.confirmPassword)
+      Text("Invite Code")
+      TextField(state.inviteCode)
       Button(onClick = {
         state.dispatch(SignUpEvents.SignUp)
       }) {

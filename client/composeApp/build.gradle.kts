@@ -23,6 +23,7 @@ kotlin {
       implementation(projects.datastore.client.serializers)
       implementation(projects.datamodifier.implementation)
       implementation(projects.datamodifier.client.handlers)
+      implementation(projects.client.network)
 
     }
   }
