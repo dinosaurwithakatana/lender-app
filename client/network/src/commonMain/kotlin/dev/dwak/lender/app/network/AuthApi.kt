@@ -8,10 +8,14 @@ import dev.dwak.lender.models.api.request.auth.ApiSignUpRequest
 import dev.dwak.lender.models.api.response.ApiLoginSuccessResponse
 import dev.dwak.lender.models.api.response.ApiSignupSuccessResponse
 
-interface LoginApi {
+interface AuthApi {
   @POST("login")
   suspend fun login(@Body request: ApiLoginRequest): Response<ApiLoginSuccessResponse>
 
   @POST("signup")
   suspend fun signup(@Body request: ApiSignUpRequest): Response<ApiSignupSuccessResponse>
+
+  @POST("logout")
+  suspend fun logout()
+
 }

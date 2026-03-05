@@ -44,5 +44,5 @@ interface NetworkProviders {
 
   @Provides
   @SingleIn(AppScope::class)
-  fun loginApi(ktorfit: Ktorfit): LoginApi = ktorfit.createLoginApi()
+  fun loginApi(ktorfit: Ktorfit): AuthApi = ktorfit.createLoginApi()
 }
