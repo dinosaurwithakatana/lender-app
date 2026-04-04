@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-  api("commons-logging:commons-logging:1.3.5")
+  api("commons-logging:commons-logging:1.3.6")
   api("org.bouncycastle:bcpkix-jdk18on:1.83")
 
   api(projects.shared)
