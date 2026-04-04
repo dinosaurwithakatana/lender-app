@@ -1,4 +1,3 @@
-import gradle.kotlin.dsl.accessors._ab250ab1e992ee77c407531f712dd0cd.kotlin
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 
 plugins {
