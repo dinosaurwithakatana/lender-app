@@ -14,6 +14,7 @@ plugins {
   id("dev.zacsweers.metro")
   id("org.jetbrains.kotlin.plugin.serialization")
   id("com.google.devtools.ksp")
+  id("parcelize")
 }
 
 val libs = the<LibrariesForLibs>()
@@ -26,7 +27,7 @@ kotlin {
     freeCompilerArgs.set(listOf("-Xcontext-parameters"))
   }
   @Suppress("UnstableApiUsage")
-  androidLibrary {
+  android {
     namespace = pathSegments.joinToString("-")
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     minSdk = libs.versions.android.minSdk.get().toInt()

@@ -9,6 +9,7 @@ plugins {
   id("org.jetbrains.kotlin.multiplatform")
   id("com.android.kotlin.multiplatform.library")
   id("org.jetbrains.compose")
+  id("parcelize")
   id("org.jetbrains.kotlin.plugin.compose")
   id("dev.zacsweers.metro")
   id("org.jetbrains.kotlin.plugin.serialization")
