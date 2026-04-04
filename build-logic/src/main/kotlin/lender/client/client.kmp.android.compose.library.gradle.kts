@@ -2,6 +2,7 @@ import com.android.build.api.variant.impl.capitalizeFirstChar
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
@@ -11,6 +12,7 @@ plugins {
   id("com.android.kotlin.multiplatform.library")
   id("org.jetbrains.compose")
   id("org.jetbrains.kotlin.plugin.compose")
+  id("parcelize")
   id("dev.zacsweers.metro")
   id("org.jetbrains.kotlin.plugin.serialization")
   id("com.google.devtools.ksp")
@@ -26,7 +28,7 @@ kotlin {
     freeCompilerArgs.set(listOf("-Xcontext-parameters"))
   }
   @Suppress("UnstableApiUsage")
-  androidLibrary {
+  android {
     namespace = pathSegments.joinToString("-")
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     minSdk = libs.versions.android.minSdk.get().toInt()

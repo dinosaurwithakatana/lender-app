@@ -1,5 +1,5 @@
 [versions]
-agp = "9.1.0-alpha08"
+agp = "9.1.0"
 android-compileSdk = "36"
 android-minSdk = "28"
 android-targetSdk = "36"
@@ -21,7 +21,7 @@ compose-multiplatform-lifecycle = "2.10.0-alpha08"
 compose-multiplatform-navigation3-browser = "0.3.1"
 java = "21"
 junit = "4.13.2"
-kotlin = "2.3.20-Beta2"
+kotlin = "2.3.20"
 kotlinxIo = "0.8.2"
 kotlinxSerialization = "1.10.0"
 ksp = "2.3.4"
@@ -112,6 +112,7 @@ android-kmpLibrary-gradle-plugin = { module = " com.android.kotlin.multiplatform
 compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 compose-multiplatform-gradle-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "composeMultiplatform" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-parcelize-plugin = { module = "org.jetbrains.kotlin.plugin.parcelize:org.jetbrains.kotlin.plugin.parcelize.gradle.plugin", version.ref = "kotlin" }
 kotlinx-serialization-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 ksp-gradle-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 ktor-gradle-plugin = { module = "io.ktor.plugin:io.ktor.plugin.gradle.plugin", version.ref = "ktor" }
@@ -126,6 +127,7 @@ build-plugins = [
     "compose-compiler-gradle-plugin",
     "compose-multiplatform-gradle-plugin",
     "kotlin-gradle-plugin",
+    "kotlin-parcelize-plugin",
     "kotlinx-serialization-gradle-plugin",
     "ksp-gradle-plugin",
     "ktorfit-gradle-plugin",
@@ -142,6 +144,7 @@ composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMul
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }

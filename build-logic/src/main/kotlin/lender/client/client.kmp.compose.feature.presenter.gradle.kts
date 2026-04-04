@@ -26,7 +26,7 @@ kotlin {
     freeCompilerArgs.set(listOf("-Xcontext-parameters"))
   }
   @Suppress("UnstableApiUsage")
-  androidLibrary {
+  android {
     namespace = pathSegments.joinToString("-")
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     minSdk = libs.versions.android.minSdk.get().toInt()
