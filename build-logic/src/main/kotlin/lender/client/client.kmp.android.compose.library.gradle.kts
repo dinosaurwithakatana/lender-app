@@ -98,10 +98,11 @@ kotlin {
 // build.gradle.kts
 dependencies {
   "androidRuntimeClasspath"(libs.compose.ui.tooling.preview)
-  add("kspCommonMainMetadata", libs.circuit.codegen)
 }
 
-ksp { arg("circuit.codegen.mode", "metro") }
+metro {
+  enableCircuitCodegen.set(true)
+}
 
 tasks.withType(AbstractKotlinCompile::class.java).configureEach {
   incremental = false
