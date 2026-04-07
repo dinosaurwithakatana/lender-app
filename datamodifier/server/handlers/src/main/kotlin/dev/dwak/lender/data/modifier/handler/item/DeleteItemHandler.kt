@@ -2,20 +2,16 @@ package dev.dwak.lender.data.modifier.handler.item
 
 import dev.dwak.lender.data.modification.item.DeleteItemMod
 import dev.dwak.lender.data.modifier.DataModification
-import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
 import dev.dwak.lender.db.DbItem
 import dev.dwak.lender.db.DbProfile
 import dev.dwak.lender.db.ItemQueries
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.binding
 import kotlin.uuid.ExperimentalUuidApi
 
-@ContributesIntoMap(
-  scope = AppScope::class,
-  binding = binding<@ModificationKey(DeleteItemMod::class) BoundHandler>()
-)
+@ContributesIntoMap(scope = AppScope::class)
+@ModificationKey(DeleteItemMod::class)
 class DeleteItemHandler(
   private val itemQueries: ItemQueries,
 ) : DataModification.Handler<DeleteItemMod.Result, DeleteItemMod> {

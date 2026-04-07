@@ -2,7 +2,6 @@ package dev.dwak.lender.data.modifier.handler.item
 
 import dev.dwak.lender.data.modification.item.ShareItemMod
 import dev.dwak.lender.data.modifier.DataModification
-import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
 import dev.dwak.lender.data.modifier.handler.toDb
 import dev.dwak.lender.db.DbGroup
@@ -14,13 +13,10 @@ import dev.dwak.lender.db.ItemGroupAccessQueries
 import dev.dwak.lender.db.ItemQueries
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.binding
 import kotlin.time.Clock
 
-@ContributesIntoMap(
-  scope = AppScope::class,
-  binding = binding<@ModificationKey(ShareItemMod::class) BoundHandler>()
-)
+@ContributesIntoMap(scope = AppScope::class)
+@ModificationKey(ShareItemMod::class)
 class ShareItemHandler(
   private val itemGroupAccessQueries: ItemGroupAccessQueries,
   private val itemQueries: ItemQueries,
