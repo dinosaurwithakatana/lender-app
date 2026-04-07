@@ -105,10 +105,16 @@ dependencies {
 ksp { arg("circuit.codegen.mode", "metro") }
 
 tasks.withType(AbstractKotlinCompile::class.java).configureEach {
-    incremental = false
-    if (this is Kotlin2JsCompile) {
-      @Suppress("INVISIBLE_REFERENCE")
-      incrementalJsKlib = false
-    }
+  incremental = false
+  if (this is Kotlin2JsCompile) {
+    @Suppress("INVISIBLE_REFERENCE")
+    incrementalJsKlib = false
+  }
+  if (name != "kspCommonMainKotlinMetadata") {
+    dependsOn("kspCommonMainKotlinMetadata")
+  }
+}
+
+tasks.matching { it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMetadata" }.configureEach {
   dependsOn("kspCommonMainKotlinMetadata")
 }

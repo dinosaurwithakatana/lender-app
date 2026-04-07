@@ -111,3 +111,7 @@ tasks.withType(AbstractKotlinCompile::class.java).configureEach {
   }
   dependsOn("kspCommonMainKotlinMetadata")
 }
+
+tasks.matching { it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMetadata" }.configureEach {
+  dependsOn("kspCommonMainKotlinMetadata")
+}
