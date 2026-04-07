@@ -1,5 +1,8 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+import kotlin.jvm.java
 
 plugins {
   alias(libs.plugins.kotlinMultiplatform)
@@ -41,6 +44,16 @@ kotlin {
     }
     commonTest.dependencies {
       implementation(libs.kotlin.test)
+    }
+  }
+}
+
+afterEvaluate {
+  tasks.withType(AbstractKotlinCompile::class.java).configureEach {
+    incremental = false
+    if (this is Kotlin2JsCompile) {
+      @Suppress("INVISIBLE_REFERENCE")
+      incrementalJsKlib = false
     }
   }
 }

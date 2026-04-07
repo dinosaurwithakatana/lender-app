@@ -6,6 +6,8 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 
 plugins {
   id("org.jetbrains.kotlin.multiplatform")
@@ -107,5 +109,11 @@ tasks.withType(AbstractKotlinCompile::class.java).configureEach {
     @Suppress("INVISIBLE_REFERENCE")
     incrementalJsKlib = false
   }
+  if (name != "kspCommonMainKotlinMetadata") {
+    dependsOn("kspCommonMainKotlinMetadata")
+  }
+}
+
+tasks.matching { it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMetadata" }.configureEach {
   dependsOn("kspCommonMainKotlinMetadata")
 }

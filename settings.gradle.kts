@@ -49,7 +49,7 @@ include(
   ":client:feature:home:navigation",
   ":client:feature:home:presenter",
   ":client:navigation:core",
-  ":client:navigation:integration",
+//  ":client:navigation:integration",
   ":client:composeApp",
   ":database",
   ":datamodifier:api",

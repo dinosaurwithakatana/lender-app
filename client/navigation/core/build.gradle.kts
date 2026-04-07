@@ -1,20 +1,17 @@
 plugins {
-  id("client.kmp.android.compose.library")
+  id("kmp.android.library")
+  id("parcelize")
+  alias(libs.plugins.kotlinxSerialization)
 }
 
 kotlin {
   sourceSets {
     commonMain.dependencies {
-      implementation(libs.androidx.lifecycle.viewmodelCompose)
-      implementation(libs.androidx.lifecycle.runtimeCompose)
-
-      api(libs.navigation3.ui)
+      api(libs.circuit.runtime)
+      implementation(libs.circuit.foundation)
     }
     commonTest.dependencies {
       implementation(libs.kotlin.test)
-    }
-    webMain.dependencies {
-      api(libs.navigation3.browser)
     }
   }
 }

@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+
 plugins {
   // this is necessary to avoid the plugins to be loaded multiple times
   // in each subproject's classloader
@@ -33,4 +36,9 @@ subprojects {
     }
     archiveBaseName.set("$parentName${project.name}")
   }
+}
+
+// workaround https://github.com/GoogleContainerTools/jib/issues/3132
+tasks.filter { it.name in setOf("jibDockerBuild", "jibBuildTar", "jib", "runDocker") }.onEach {
+  it.notCompatibleWithConfigurationCache("Jib is not compatible with configuration cache")
 }

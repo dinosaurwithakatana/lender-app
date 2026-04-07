@@ -14,7 +14,7 @@ kotlin {
       implementation(libs.circuit.navigation)
       implementation(libs.circuit.codegen.annotations)
 
-      implementation(projects.client.navigation.integration)
+      implementation(projects.client.navigation.core)
 
       implementation(projects.client.feature.auth.ui)
       implementation(projects.client.feature.home.ui)
