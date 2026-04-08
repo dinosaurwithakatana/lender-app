@@ -2,7 +2,6 @@ package dev.dwak.lender.data.modifier.handler.auth
 
 import dev.dwak.lender.data.modification.auth.CreateInviteLinkMod
 import dev.dwak.lender.data.modifier.DataModification
-import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
 import dev.dwak.lender.db.DbInviteLink
 import dev.dwak.lender.db.DbProfile
@@ -10,12 +9,9 @@ import dev.dwak.lender.db.InviteLinkQueries
 import dev.dwak.lender.lender_app.generateToken
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.binding
 
-@ContributesIntoMap(
-  scope = AppScope::class,
-  binding = binding<@ModificationKey(CreateInviteLinkMod::class) BoundHandler>()
-)
+@ContributesIntoMap(scope = AppScope::class)
+@ModificationKey(CreateInviteLinkMod::class)
 class CreateInviteLinkHandler(
   private val inviteLinkQueries: InviteLinkQueries,
 ) : DataModification.Handler<CreateInviteLinkMod.Result, CreateInviteLinkMod> {

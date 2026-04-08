@@ -2,7 +2,6 @@ package dev.dwak.lender.data.modifier.handler.auth
 
 import dev.dwak.lender.data.modification.auth.CreateUserMod
 import dev.dwak.lender.data.modifier.DataModification
-import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
 import dev.dwak.lender.data.modifier.handler.PasswordHasher
 import dev.dwak.lender.db.DbInviteLink
@@ -16,14 +15,11 @@ import dev.dwak.lender.lender_app.generateToken
 import dev.dwak.lender.models.server.ServerUserId
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.binding
-import java.util.*
+import java.util.UUID
 import kotlin.time.Clock
 
-@ContributesIntoMap(
-  scope = AppScope::class,
-  binding = binding<@ModificationKey(CreateUserMod::class) BoundHandler>()
-)
+@ContributesIntoMap(scope = AppScope::class)
+@ModificationKey(CreateUserMod::class)
 class CreateUserHandler(
   private val inviteLinkQueries: InviteLinkQueries,
   private val profileQueries: ProfileQueries,

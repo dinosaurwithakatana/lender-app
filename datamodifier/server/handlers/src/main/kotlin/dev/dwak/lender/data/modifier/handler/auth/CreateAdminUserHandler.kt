@@ -15,10 +15,8 @@ import dev.zacsweers.metro.*
 import java.util.*
 import kotlin.time.Clock
 
-@ContributesIntoMap(
-  scope = AppScope::class,
-  binding = binding<@ModificationKey(CreateAdminUserMod::class) BoundHandler>()
-)
+@ContributesIntoMap(scope = AppScope::class)
+@ModificationKey(CreateAdminUserMod::class)
 class CreateAdminUserHandler(
   private val profileQueries: ProfileQueries,
   private val tokenQueries: TokenQueries,

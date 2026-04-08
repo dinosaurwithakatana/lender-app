@@ -2,7 +2,6 @@ package dev.dwak.lender.data.modifier.handler.group
 
 import dev.dwak.lender.data.modification.group.CreateGroupMod
 import dev.dwak.lender.data.modifier.DataModification
-import dev.dwak.lender.data.modifier.handler.BoundHandler
 import dev.dwak.lender.data.modifier.handler.ModificationKey
 import dev.dwak.lender.db.DbGroup
 import dev.dwak.lender.db.DbGroupMembership
@@ -11,14 +10,11 @@ import dev.dwak.lender.db.GroupQueries
 import dev.dwak.lender.models.server.ServerGroupId
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.binding
-import java.util.*
+import java.util.UUID
 import kotlin.time.Clock
 
-@ContributesIntoMap(
-  scope = AppScope::class,
-  binding = binding<@ModificationKey(CreateGroupMod::class) BoundHandler>()
-)
+@ContributesIntoMap(scope = AppScope::class)
+@ModificationKey(CreateGroupMod::class)
 class CreateGroupHandler(
   private val groupQueries: GroupQueries
 ) : DataModification.Handler<CreateGroupMod.Result, CreateGroupMod> {
