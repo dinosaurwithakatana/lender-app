@@ -1,6 +1,6 @@
 FROM azul/zulu-openjdk-alpine:21-latest AS build
 RUN apk add --no-cache \
-    nodejs \
+      nodejs \
       npm \
  && rm -rf /var/cache/* \
  && mkdir /var/cache/apk
@@ -23,8 +23,8 @@ COPY repos ./repos
 COPY server ./server
 COPY shared ./shared
 
-RUN ./gradlew :cli:app:installDist
-RUN ./gradlew :server:app:installDist
+RUN ./gradlew -Pkotlin.daemon.jvmargs=-Xmx6144M :cli:app:installDist
+RUN ./gradlew --scan -Pkotlin.daemon.jvmargs=-Xmx6144M :server:app:installDist
 
 FROM eclipse-temurin:21-jre-alpine AS runtime
 RUN apk add --no-cache \

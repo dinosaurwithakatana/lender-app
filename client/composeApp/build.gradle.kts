@@ -29,7 +29,3 @@ kotlin {
     }
   }
 }
-
-kotlinNodeJsSpec {
-  download = false
-}

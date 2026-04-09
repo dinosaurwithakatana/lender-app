@@ -68,8 +68,7 @@ fun Application.module(graph: ServerGraph) {
         val validKey = graph.apiKeyRepo.hasKey(apiKey)
         if (validKey) {
           ApiKeyPrincipal(apiKey)
-        }
-        else {
+        } else {
           null
         }
       }
@@ -94,13 +93,8 @@ fun Application.module(graph: ServerGraph) {
         }
       }
     }
-//    get("/") {
-//      call.respondText("Ktor: ${Greeting().greet()}")
-//    }
-    routing {
-      staticResources("/", "static") {
-        default("index.html")
-      }
+    staticResources("/", "static") {
+      default("index.html")
     }
   }
 }
