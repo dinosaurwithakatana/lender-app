@@ -19,6 +19,7 @@ import io.ktor.server.auth.apikey.apiKey
 import io.ktor.server.auth.authenticate
 import io.ktor.server.auth.bearer
 import io.ktor.server.engine.embeddedServer
+import io.ktor.server.http.content.staticResources
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.response.respond
@@ -93,8 +94,13 @@ fun Application.module(graph: ServerGraph) {
         }
       }
     }
-    get("/") {
-      call.respondText("Ktor: ${Greeting().greet()}")
+//    get("/") {
+//      call.respondText("Ktor: ${Greeting().greet()}")
+//    }
+    routing {
+      staticResources("/", "static") {
+        default("index.html")
+      }
     }
   }
 }

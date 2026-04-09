@@ -40,3 +40,23 @@ dependencies {
   testImplementation(libs.ktor.serverTestHost)
   testImplementation(libs.kotlin.testJunit)
 }
+
+
+tasks.register<Copy>("copyWasmToServer") {
+  dependsOn(":client:composeApp:wasmJsBrowserDistribution")
+  from("../../client/composeApp/build/dist/wasmJs/productionExecutable")
+  into(layout.buildDirectory.dir("generated/wasmClient/resources/static"))
+}
+
+sourceSets {
+  main {
+    resources {
+      srcDir(layout.buildDirectory.dir("generated/wasmClient/resources"))
+    }
+  }
+}
+
+// server/build.gradle.kts
+tasks.named("processResources") {
+  dependsOn(":server:app:copyWasmToServer")
+}

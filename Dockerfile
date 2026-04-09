@@ -1,4 +1,10 @@
 FROM azul/zulu-openjdk-alpine:21-latest AS build
+RUN apk add --no-cache \
+    nodejs \
+      npm \
+ && rm -rf /var/cache/* \
+ && mkdir /var/cache/apk
+
 ENV GRADLE_OPTS="-Dorg.gradle.daemon=false -Dkotlin.incremental=false"
 WORKDIR /app
 
