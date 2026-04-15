@@ -28,7 +28,7 @@ interface NetworkProviders {
     @Named("base-url") baseUrl: String,
   ): Ktorfit = Ktorfit.Builder()
     .baseUrl(baseUrl)
-    .httpClient{
+    .httpClient {
       defaultRequest {
         contentType(ContentType.Application.Json)
         header("X-Api-Key", "f355dba1d5db4c7a938a369d6a125991")
@@ -38,7 +38,8 @@ interface NetworkProviders {
           isLenient = true
           ignoreUnknownKeys = true
         })
-      }    }
+      }
+    }
     .converterFactories(ResponseConverterFactory())
     .build()
 

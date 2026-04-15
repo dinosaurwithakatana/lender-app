@@ -44,8 +44,7 @@ interface CliGraph {
   @Provides
   @AppDir
   fun appDirectory(): Path {
-    val userHome = System.getProperty("user.home")
-    val localStorageDir = Path(userHome, ".config/lender/cli")
+    val localStorageDir = Path("/data", "/cli")
     if(!SystemFileSystem.exists(localStorageDir)) {
       SystemFileSystem.createDirectories(localStorageDir, true)
     }
@@ -55,8 +54,7 @@ interface CliGraph {
   @Provides
   @DbDir
   fun dbDirectory(): Path {
-    val userHome = System.getProperty("user.home")
-    val localStorageDir = Path(userHome, ".config/lender/data")
+    val localStorageDir = Path("/data", "/data")
     if(!SystemFileSystem.exists(localStorageDir)) {
       SystemFileSystem.createDirectories(localStorageDir, true)
     }

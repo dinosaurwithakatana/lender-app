@@ -35,8 +35,7 @@ interface ServerGraph {
   @SingleIn(AppScope::class)
   @AppDir
   fun appDirectory(): Path {
-    val userHome = System.getProperty("user.home")
-    val localStorageDir = Path(userHome, ".config/lender/server")
+    val localStorageDir = Path("/data", "/server")
     if(!SystemFileSystem.exists(localStorageDir)) {
       SystemFileSystem.createDirectories(localStorageDir, true)
     }
@@ -47,8 +46,7 @@ interface ServerGraph {
   @SingleIn(AppScope::class)
   @DbDir
   fun databaseDirectory(): Path {
-    val userHome = System.getProperty("user.home")
-    val localStorageDir = Path(userHome, ".config/lender/data")
+    val localStorageDir = Path("/data", "/data")
     if(!SystemFileSystem.exists(localStorageDir)) {
       SystemFileSystem.createDirectories(localStorageDir, true)
     }
