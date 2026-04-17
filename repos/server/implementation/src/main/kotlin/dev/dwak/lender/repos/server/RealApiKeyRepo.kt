@@ -18,4 +18,8 @@ class RealApiKeyRepo(
   override suspend fun hasKey(key: String): Boolean = withContext(dispatcher) {
     queries.hasKey(key).executeAsOne()
   }
+
+  override suspend fun getKeyByName(name: String): String? = withContext(dispatcher) {
+    queries.getByName(name).executeAsOneOrNull()?.apiKey
+  }
 }

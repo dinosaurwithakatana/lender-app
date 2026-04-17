@@ -20,6 +20,12 @@ insertKey:
 INSERT INTO dbApiKey(apiKey, name)
 VALUES ?;
 
+getByName:
+SELECT *
+FROM dbApiKey
+WHERE name = ?
+LIMIT 1;
+
 delete:
 DELETE FROM dbApiKey
 WHERE apiKey = ?;

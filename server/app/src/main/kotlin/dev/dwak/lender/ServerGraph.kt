@@ -3,6 +3,7 @@ package dev.dwak.lender
 import dev.dwak.lender.lender_app.AppDir
 import dev.dwak.lender.lender_app.DbDir
 import dev.dwak.lender.lender_app.coroutines.Io
+import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.repos.server.ApiKeyRepo
 import dev.dwak.lender.repos.server.UserRepo
 import dev.dwak.lender.server.common.LenderRoute
@@ -23,6 +24,8 @@ interface ServerGraph {
   val apiRoutes: Set<LenderRoute>
 
   val apiKeyRepo: ApiKeyRepo
+
+  val dataModifier: DataModifier
 
   val userRepo: UserRepo
 

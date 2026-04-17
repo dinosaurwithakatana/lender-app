@@ -4,12 +4,15 @@ import dev.dwak.lender.lender_app.Greeting
 import dev.dwak.lender.lender_app.SERVER_PORT
 import dev.dwak.lender.models.server.ServerToken
 import dev.dwak.lender.models.server.UserIdToken
+import dev.dwak.lender.data.modification.auth.CreateApiKeyMod
 import dev.dwak.lender.server.common.AuthenticatedLenderRoute
 import dev.dwak.lender.server.common.AuthenticatedTypedLenderRoute
 import dev.dwak.lender.server.common.LenderRoute
 import dev.zacsweers.metro.createGraph
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
@@ -22,12 +25,14 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.http.content.staticResources
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 
 fun main() {
@@ -48,6 +53,13 @@ fun Application.module(graph: ServerGraph) {
     json(Json {
       allowTrailingComma = true
     })
+  }
+
+  install(CORS) {
+    anyHost()
+    allowHeader(HttpHeaders.AccessControlAllowOrigin)
+    allowHeader(HttpHeaders.ContentType)
+    allowHeader("X-Api-Key")
   }
 
   install(Authentication) {
@@ -78,7 +90,23 @@ fun Application.module(graph: ServerGraph) {
     }
   }
 
+  val webClientKey = runBlocking {
+    graph.apiKeyRepo.getKeyByName("web-client")
+      ?: (graph.dataModifier.submit(CreateApiKeyMod(name = "web-client")) as CreateApiKeyMod.Result.Success).apiKey.key
+  }
+
   routing {
+    get("/") {
+      val html = this::class.java.classLoader
+        .getResourceAsStream("static/index.html")!!
+        .bufferedReader()
+        .readText()
+        .replace("\"__API_KEY__\"", "\"$webClientKey\"")
+      call.respondText(html, ContentType.Text.Html)
+    }
+
+    staticResources("/", "static")
+
     authenticate("api-key") {
       route("/api") {
         apiRoutes(graph.apiRoutes.filterNot {
@@ -92,9 +120,6 @@ fun Application.module(graph: ServerGraph) {
           }.toSet())
         }
       }
-    }
-    staticResources("/", "static") {
-      default("index.html")
     }
   }
 }
