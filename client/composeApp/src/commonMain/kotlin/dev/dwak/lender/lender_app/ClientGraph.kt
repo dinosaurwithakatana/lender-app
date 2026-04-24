@@ -21,6 +21,7 @@ interface ClientGraph {
     uiFactories: Set<Ui.Factory>,
 //    animatedScreenTransforms: Map<KClass<out Screen>, AnimatedScreenTransform>,
   ): Circuit {
+
     return Circuit.Builder()
       .addPresenterFactories(presenterFactories)
       .addUiFactories(uiFactories)

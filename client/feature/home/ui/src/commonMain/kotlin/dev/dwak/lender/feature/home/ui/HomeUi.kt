@@ -1,11 +1,14 @@
 package dev.dwak.lender.feature.home.ui
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.ui.Ui
 import dev.dwak.lender.feature.home.navigation.HomeRoutes
+import dev.dwak.lender.feature.home.presenter.HomeEvents
 import dev.dwak.lender.feature.home.presenter.HomeState
 import dev.zacsweers.metro.AppScope
 
@@ -19,6 +22,11 @@ class HomeUi : Ui<HomeState> {
     state: HomeState,
     modifier: Modifier
   ) {
-    Text("Home")
+    Column {
+      Text("Home")
+      Button(onClick = { state.dispatch(HomeEvents.Logout) }) {
+        Text("Logout")
+      }
+    }
   }
 }

@@ -4,4 +4,4 @@ import com.slack.circuit.runtime.CircuitUiState
 
 data class HomeState(
   val dispatch: (HomeEvents) -> Unit
-): CircuitUiState
+) : CircuitUiState

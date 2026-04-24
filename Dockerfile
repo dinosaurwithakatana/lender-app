@@ -24,7 +24,7 @@ COPY server ./server
 COPY shared ./shared
 
 RUN ./gradlew -Pkotlin.daemon.jvmargs=-Xmx6144M :cli:app:installDist
-RUN ./gradlew --scan -Pkotlin.daemon.jvmargs=-Xmx6144M :server:app:installDist
+RUN ./gradlew --scan -Pkotlin.daemon.jvmargs=-Xmx6144M -Plender.serverBuildsWeb=false :server:app:installDist
 
 FROM eclipse-temurin:21-jre-alpine AS runtime
 RUN apk add --no-cache \
@@ -34,6 +34,7 @@ RUN apk add --no-cache \
  && rm -rf /var/cache/* \
  && mkdir /var/cache/apk
 
+ENV LENDER_DATA_DIR=/data
 WORKDIR /app
 COPY --from=build /app/server/app/build/install/app ./server
 COPY --from=build /app/cli/app/build/install/lender-cli ./cli

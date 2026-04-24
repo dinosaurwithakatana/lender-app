@@ -43,21 +43,24 @@ dependencies {
 }
 
 
-tasks.register<Copy>("copyWasmToServer") {
-  dependsOn(":client:composeApp:wasmJsBrowserDistribution")
-  from("../../client/composeApp/build/dist/wasmJs/productionExecutable")
-  into(layout.buildDirectory.dir("generated/wasmClient/resources/static"))
-}
+val serverBuildsWeb = providers.gradleProperty("lender.serverBuildsWeb").map { it.toBoolean() }.getOrElse(true)
 
-sourceSets {
-  main {
-    resources {
-      srcDir(layout.buildDirectory.dir("generated/wasmClient/resources"))
+if (serverBuildsWeb) {
+  tasks.register<Copy>("copyWasmToServer") {
+    dependsOn(":client:composeApp:wasmJsBrowserDistribution")
+    from("../../client/composeApp/build/dist/wasmJs/productionExecutable")
+    into(layout.buildDirectory.dir("generated/wasmClient/resources/static"))
+  }
+
+  sourceSets {
+    main {
+      resources {
+        srcDir(layout.buildDirectory.dir("generated/wasmClient/resources"))
+      }
     }
   }
-}
 
-// server/build.gradle.kts
-tasks.named("processResources") {
-  dependsOn(":server:app:copyWasmToServer")
+  tasks.named("processResources") {
+    dependsOn(":server:app:copyWasmToServer")
+  }
 }

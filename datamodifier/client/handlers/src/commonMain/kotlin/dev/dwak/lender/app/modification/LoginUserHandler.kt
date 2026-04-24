@@ -24,7 +24,6 @@ class LoginUserHandler(
       )
     )
 
-    println(response)
     if (response.isSuccessful) {
       val body = requireNotNull(response.body())
       dataStore.updateData {

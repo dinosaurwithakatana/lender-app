@@ -18,6 +18,7 @@ import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.auth.Authentication
+import io.ktor.server.auth.AuthenticationStrategy
 import io.ktor.server.auth.apikey.apiKey
 import io.ktor.server.auth.authenticate
 import io.ktor.server.auth.bearer
@@ -107,14 +108,14 @@ fun Application.module(graph: ServerGraph) {
 
     staticResources("/", "static")
 
-    authenticate("api-key") {
+    authenticate("api-key", strategy = AuthenticationStrategy.Required) {
       route("/api") {
         apiRoutes(graph.apiRoutes.filterNot {
           it is AuthenticatedLenderRoute || it is AuthenticatedTypedLenderRoute<*>
         }.toSet())
 
 
-        authenticate("bearer") {
+        authenticate("bearer", strategy = AuthenticationStrategy.Required) {
           apiRoutes(graph.apiRoutes.filter {
             it is AuthenticatedLenderRoute || it is AuthenticatedTypedLenderRoute<*>
           }.toSet())

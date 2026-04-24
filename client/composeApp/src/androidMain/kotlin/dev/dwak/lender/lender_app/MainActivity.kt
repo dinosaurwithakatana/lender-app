@@ -10,6 +10,8 @@ import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 import dev.zacsweers.metrox.android.ActivityKey
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 
 @ContributesIntoMap(AppScope::class, binding<Activity>())
 @ActivityKey(MainActivity::class)
@@ -18,6 +20,7 @@ class MainActivity(private val graph: AndroidClientGraph) : ComponentActivity() 
   override fun onCreate(savedInstanceState: Bundle?) {
     enableEdgeToEdge()
     super.onCreate(savedInstanceState)
+    Napier.base(DebugAntilog())
     setContent {
       App(graph)
     }

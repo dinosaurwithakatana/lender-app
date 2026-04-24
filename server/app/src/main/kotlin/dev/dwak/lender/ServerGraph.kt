@@ -38,21 +38,23 @@ interface ServerGraph {
   @SingleIn(AppScope::class)
   @AppDir
   fun appDirectory(): Path {
-    val localStorageDir = Path("/data", "/server")
-    if(!SystemFileSystem.exists(localStorageDir)) {
-      SystemFileSystem.createDirectories(localStorageDir, true)
+    val base = System.getenv("LENDER_DATA_DIR") ?: "./build/run"
+    val dir = Path("$base/server")
+    if (!SystemFileSystem.exists(dir)) {
+      SystemFileSystem.createDirectories(dir, true)
     }
-    return localStorageDir
+    return dir
   }
 
   @Provides
   @SingleIn(AppScope::class)
   @DbDir
   fun databaseDirectory(): Path {
-    val localStorageDir = Path("/data", "/data")
-    if(!SystemFileSystem.exists(localStorageDir)) {
-      SystemFileSystem.createDirectories(localStorageDir, true)
+    val base = System.getenv("LENDER_DATA_DIR") ?: "./build/run"
+    val dir = Path("$base/data")
+    if (!SystemFileSystem.exists(dir)) {
+      SystemFileSystem.createDirectories(dir, true)
     }
-    return localStorageDir
+    return dir
   }
 }

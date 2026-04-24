@@ -14,4 +14,8 @@ interface LoginApi {
 
   @POST("signup")
   suspend fun signup(@Body request: ApiSignUpRequest): Response<ApiSignupSuccessResponse>
+
+  @AuthRequired
+  @POST("logout")
+  suspend fun logout(): Response<Unit>
 }
