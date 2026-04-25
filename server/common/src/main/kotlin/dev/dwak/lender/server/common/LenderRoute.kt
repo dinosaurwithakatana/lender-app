@@ -1,6 +1,10 @@
+@file:OptIn(ExperimentalMetroApi::class)
+
 package dev.dwak.lender.server.common
 
 import dev.dwak.lender.models.server.UserIdToken
+import dev.zacsweers.metro.DefaultBinding
+import dev.zacsweers.metro.ExperimentalMetroApi
 import io.ktor.http.*
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.auth.principal
@@ -8,6 +12,7 @@ import io.ktor.server.request.receive
 import io.ktor.util.reflect.TypeInfo
 import io.ktor.util.reflect.typeInfo
 
+@DefaultBinding<LenderRoute>
 interface LenderRoute {
   val method: HttpMethod
   val path: String
@@ -17,6 +22,7 @@ interface LenderRoute {
   suspend fun routeHandler()
 }
 
+@DefaultBinding<LenderRoute>
 interface TypedLenderRoute<T : Any> : LenderRoute {
   override val requestType: TypeInfo
 
@@ -30,6 +36,7 @@ interface TypedLenderRoute<T : Any> : LenderRoute {
   }
 }
 
+@DefaultBinding<LenderRoute>
 interface AuthenticatedLenderRoute : LenderRoute {
   override val requestType: TypeInfo
     get() = typeInfo<Unit>()
@@ -43,6 +50,7 @@ interface AuthenticatedLenderRoute : LenderRoute {
   }
 }
 
+@DefaultBinding<LenderRoute>
 interface AuthenticatedTypedLenderRoute<T : Any> : TypedLenderRoute<T> {
   context(call: ApplicationCall)
   suspend fun handle(request: T, principal: UserIdToken)

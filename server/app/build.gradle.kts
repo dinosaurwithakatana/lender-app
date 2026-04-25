@@ -26,6 +26,7 @@ dependencies {
   implementation(projects.server.common)
   implementation(projects.server.feature.auth)
   implementation(projects.server.feature.groups)
+  implementation(projects.server.feature.profile)
 
   implementation(libs.logback)
   implementation(libs.ktor.serverAuth)

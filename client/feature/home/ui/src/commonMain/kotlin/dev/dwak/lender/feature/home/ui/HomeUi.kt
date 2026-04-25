@@ -5,6 +5,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.ui.Ui
 import dev.dwak.lender.feature.home.navigation.HomeRoutes
@@ -22,11 +23,27 @@ class HomeUi : Ui<HomeState> {
     state: HomeState,
     modifier: Modifier
   ) {
-    Column {
-      Text("Home")
-      Button(onClick = { state.dispatch(HomeEvents.Logout) }) {
-        Text("Logout")
-      }
+    Home(state)
+  }
+}
+
+@Composable
+fun Home(
+  state: HomeState
+) {
+  Column {
+    Text("Home")
+    Button(onClick = { state.dispatch(HomeEvents.Logout) }) {
+      Text("Logout")
     }
   }
+}
+
+@Preview
+@Composable
+fun HomePreview() {
+  Home(
+    state = HomeState(
+    dispatch = {}
+  ))
 }

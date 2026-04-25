@@ -18,7 +18,7 @@ import io.ktor.util.reflect.TypeInfo
 import io.ktor.util.reflect.typeInfo
 
 @SingleIn(AppScope::class)
-@ContributesIntoSet(AppScope::class, binding = binding<LenderRoute>())
+@ContributesIntoSet(AppScope::class)
 class SignUpRoute(
   private val dataModifier: DataModifier,
 ) : TypedLenderRoute<ApiSignUpRequest> {

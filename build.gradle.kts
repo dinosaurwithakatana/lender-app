@@ -37,15 +37,20 @@ subprojects {
   }
 }
 
-allprojects {
-  project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
-    // Set to `true` for default behavior
-    project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().download = false
-  }
+val downloadNode =
+  providers.gradleProperty("lender.downloadNode").map { it.toBoolean() }.getOrElse(true)
+if (downloadNode) {
+  allprojects {
+    project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
+      // Set to `true` for default behavior
+      project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().download = false
+    }
 
-  project.plugins.withType<org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsPlugin> {
-    // Set to `true` for default behavior
-    project.the<org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsEnvSpec>().download =
-      false
+    project.plugins.withType<org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsPlugin> {
+      // Set to `true` for default behavior
+      project.the<org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsEnvSpec>().download =
+        false
+    }
   }
 }
+

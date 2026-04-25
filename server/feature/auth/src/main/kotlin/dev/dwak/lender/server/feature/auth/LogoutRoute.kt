@@ -15,7 +15,7 @@ import io.ktor.server.application.ApplicationCall
 import io.ktor.server.response.respond
 
 @SingleIn(AppScope::class)
-@ContributesIntoSet(AppScope::class, binding = binding<LenderRoute>())
+@ContributesIntoSet(AppScope::class)
 class LogoutRoute(
   private val dataModifier: DataModifier,
 ) : AuthenticatedLenderRoute {

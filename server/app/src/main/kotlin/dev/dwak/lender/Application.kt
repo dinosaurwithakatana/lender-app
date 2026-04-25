@@ -9,7 +9,10 @@ import dev.dwak.lender.server.common.AuthenticatedLenderRoute
 import dev.dwak.lender.server.common.AuthenticatedTypedLenderRoute
 import dev.dwak.lender.server.common.LenderRoute
 import dev.zacsweers.metro.createGraph
+import dev.zacsweers.metro.createGraphFactory
+import io.github.aakira.napier.Antilog
 import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.LogLevel
 import io.github.aakira.napier.Napier
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
@@ -33,18 +36,21 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
+import io.ktor.util.logging.KtorSimpleLogger
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
+import org.slf4j.helpers.BasicMarker
+import org.slf4j.helpers.BasicMarkerFactory
 
 fun main() {
-  val graph = createGraph<ServerGraph>()
-  Napier.base(DebugAntilog())
   embeddedServer(
     factory = Netty,
     port = SERVER_PORT,
     host = "0.0.0.0",
     module = {
-      module(graph)
+      val graph = createGraphFactory<ServerGraph.Factory>().create(this)
+      Napier.base(graph.antilog)
+      graph.application.module(graph)
     }
   ).start(wait = true)
 }

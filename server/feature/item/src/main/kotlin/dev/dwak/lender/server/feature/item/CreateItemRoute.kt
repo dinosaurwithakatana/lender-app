@@ -20,7 +20,7 @@ import io.ktor.util.reflect.TypeInfo
 import io.ktor.util.reflect.typeInfo
 
 @SingleIn(AppScope::class)
-@ContributesIntoSet(AppScope::class, binding = binding<LenderRoute>())
+@ContributesIntoSet(AppScope::class)
 class CreateItemRoute(
   private val profileRepo: ProfileRepo,
   private val dataModifier: DataModifier,
@@ -31,7 +31,12 @@ class CreateItemRoute(
 
   context(call: ApplicationCall)
   override suspend fun handle(request: ApiCreateItem, principal: UserIdToken) {
-    val profileId = profileRepo.getByUserId(principal.userId).id
+    val profileId = profileRepo.getByUserId(principal.userId)?.id
+
+    if (profileId == null) {
+      call.respond(HttpStatusCode.NotFound, "Profile not found")
+      return
+    }
 
     when (val result = dataModifier.submit(
       CreateItemMod(
