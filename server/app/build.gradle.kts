@@ -20,7 +20,7 @@ dependencies {
   implementation(projects.datamodifier.server.handlers)
   implementation(projects.models.api)
   implementation(projects.repos.server.implementation)
-  implementation(projects.database)
+  implementation(projects.server.database)
   implementation(projects.shared)
 
   implementation(projects.server.common)

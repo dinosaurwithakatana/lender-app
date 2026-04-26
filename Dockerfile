@@ -15,7 +15,6 @@ RUN ./gradlew --version
 COPY build-logic ./build-logic
 COPY cli ./cli
 COPY client ./client
-COPY database ./database
 COPY datamodifier ./datamodifier
 COPY datastore ./datastore
 COPY models ./models

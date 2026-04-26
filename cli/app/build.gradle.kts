@@ -19,7 +19,7 @@ dependencies {
 
   implementation(projects.datastore.client.serializers)
 
-  implementation(projects.database)
+  implementation(projects.server.database)
   implementation(projects.shared)
 
   implementation(projects.repos.server.implementation)

@@ -5,15 +5,11 @@ import dev.dwak.lender.models.server.ServerProfileId
 import dev.dwak.lender.models.server.UserIdToken
 import dev.dwak.lender.repos.server.ProfileRepo
 import dev.dwak.lender.server.common.AuthenticatedLenderRoute
-import dev.dwak.lender.server.common.LenderRoute
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.SingleIn
-import dev.zacsweers.metro.binding
-import io.github.aakira.napier.Napier
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
-import io.ktor.http.formUrlEncode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.response.respond
 

@@ -12,7 +12,7 @@ dependencies {
   api(projects.datamodifier.common.handlers)
   api(projects.datamodifier.server.modifications)
 
-  implementation(projects.database)
+  implementation(projects.server.database)
   api(projects.models.server)
 
   api(libs.argon2)
