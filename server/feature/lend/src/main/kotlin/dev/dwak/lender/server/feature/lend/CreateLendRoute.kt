@@ -1,5 +1,6 @@
 package dev.dwak.lender.server.feature.lend
 
+import dev.dwak.lender.data.modification.lend.CreateGuestLendMod
 import dev.dwak.lender.data.modification.lend.CreateLendMod
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.models.api.request.ApiCreateLend
@@ -43,65 +44,81 @@ class CreateLendRoute(
   context(call: ApplicationCall)
   override suspend fun handle(request: ApiCreateLend, principal: UserIdToken) {
     val sourceProfile = profileRepo.getByUserId(principal.userId)
-    val targetProfile = profileRepo.getProfileById(ServerProfileId(request.toProfileId))
+      ?: return call.respond(HttpStatusCode.NotFound)
     val item = itemRepo.getItemById(ServerItemId(request.itemId))
-    val group = groupsRepo.groupById(ServerGroupId(request.groupId))
-    val itemGroups = groupsRepo.groupsForItem(ServerItemId(request.itemId))
+      ?: return call.respond(HttpStatusCode.NotFound)
 
-    if (item == null) {
-      call.respond(HttpStatusCode.NotFound)
-    }
+    if (item.ownedBy != sourceProfile.id) return call.respond(HttpStatusCode.Unauthorized)
 
-    if (sourceProfile == null) {
-      call.respond(HttpStatusCode.NotFound)
-    }
+    when (request) {
+      is ApiCreateLend.ToGuest -> {
+        val guestFirstName = request.guestFirstName
+        val guestLastName = request.guestLastName
+        if (guestFirstName != null && guestLastName != null) {
+          when (dataModifier.submit(
+            CreateGuestLendMod(
+              itemId = item.id,
+              fromProfileId = sourceProfile.id,
+              firstName = guestFirstName,
+              lastName = guestLastName,
+              quantity = request.quantity,
+            )
+          )) {
+            is CreateGuestLendMod.Result.Success -> call.respond(HttpStatusCode.OK)
+            CreateGuestLendMod.Result.InsufficientQuantity -> call.respond(HttpStatusCode.Conflict)
+          }
+        }
+      }
+      is ApiCreateLend.ToProfile ->{
+        val toProfileId = request.toProfileId ?: return call.respond(HttpStatusCode.BadRequest)
+        val groupId = request.groupId ?: return call.respond(HttpStatusCode.BadRequest)
 
-    if (targetProfile == null) {
-      call.respond(HttpStatusCode.NotFound)
-    }
+        val targetProfile = profileRepo.getProfileById(ServerProfileId(toProfileId))
+        val group = groupsRepo.groupById(ServerGroupId(groupId))
+        val itemGroups = groupsRepo.groupsForItem(ServerItemId(request.itemId))
 
-    if (item?.ownedBy != sourceProfile?.id) {
-      call.respond(HttpStatusCode.Unauthorized)
-    }
+        if (targetProfile == null) {
+          call.respond(HttpStatusCode.NotFound)
+        }
 
-    if (!itemGroups.contains(group)) {
-      call.respond(HttpStatusCode.Unauthorized)
-    }
+        if (!itemGroups.contains(group)) {
+          call.respond(HttpStatusCode.Unauthorized)
+        }
 
-    val sourceProfileInGroup = groupMembershipRepo.isProfileInGroup(
-      profile = sourceProfile!!.id,
-      group = group!!.id
-    )
+        val sourceProfileInGroup = groupMembershipRepo.isProfileInGroup(
+          profile = sourceProfile.id,
+          group = group!!.id
+        )
 
-    val targetProfileInGroup = groupMembershipRepo.isProfileInGroup(
-      profile = targetProfile!!.id,
-      group = group.id
-    )
+        val targetProfileInGroup = groupMembershipRepo.isProfileInGroup(
+          profile = targetProfile!!.id,
+          group = group.id
+        )
 
-    if (!sourceProfileInGroup || !targetProfileInGroup) {
-      call.respond(HttpStatusCode.Unauthorized)
-    }
+        if (!sourceProfileInGroup || !targetProfileInGroup) {
+          call.respond(HttpStatusCode.Unauthorized)
+        }
 
-
-    when (val result = dataModifier.submit(
-      CreateLendMod(
-        itemId = item!!.id,
-        groupId = group.id,
-        fromProfileId = sourceProfile.id,
-        toProfileId = targetProfile.id,
-        status = when (request.lendStatus) {
-          ApiLendStatus.REQUESTED -> ServerLendStatus.REQUESTED
-          ApiLendStatus.APPROVED -> ServerLendStatus.APPROVED
-          ApiLendStatus.DENIED -> ServerLendStatus.DENIED
-          ApiLendStatus.LENT -> ServerLendStatus.LENT
-          ApiLendStatus.RETURNED -> ServerLendStatus.RETURNED
-        },
-        quantity = request.quantity
-      )
-    )) {
-      CreateLendMod.Result.Success -> {
-        call.respond(HttpStatusCode.OK)
+        when (dataModifier.submit(
+          CreateLendMod(
+            itemId = item.id,
+            groupId = group.id,
+            fromProfileId = sourceProfile.id,
+            toProfileId = targetProfile.id,
+            status = when (request.lendStatus) {
+              ApiLendStatus.REQUESTED -> ServerLendStatus.REQUESTED
+              ApiLendStatus.APPROVED -> ServerLendStatus.APPROVED
+              ApiLendStatus.DENIED -> ServerLendStatus.DENIED
+              ApiLendStatus.LENT -> ServerLendStatus.LENT
+              ApiLendStatus.RETURNED -> ServerLendStatus.RETURNED
+            },
+            quantity = request.quantity
+          )
+        )) {
+          CreateLendMod.Result.Success -> call.respond(HttpStatusCode.OK)
+        }
       }
     }
+
   }
 }

@@ -125,3 +125,11 @@ AND quantity <= (
     WHERE i.id = (SELECT item_id FROM dbItemLend WHERE lend_id = :lend_id)
     GROUP BY i.id, i.total_quantity
 );
+
+createGuestProfileAndLend {
+INSERT INTO dbProfile(id, user_id, first_name, last_name)
+VALUES (:profile_id, NULL, :first_name, :last_name);
+
+INSERT INTO dbItemLend(lend_id, item_id, group_id, from_profile_id, to_profile_id, quantity, lend_created, lend_updated, lend_status)
+VALUES (:lend_id, :item_id, NULL, :from_profile_id, :profile_id, :quantity, :lend_created, :lend_created, 'REQUESTED');
+}

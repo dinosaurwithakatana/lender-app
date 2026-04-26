@@ -7,7 +7,6 @@ CREATE TABLE dbRoles (
 
 INSERT INTO dbRoles (name) VALUES ("ADMIN");
 INSERT INTO dbRoles (name) VALUES ("USER");
-INSERT INTO dbRoles (name) VALUES ("GUEST");
 
 selectAllRoles:
 SELECT * FROM dbRoles;

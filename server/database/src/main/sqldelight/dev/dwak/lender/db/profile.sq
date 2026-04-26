@@ -1,6 +1,6 @@
 CREATE TABLE dbProfile (
     id TEXT AS VALUE NOT NULL PRIMARY KEY,
-    user_id TEXT NOT NULL UNIQUE,
+    user_id TEXT UNIQUE,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES dbUser(id) ON DELETE CASCADE
@@ -11,6 +11,10 @@ CREATE INDEX idx_profiles_user_id ON dbProfile(user_id);
 insert:
 INSERT INTO dbProfile(id, user_id, first_name, last_name)
 VALUES ?;
+
+createGuestProfile:
+INSERT INTO dbProfile(id, user_id, first_name, last_name)
+VALUES (:id, NULL, :first_name, :last_name);
 
 createUserWithProfile {
 INSERT INTO dbUser(id, email, password, created_at)

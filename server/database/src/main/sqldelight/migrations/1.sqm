@@ -1,0 +1,19 @@
+-- Make user_id nullable on dbProfile to support guest profiles
+-- (profiles that exist without an associated user account)
+DROP INDEX idx_profiles_user_id;
+
+CREATE TABLE dbProfile_new (
+    id TEXT NOT NULL PRIMARY KEY,
+    user_id TEXT UNIQUE,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES dbUser(id) ON DELETE CASCADE
+);
+
+INSERT INTO dbProfile_new SELECT * FROM dbProfile;
+
+DROP TABLE dbProfile;
+
+ALTER TABLE dbProfile_new RENAME TO dbProfile;
+
+CREATE INDEX idx_profiles_user_id ON dbProfile(user_id);

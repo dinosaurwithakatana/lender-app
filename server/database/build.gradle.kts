@@ -7,7 +7,8 @@ sqldelight {
   databases {
     create("Database") {
       packageName.set("dev.dwak.lender.db")
-      schemaOutputDirectory.set(file("src/main/sqldelight/databases"))
+      verifyMigrations.set(true)
+      schemaOutputDirectory.set(File("src/main/sqldelight/databases"))
     }
   }
 }

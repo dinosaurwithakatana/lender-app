@@ -1,0 +1,2 @@
+-- Guest profiles are represented via nullable user_id on dbProfile; no GUEST role needed
+DELETE FROM dbRoles WHERE name = 'GUEST';
