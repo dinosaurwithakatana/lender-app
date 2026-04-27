@@ -27,7 +27,7 @@ class CreateItemRoute(
 ) : AuthenticatedTypedLenderRoute<ApiCreateItem> {
   override val method: HttpMethod = HttpMethod.Post
   override val path: String = "/item"
-  override val requestType: TypeInfo = typeInfo<Unit>()
+  override val requestType: TypeInfo = typeInfo<ApiCreateItem>()
 
   context(call: ApplicationCall)
   override suspend fun handle(request: ApiCreateItem, principal: UserIdToken) {

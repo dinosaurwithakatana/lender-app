@@ -25,6 +25,8 @@ dependencies {
 
   implementation(projects.server.common)
   implementation(projects.server.feature.auth)
+  implementation(projects.server.feature.item)
+  implementation(projects.server.feature.lend)
   implementation(projects.server.feature.groups)
   implementation(projects.server.feature.profile)
 

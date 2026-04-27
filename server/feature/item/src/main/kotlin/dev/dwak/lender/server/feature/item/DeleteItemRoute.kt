@@ -32,7 +32,7 @@ class DeleteItemRoute(
 
   context(call: ApplicationCall)
   override suspend fun handle(request: ApiDeleteItem, principal: UserIdToken) {
-    val profileId = profileRepo.getByUserId(principal.userId).id
+    val profileId = profileRepo.getByUserId(principal.userId)?.id ?: return call.respond(HttpStatusCode.NotFound)
     when (dataModifier.submit(
       DeleteItemMod(
         id = ServerItemId(request.id),

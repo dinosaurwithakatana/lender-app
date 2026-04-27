@@ -52,8 +52,8 @@ class CreateLendRoute(
 
     when (request) {
       is ApiCreateLend.ToGuest -> {
-        val guestFirstName = request.guestFirstName
-        val guestLastName = request.guestLastName
+        val guestFirstName = request.firstName
+        val guestLastName = request.lastName
         if (guestFirstName != null && guestLastName != null) {
           when (dataModifier.submit(
             CreateGuestLendMod(
