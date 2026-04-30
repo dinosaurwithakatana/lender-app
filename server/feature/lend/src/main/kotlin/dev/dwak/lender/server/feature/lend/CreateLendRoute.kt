@@ -65,7 +65,7 @@ class CreateLendRoute(
             )
           )) {
             is CreateGuestLendMod.Result.Success -> call.respond(HttpStatusCode.OK)
-            CreateGuestLendMod.Result.InsufficientQuantity -> call.respond(HttpStatusCode.Conflict)
+            CreateGuestLendMod.Result.InsufficientQuantity -> call.respond(HttpStatusCode.UnprocessableEntity, "Quantity Unavailable")
           }
         }
       }
@@ -119,6 +119,5 @@ class CreateLendRoute(
         }
       }
     }
-
   }
 }

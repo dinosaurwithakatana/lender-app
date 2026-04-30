@@ -1,5 +1,7 @@
 package dev.dwak.lender.feature.auth.presenter.login
 
-sealed interface LoginEvents {
+import com.slack.circuit.runtime.CircuitUiEvent
+
+sealed interface LoginEvents: CircuitUiEvent {
   data object Login: LoginEvents
 }

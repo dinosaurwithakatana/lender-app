@@ -1,5 +1,7 @@
 package dev.dwak.lender.feature.auth.presenter.signup
 
-sealed interface SignUpEvents {
-  data object SignUp: SignUpEvents
+import com.slack.circuit.runtime.CircuitUiEvent
+
+sealed interface SignUpEvents : CircuitUiEvent {
+  data object SignUp : SignUpEvents
 }
