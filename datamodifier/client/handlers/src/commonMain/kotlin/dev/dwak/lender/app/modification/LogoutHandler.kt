@@ -8,15 +8,14 @@ import dev.dwak.lender.datastore.DsUserInfo
 import dev.dwak.lender.datastore.UserState
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
-import io.github.aakira.napier.Napier
 
 @ContributesIntoMap(scope = AppScope::class)
-@ModificationKey(Logout::class)
+@ModificationKey(LogoutMod::class)
 class LogoutHandler(
   private val loginApi: LoginApi,
   private val dataStore: DataStore<DsUserInfo>
-): DataModification.Handler<Logout.Result, Logout> {
-  override suspend fun handle(mod: Logout): Logout.Result {
+): DataModification.Handler<LogoutMod.Result, LogoutMod> {
+  override suspend fun handle(mod: LogoutMod): LogoutMod.Result {
     val response = loginApi.logout()
 
     if (response.isSuccessful) {
@@ -25,7 +24,7 @@ class LogoutHandler(
           userState = UserState.LoggedOut
         )
       }
-      return Logout.Result.Success
+      return LogoutMod.Result.Success
     }
     else {
       error("error in logout")

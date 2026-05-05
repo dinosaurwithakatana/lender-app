@@ -10,7 +10,7 @@ sealed interface AppEvents {
 
 data class AppState(
     val navigationInterceptors: Set<NavigationInterceptor>,
-    val isLoggedIn: Boolean,
+    val isLoggedIn: Boolean = false,
     val dispatch: (AppEvents) -> Unit,
 ) : CircuitUiState
 

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -13,12 +14,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.ui.Ui
-import dev.dwak.lender.feature.item.navigation.ItemRoutes
+import dev.dwak.lender.feature.item.navigation.ItemScreens
+import dev.dwak.lender.feature.item.presenter.CreateItemEvents
 import dev.dwak.lender.feature.item.presenter.CreateItemState
 import dev.zacsweers.metro.AppScope
 
 @CircuitInject(
-  screen = ItemRoutes.CreateItem::class,
+  screen = ItemScreens.CreateItem::class,
   scope = AppScope::class
 )
 class CreateItemUi : Ui<CreateItemState> {
@@ -56,6 +58,11 @@ fun CreateItem(state: CreateItemState) {
         keyboardType = KeyboardType.Number
       )
     )
+    Button(onClick = {
+      state.dispatch(CreateItemEvents.AttemptSave)
+    }) {
+      Text("Save")
+    }
   }
 }
 

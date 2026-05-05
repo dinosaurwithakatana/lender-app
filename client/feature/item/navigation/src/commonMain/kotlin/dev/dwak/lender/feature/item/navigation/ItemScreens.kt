@@ -1,11 +1,11 @@
 package dev.dwak.lender.feature.item.navigation
 
-import dev.dwak.lender.app.navigation.AuthenticatedLenderRoute
+import dev.dwak.lender.app.navigation.AuthenticatedLenderScreen
 import dev.dwak.lender.lender_app.Parcelize
 import kotlinx.serialization.Serializable
 
-sealed interface ItemRoutes : AuthenticatedLenderRoute {
+sealed interface ItemScreens : AuthenticatedLenderScreen {
   @Parcelize
   @Serializable
-  data object CreateItem: ItemRoutes
+  data object CreateItem: ItemScreens
 }

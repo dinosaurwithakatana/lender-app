@@ -8,13 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.ui.Ui
-import dev.dwak.lender.feature.home.navigation.HomeRoutes
+import dev.dwak.lender.feature.home.navigation.HomeScreens
 import dev.dwak.lender.feature.home.presenter.HomeEvents
 import dev.dwak.lender.feature.home.presenter.HomeState
 import dev.zacsweers.metro.AppScope
 
 @CircuitInject(
-  screen = HomeRoutes.Home::class,
+  screen = HomeScreens.Home::class,
   scope = AppScope::class
 )
 class HomeUi : Ui<HomeState> {
@@ -33,6 +33,9 @@ fun Home(
 ) {
   Column {
     Text("Home")
+    Button(onClick = { state.dispatch(HomeEvents.NavigateToCreateItem) }) {
+      Text("Create Item")
+    }
     Button(onClick = { state.dispatch(HomeEvents.Logout) }) {
       Text("Logout")
     }
@@ -44,6 +47,6 @@ fun Home(
 fun HomePreview() {
   Home(
     state = HomeState(
-    dispatch = {}
-  ))
+      dispatch = {}
+    ))
 }

@@ -11,12 +11,12 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 
 @ContributesIntoMap(scope = AppScope::class)
-@ModificationKey(LoginUser::class)
+@ModificationKey(LoginUserMod::class)
 class LoginUserHandler(
   private val loginApi: LoginApi,
   private val dataStore: DataStore<DsUserInfo>,
-) : DataModification.Handler<LoginUser.Result, LoginUser> {
-  override suspend fun handle(mod: LoginUser): LoginUser.Result {
+) : DataModification.Handler<LoginUserMod.Result, LoginUserMod> {
+  override suspend fun handle(mod: LoginUserMod): LoginUserMod.Result {
     val response = loginApi.login(
       request = ApiLoginRequest(
         email = mod.email,
@@ -35,9 +35,9 @@ class LoginUserHandler(
           )
         )
       }
-      return LoginUser.Result.Success
+      return LoginUserMod.Result.Success
     } else {
-      return LoginUser.Result.Error
+      return LoginUserMod.Result.Error
     }
   }
 }

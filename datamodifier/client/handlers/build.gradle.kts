@@ -10,6 +10,7 @@ kotlin {
       api(projects.datamodifier.common.handlers)
       api(projects.datamodifier.client.modifications)
 
+      implementation(projects.models.client)
       implementation(projects.client.network)
       implementation(projects.datastore.client.models)
     }

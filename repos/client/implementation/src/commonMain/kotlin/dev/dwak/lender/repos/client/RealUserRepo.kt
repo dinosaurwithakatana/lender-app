@@ -7,22 +7,27 @@ import dev.dwak.lender.lender_app.coroutines.Io
 import dev.dwak.models.client.ClientUser
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.SingleIn
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 
 @ContributesBinding(scope = AppScope::class)
+@SingleIn(AppScope::class)
 class RealUserRepo(
   @Io private val ioDispatcher: CoroutineDispatcher,
   @Io private val ioScope: CoroutineScope,
   private val datastore: DataStore<DsUserInfo>
 ) : UserRepo {
-  override fun currentUser(): StateFlow<ClientUser> {
+  override fun currentUser(): Flow<ClientUser> {
     return datastore.data
       .map { it.userState }
       .map {
@@ -37,10 +42,6 @@ class RealUserRepo(
 
           UserState.LoggedOut -> ClientUser.LoggedOut
         }
-      }.stateIn(
-        scope = ioScope,
-        started = SharingStarted.Eagerly,
-        initialValue = ClientUser.LoggedOut
-      )
+      }
   }
 }

@@ -10,7 +10,7 @@ import com.slack.circuit.foundation.rememberCircuitNavigator
 import com.slack.circuitx.gesturenavigation.GestureNavigationDecorationFactory
 import com.slack.circuitx.navigation.intercepting.rememberInterceptingNavigator
 import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
-import dev.dwak.lender.feature.home.navigation.HomeRoutes
+import dev.dwak.lender.feature.home.navigation.HomeScreens
 import dev.zacsweers.metro.AppScope
 
 @CircuitInject(
@@ -22,7 +22,7 @@ fun AppUi(
   state: AppState,
   modifier: Modifier = Modifier.Companion
 ) {
-  val navStack = rememberSaveableNavStack(root = if (state.isLoggedIn) HomeRoutes.Home else AuthRoutes.Launch)
+  val navStack = rememberSaveableNavStack(root = if (state.isLoggedIn) HomeScreens.Home else AuthRoutes.Launch)
   val interceptedNavigator = rememberInterceptingNavigator(
     navigator = rememberCircuitNavigator(navStack) {
       // Do something when the root screen is popped, usually exiting the app

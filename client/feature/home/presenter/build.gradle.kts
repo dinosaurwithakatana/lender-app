@@ -7,6 +7,7 @@ kotlin {
     commonMain {
       dependencies {
         implementation(projects.client.feature.home.navigation)
+        implementation(projects.client.feature.item.navigation)
       }
     }
   }

@@ -2,18 +2,14 @@ package dev.dwak.lender.feature.auth.presenter.login
 
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.rememberCoroutineScope
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.presenter.Presenter
-import dev.dwak.lender.app.modification.LoginUser
+import dev.dwak.lender.app.modification.LoginUserMod
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
-import dev.dwak.lender.lender_app.coroutines.Io
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @CircuitInject(
@@ -37,7 +33,7 @@ class LoginPresenter(
           LoginEvents.Login -> {
             scope.launch {
               dataModifier.submit(
-                LoginUser(
+                LoginUserMod(
                   email = username.text.toString(),
                   password = password.text.toString()
                 )

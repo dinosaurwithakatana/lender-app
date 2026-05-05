@@ -12,6 +12,7 @@ import dev.zacsweers.metro.binding
 import dev.zacsweers.metrox.android.ActivityKey
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
+import kotlinx.coroutines.runBlocking
 
 @ContributesIntoMap(AppScope::class, binding<Activity>())
 @ActivityKey(MainActivity::class)

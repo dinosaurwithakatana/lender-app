@@ -1,14 +1,11 @@
 package dev.dwak.lender.app.modification
 
 import dev.dwak.lender.data.modifier.DataModification
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.binding
 
-data class LoginUser(
+data class LoginUserMod(
   val email: String,
   val password: String
-): DataModification<LoginUser.Result> {
+): DataModification<LoginUserMod.Result> {
   sealed interface Result: DataModification.Result {
     data object Success: Result
     data object Error: Result

@@ -29,8 +29,7 @@ class AppPresenter(
     val state by produceState(
       AppState(
         navigationInterceptors = navigationInterceptors,
-        isLoggedIn = userRepo.currentUser().value is ClientUser.LoggedIn,
-        { event -> }
+        dispatch = { event -> }
       ),
       {
         userRepo.currentUser().collect {
