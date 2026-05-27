@@ -1,5 +1,5 @@
 plugins {
-  id("kmp.jvm.library")
+  id("kmp.android.library")
   alias(libs.plugins.kotlinxSerialization)
 }
 

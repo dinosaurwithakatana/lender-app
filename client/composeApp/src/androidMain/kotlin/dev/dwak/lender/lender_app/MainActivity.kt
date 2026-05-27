@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.Named
 import dev.zacsweers.metro.binding
 import dev.zacsweers.metrox.android.ActivityKey
 import io.github.aakira.napier.DebugAntilog
@@ -18,10 +19,15 @@ import kotlinx.coroutines.runBlocking
 @ActivityKey(MainActivity::class)
 @Inject
 class MainActivity(private val graph: AndroidClientGraph) : ComponentActivity() {
+//  @Named("api-key")
+//  @Inject lateinit var apiKey: String
+
   override fun onCreate(savedInstanceState: Bundle?) {
     enableEdgeToEdge()
     super.onCreate(savedInstanceState)
     Napier.base(DebugAntilog())
+    Napier.d { getPlatform().name }
+    Napier.d { getWebApiKey() }
     setContent {
       App(graph)
     }

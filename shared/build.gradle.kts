@@ -12,7 +12,7 @@ plugins {
 }
 
 kotlin {
-  androidLibrary {
+  android {
     namespace = "dev.dwak.lender.lender_app.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     minSdk = libs.versions.android.minSdk.get().toInt()

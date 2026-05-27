@@ -6,6 +6,7 @@ import dev.dwak.lender.datastore.DsUserInfo
 import dev.dwak.lender.datastore.UserState
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.SingleIn
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.firstOrNull
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 @ContributesBinding(AppScope::class)
+@SingleIn(AppScope::class)
 class RealAuthPluginConfig(
   private val dataStore: DataStore<DsUserInfo>
 ) : AuthPluginConfig {

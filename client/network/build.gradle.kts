@@ -1,5 +1,5 @@
 plugins {
-  id("kmp.jvm.library")
+  id("kmp.android.library")
   alias(libs.plugins.ksp)
   alias(libs.plugins.ktorfit)
 }
@@ -7,7 +7,7 @@ plugins {
 kotlin {
   sourceSets {
     commonMain.dependencies {
-      implementation(libs.ktorfit)
+      api(libs.ktorfit)
       implementation(libs.ktor.clientContentNegotiation)
       implementation(libs.ktor.clientLogging)
       implementation(libs.ktor.serialzationJson)

@@ -1,5 +1,7 @@
 plugins {
   alias(libs.plugins.androidApplication)
+  alias(libs.plugins.ktorfit)
+  alias(libs.plugins.metro)
 }
 
 android {
@@ -31,4 +33,5 @@ android {
 
 dependencies {
   implementation(projects.client.composeApp)
+  implementation(projects.shared)
 }
