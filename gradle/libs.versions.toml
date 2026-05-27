@@ -58,6 +58,7 @@ circuit-gestures = { module = "com.slack.circuit:circuitx-gesture-navigation", v
 circuit-navigation = { module = "com.slack.circuit:circuitx-navigation", version.ref = "circuit" }
 circuit-runtime = { module = "com.slack.circuit:circuit-runtime", version.ref = "circuit" }
 circuit-presenter = { module = "com.slack.circuit:circuit-runtime-presenter", version.ref = "circuit" }
+circuit-effects = { module = "com.slack.circuit:circuitx-effects", version.ref = "circuit" }
 circuit-ui = { module = "com.slack.circuit:circuit-runtime-ui", version.ref = "circuit" }
 
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
