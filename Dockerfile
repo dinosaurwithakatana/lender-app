@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk-alpine:21-latest AS build
+FROM azul/zulu-openjdk-alpine:26-latest AS build
 RUN apk add --no-cache \
       nodejs \
       npm \
