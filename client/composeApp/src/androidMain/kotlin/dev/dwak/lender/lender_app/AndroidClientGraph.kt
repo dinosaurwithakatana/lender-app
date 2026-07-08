@@ -11,7 +11,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.io.files.Path
-import okio.Path.Companion.toPath
 
 @DependencyGraph(AppScope::class)
 interface AndroidClientGraph : ClientGraph, MetroAppComponentProviders {

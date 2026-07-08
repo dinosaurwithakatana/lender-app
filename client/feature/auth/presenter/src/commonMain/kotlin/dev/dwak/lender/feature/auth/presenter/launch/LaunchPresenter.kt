@@ -6,15 +6,14 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
 import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.Inject
 
-@CircuitInject(
-  screen = AuthRoutes.Launch::class,
-  scope = AppScope::class
-)
-@Inject
+@AssistedInject
 class LaunchPresenter(
-  private val navigator: Navigator
+  @Assisted private val navigator: Navigator
 ) : Presenter<LaunchState>{
   @Composable
   override fun present(): LaunchState {
@@ -24,5 +23,14 @@ class LaunchPresenter(
         LaunchEvents.GoToSignUp -> navigator.goTo(AuthRoutes.SignUp)
       }
     }
+  }
+
+  @CircuitInject(
+    screen = AuthRoutes.Launch::class,
+    scope = AppScope::class
+  )
+  @AssistedFactory
+  interface Factory {
+    fun create(navigator: Navigator): LaunchPresenter
   }
 }
