@@ -16,11 +16,13 @@ import dev.dwak.lender.feature.auth.presenter.login.LoginEvents
 import dev.dwak.lender.feature.auth.presenter.signup.SignUpEvents
 import dev.dwak.lender.feature.auth.presenter.signup.SignUpState
 import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
 
 @CircuitInject(
   screen = AuthRoutes.SignUp::class,
   scope = AppScope::class
 )
+@Inject
 class SignUpScreen : Ui<SignUpState>{
   @Composable
   override fun Content(

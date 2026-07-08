@@ -6,11 +6,13 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
 import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
 
 @CircuitInject(
   screen = AuthRoutes.Launch::class,
   scope = AppScope::class
 )
+@Inject
 class LaunchPresenter(
   private val navigator: Navigator
 ) : Presenter<LaunchState>{

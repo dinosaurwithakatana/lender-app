@@ -5,11 +5,13 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.presenter.Presenter
 import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
 import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
 
 @CircuitInject(
   screen = AuthRoutes.SignUp::class,
   scope = AppScope::class
 )
+@Inject
 class SignUpPresenter : Presenter<SignUpState>{
   @Composable
   override fun present(): SignUpState {

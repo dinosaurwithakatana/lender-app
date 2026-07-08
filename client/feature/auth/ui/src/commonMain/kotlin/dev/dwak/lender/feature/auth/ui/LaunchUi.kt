@@ -13,11 +13,13 @@ import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
 import dev.dwak.lender.feature.auth.presenter.launch.LaunchEvents
 import dev.dwak.lender.feature.auth.presenter.launch.LaunchState
 import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
 
 @CircuitInject(
   screen = AuthRoutes.Launch::class,
   scope = AppScope::class
 )
+@Inject
 class LaunchUi : Ui<LaunchState> {
   @Composable
   override fun Content(

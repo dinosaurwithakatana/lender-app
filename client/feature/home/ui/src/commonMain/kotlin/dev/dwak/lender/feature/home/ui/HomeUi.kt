@@ -12,11 +12,13 @@ import dev.dwak.lender.feature.home.navigation.HomeScreens
 import dev.dwak.lender.feature.home.presenter.HomeEvents
 import dev.dwak.lender.feature.home.presenter.HomeState
 import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
 
 @CircuitInject(
   screen = HomeScreens.Home::class,
   scope = AppScope::class
 )
+@Inject
 class HomeUi : Ui<HomeState> {
   @Composable
   override fun Content(

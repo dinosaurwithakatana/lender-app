@@ -15,11 +15,13 @@ import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
 import dev.dwak.lender.feature.auth.presenter.login.LoginEvents
 import dev.dwak.lender.feature.auth.presenter.login.LoginState
 import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
 
 @CircuitInject(
   screen = AuthRoutes.Login::class,
   scope = AppScope::class
 )
+@Inject
 class LoginScreen() : Ui<LoginState> {
   @Composable
   override fun Content(
