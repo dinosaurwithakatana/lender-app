@@ -12,6 +12,7 @@ androidx-lifecycle = "2.10.0"
 androidx-savedstate = "1.4.0"
 androidx-testExt = "1.3.0"
 argon = "7.0.5"
+calf = "0.12.0"
 circuit = "0.34.0"
 clikt = "5.1.0"
 coroutines = "1.11.0"
@@ -50,6 +51,7 @@ androidx-datastore-core = { module = "androidx.datastore:datastore-core", versio
 androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "androidx-datastore" }
 androidx-savedstate = { module = "org.jetbrains.androidx.savedstate:savedstate", version.ref = "androidx-savedstate" }
 
+calf-ui = { module = "com.mohamedrejeb.calf:calf-ui", version.ref = "calf" }
 circuit-codegen-annotations = { module = "com.slack.circuit:circuit-codegen-annotations", version.ref = "circuit" }
 circuit-codegen = { module = "com.slack.circuit:circuit-codegen", version.ref = "circuit" }
 circuit-runtime-navigation = { module = "com.slack.circuit:circuit-runtime-navigation", version.ref = "circuit" }

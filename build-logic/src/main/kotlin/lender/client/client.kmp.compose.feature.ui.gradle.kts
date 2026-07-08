@@ -43,6 +43,7 @@ kotlin {
     iosTarget.binaries.framework {
       baseName = pathSegments.joinToString { it.capitalizeFirstChar() }
       isStatic = true
+      export(libs.calf.ui)
     }
   }
 
@@ -83,6 +84,8 @@ kotlin {
 
         implementation(project(":shared"))
         implementation(project(":client:navigation:core"))
+
+        implementation(libs.calf.ui)
 
         implementation(libs.circuit.ui)
         implementation(libs.circuit.codegen.annotations)
