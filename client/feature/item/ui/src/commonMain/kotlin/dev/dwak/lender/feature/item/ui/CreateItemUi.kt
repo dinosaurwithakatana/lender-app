@@ -18,11 +18,13 @@ import dev.dwak.lender.feature.item.navigation.ItemScreens
 import dev.dwak.lender.feature.item.presenter.CreateItemEvents
 import dev.dwak.lender.feature.item.presenter.CreateItemState
 import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
 
 @CircuitInject(
   screen = ItemScreens.CreateItem::class,
   scope = AppScope::class
 )
+@Inject
 class CreateItemUi : Ui<CreateItemState> {
   @Composable
   override fun Content(

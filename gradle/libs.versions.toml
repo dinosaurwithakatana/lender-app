@@ -12,27 +12,28 @@ androidx-lifecycle = "2.10.0"
 androidx-savedstate = "1.4.0"
 androidx-testExt = "1.3.0"
 argon = "7.0.5"
-circuit = "0.33.1"
+calf = "0.12.0"
+circuit = "0.34.0"
 clikt = "5.1.0"
-coroutines = "1.10.2"
-composeMultiplatform = "1.10.3"
-compose-multiplatform-adaptive = "1.3.0-alpha06"
+coroutines = "1.11.0"
+composeMultiplatform = "1.11.1"
+compose-multiplatform-adaptive = "1.3.0-beta02"
 compose-multiplatform-lifecycle = "2.10.0"
-compose-multiplatform-navigation3-browser = "0.3.1"
+compose-multiplatform-navigation3-browser = "1.1.0"
 java = "21"
 junit = "4.13.2"
-kotlin = "2.3.20"
-kotlinxIo = "0.9.0"
+kotlin = "2.4.0"
+kotlinxIo = "0.9.1"
 kotlinxSerialization = "1.11.0"
-ksp = "2.3.6"
-ktor = "3.4.2"
-ktorfit = "2.7.2"
+ksp = "2.3.9"
+ktor = "3.5.1"
+ktorfit = "2.7.5"
 logback = "1.5.26"
 material3 = "1.9.0"
-metro = "1.0.0-RC3"
+metro = "1.3.0"
 mordant = "3.0.2"
 napier = "2.7.1"
-nav3-ui = "1.1.0-rc01"
+nav3-ui = "1.1.1"
 sqldelight = "2.3.2"
 
 [libraries]
@@ -50,6 +51,7 @@ androidx-datastore-core = { module = "androidx.datastore:datastore-core", versio
 androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "androidx-datastore" }
 androidx-savedstate = { module = "org.jetbrains.androidx.savedstate:savedstate", version.ref = "androidx-savedstate" }
 
+calf-ui = { module = "com.mohamedrejeb.calf:calf-ui", version.ref = "calf" }
 circuit-codegen-annotations = { module = "com.slack.circuit:circuit-codegen-annotations", version.ref = "circuit" }
 circuit-codegen = { module = "com.slack.circuit:circuit-codegen", version.ref = "circuit" }
 circuit-runtime-navigation = { module = "com.slack.circuit:circuit-runtime-navigation", version.ref = "circuit" }
@@ -121,7 +123,7 @@ kotlin-parcelize-plugin = { module = "org.jetbrains.kotlin.plugin.parcelize:org.
 kotlinx-serialization-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 ksp-gradle-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 ktor-gradle-plugin = { module = "io.ktor.plugin:io.ktor.plugin.gradle.plugin", version.ref = "ktor" }
-ktorfit-gradle-plugin = { module = "de.jensklingenberg.ktorfit:ktorfit-gradle-plugin", version.ref = "ktorfit" }
+ktorfit-gradle-plugin = { module = "de.jensklingenberg.ktorfit:de.jensklingenberg.ktorfit.gradle.plugin", version.ref = "ktorfit" }
 metro-gradle-plugin = { module = "dev.zacsweers.metro:dev.zacsweers.metro.gradle.plugin", version.ref = "metro" }
 sqldelight-gradle-plugin = { module = "app.cash.sqldelight:gradle-plugin", version.ref = "sqldelight" }
 

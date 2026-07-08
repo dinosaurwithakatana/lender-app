@@ -9,6 +9,7 @@ import com.slack.circuit.foundation.navstack.rememberSaveableNavStack
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import com.slack.circuitx.effects.rememberImpressionNavigator
 import com.slack.circuitx.gesturenavigation.GestureNavigationDecorationFactory
+import com.slack.circuitx.gesturenavigation.GestureNavigationEventListener
 import com.slack.circuitx.navigation.intercepting.rememberInterceptingNavigator
 import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
 import dev.dwak.lender.feature.home.navigation.HomeScreens
@@ -41,7 +42,6 @@ fun AppUi(
       remember(interceptedNavigator) {
         GestureNavigationDecorationFactory(
           // Pop the back stack once the user has gone 'back'
-          onBackInvoked = interceptedNavigator::pop
         )
       }
   )
