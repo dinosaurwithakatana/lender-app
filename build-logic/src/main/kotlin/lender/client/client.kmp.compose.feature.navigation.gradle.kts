@@ -21,9 +21,6 @@ val pathSegments = project.path.split(":").drop(1)
 // Set a convention that will be used if not overridden
 
 kotlin {
-  compilerOptions {
-    freeCompilerArgs.set(listOf("-Xcontext-parameters"))
-  }
   @Suppress("UnstableApiUsage")
   androidLibrary {
     namespace = pathSegments.joinToString("-")

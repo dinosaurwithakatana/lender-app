@@ -7,10 +7,6 @@ plugins {
 }
 
 kotlin {
-  compilerOptions {
-    freeCompilerArgs.set(listOf("-Xcontext-parameters"))
-  }
-
   jvmToolchain {
     languageVersion.set(
       JavaLanguageVersion.of(libs.versions.java.map { it.toInt() }.get())
