@@ -97,7 +97,6 @@ dependencies {
 //ksp { arg("circuit.codegen.mode", "metro") }
 metro {
   enableCircuitCodegen.set(true)
-  debug.set(true)
 }
 
 tasks.withType(AbstractKotlinCompile::class.java).configureEach {

@@ -1,6 +1,7 @@
 package dev.dwak.lender.feature.home.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,7 +35,7 @@ class HomeUi : Ui<HomeState> {
 fun Home(
   state: HomeState
 ) {
-  Column {
+  Column(modifier = Modifier.fillMaxSize()) {
     Text("Home")
     AdaptiveButton(onClick = { state.dispatch(HomeEvents.NavigateToCreateItem) }) {
       Text("Create Item")
