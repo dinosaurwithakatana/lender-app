@@ -14,16 +14,18 @@ import com.slack.circuitx.navigation.intercepting.rememberInterceptingNavigator
 import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
 import dev.dwak.lender.feature.home.navigation.HomeScreens
 import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
 import io.github.aakira.napier.Napier
 
 @CircuitInject(
   screen = AppScreen::class,
   scope = AppScope::class
 )
+@Inject
 @Composable
 fun AppUi(
   state: AppState,
-  modifier: Modifier = Modifier.Companion
+  modifier: Modifier = Modifier
 ) {
   val navStack =
     rememberSaveableNavStack(root = if (state.isLoggedIn) HomeScreens.Home else AuthRoutes.Launch)
