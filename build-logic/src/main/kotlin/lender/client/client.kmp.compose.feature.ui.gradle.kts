@@ -23,9 +23,6 @@ val pathSegments = project.path.split(":").drop(1)
 // Set a convention that will be used if not overridden
 
 kotlin {
-  compilerOptions {
-    freeCompilerArgs.set(listOf("-Xcontext-parameters"))
-  }
   @Suppress("UnstableApiUsage")
   android {
     namespace = pathSegments.joinToString("-")
@@ -101,10 +98,12 @@ kotlin {
 // build.gradle.kts
 dependencies {
   "androidRuntimeClasspath"(compose.uiTooling)
-  add("kspCommonMainMetadata", libs.circuit.codegen)
+//  add("kspCommonMainMetadata", libs.circuit.codegen)
 }
 
-ksp { arg("circuit.codegen.mode", "metro") }
+//ksp { arg("circuit.codegen.mode", "metro") }
+
+metro { enableCircuitCodegen.set(true) }
 
 tasks.withType(AbstractKotlinCompile::class.java).configureEach {
   incremental = false
