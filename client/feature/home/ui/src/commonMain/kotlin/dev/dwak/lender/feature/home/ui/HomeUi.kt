@@ -36,6 +36,9 @@ fun Home(
   state: HomeState
 ) {
   Column(modifier = Modifier.fillMaxSize()) {
+    state.items.forEach {
+      Text(it.id.id)
+    }
     Text("Home")
     AdaptiveButton(onClick = { state.dispatch(HomeEvents.NavigateToCreateItem) }) {
       Text("Create Item")
@@ -51,6 +54,7 @@ fun Home(
 fun HomePreview() {
   Home(
     state = HomeState(
+      items = emptyList(),
       dispatch = {}
     ))
 }
