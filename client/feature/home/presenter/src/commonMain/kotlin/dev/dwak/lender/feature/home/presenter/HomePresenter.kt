@@ -67,6 +67,10 @@ class HomePresenter(
           HomeEvents.NavigateToCreateItem -> {
             navigator.goTo(ItemScreens.CreateItem)
           }
+
+          HomeEvents.Refresh -> {
+            isRefreshing = true
+          }
         }
       },
     )
