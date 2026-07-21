@@ -16,19 +16,19 @@ import kotlinx.coroutines.withContext
 @ContributesBinding(scope = AppScope::class, binding = binding<ItemRepo>())
 @ContributesBinding(
   scope = AppScope::class,
-  binding = binding<RefreshableRepo<ItemRepo.ItemRefreshers>>()
+  binding = binding<RepoRefresher<ItemRepo.RefreshTypes>>()
 )
 @SingleIn(AppScope::class)
 class RealItemRepo(
   private val itemsApi: ItemApi,
   @Io private val dispatcher: CoroutineDispatcher,
-) : ItemRepo {
+) : ItemRepo, RepoRefresher<ItemRepo.RefreshTypes> {
   override val items: Flow<List<ClientItem>>
     field = MutableStateFlow(listOf())
 
-  override suspend fun refresh(item: ItemRepo.ItemRefreshers): Unit = withContext(dispatcher) {
+  override suspend fun refresh(item: ItemRepo.RefreshTypes): Unit = withContext(dispatcher) {
     when (item) {
-      ItemRepo.ItemRefreshers.AllItems -> {
+      ItemRepo.RefreshTypes.AllItems -> {
         val response = itemsApi.getCurrentUserItems()
         items.value = if (response.isSuccessful) {
           response.body()?.items?.map {

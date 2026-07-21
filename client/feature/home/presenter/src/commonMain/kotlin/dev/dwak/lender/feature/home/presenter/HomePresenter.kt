@@ -4,12 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
-import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -19,13 +16,11 @@ import dev.dwak.lender.feature.home.navigation.HomeScreens
 import dev.dwak.lender.feature.item.navigation.ItemScreens
 import dev.dwak.lender.lender_app.coroutines.Io
 import dev.dwak.lender.repos.client.ItemRepo
-import dev.dwak.lender.repos.client.RefreshableRepo
-import dev.dwak.models.client.ClientItem
+import dev.dwak.lender.repos.client.RepoRefresher
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -35,7 +30,7 @@ class HomePresenter(
   @Io private val ioScope: CoroutineScope,
   @Assisted private val navigator: Navigator,
   private val itemRepo: ItemRepo,
-  private val itemRepoRefresher: RefreshableRepo<ItemRepo.ItemRefreshers>
+  private val itemRepoRefresher: RepoRefresher<ItemRepo.RefreshTypes>
 ) : Presenter<HomeState> {
   @Composable
   override fun present(): HomeState {
@@ -44,7 +39,7 @@ class HomePresenter(
 
     LaunchedEffect(isLoading, isRefreshing) {
       if (isLoading || isRefreshing) {
-        itemRepoRefresher.refresh(ItemRepo.ItemRefreshers.AllItems)
+        itemRepoRefresher.refresh(ItemRepo.RefreshTypes.AllItems)
 
         isLoading = false
         isRefreshing = false
