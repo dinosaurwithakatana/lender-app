@@ -1,5 +1,6 @@
 package dev.dwak.lender.server.feature.item
 
+import dev.dwak.lender.models.api.response.ApiGetItemsReponse
 import dev.dwak.lender.models.api.response.ApiItem
 import dev.dwak.lender.models.server.UserIdToken
 import dev.dwak.lender.repos.server.ItemRepo
@@ -19,12 +20,12 @@ class GetItemsRoute(
   private val profileRepo: ProfileRepo,
 ): AuthenticatedLenderRoute {
   override val method: HttpMethod = HttpMethod.Get
-  override val path: String = "/item"
+  override val path: String = "/items/{id}"
 
   context(call: ApplicationCall)
   override suspend fun handle(principal: UserIdToken) {
-    call.respond(
-      itemRepo.getItemsForProfile(profileRepo.getByUserId(principal.userId)!!.id)
+    if (call.parameters["id"] == "me") {
+      val items = itemRepo.getItemsForProfile(profileRepo.getByUserId(principal.userId)!!.id)
         .map {
           ApiItem(
             id = it.id.id,
@@ -34,6 +35,9 @@ class GetItemsRoute(
             ownedById = it.ownedBy.id
           )
         }
-    )
+      call.respond(
+        ApiGetItemsReponse(items)
+      )
+    }
   }
 }

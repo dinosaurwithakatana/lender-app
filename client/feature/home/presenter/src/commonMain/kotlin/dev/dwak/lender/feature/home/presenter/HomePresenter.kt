@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dev.dwak.lender.app.modification.LogoutMod
@@ -12,6 +13,7 @@ import dev.dwak.lender.feature.home.navigation.HomeScreens
 import dev.dwak.lender.feature.item.navigation.ItemScreens
 import dev.dwak.lender.lender_app.coroutines.Io
 import dev.dwak.lender.repos.client.ItemRepo
+import dev.dwak.models.client.ClientItem
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
@@ -28,26 +30,25 @@ class HomePresenter(
 ) : Presenter<HomeState> {
   @Composable
   override fun present(): HomeState {
-    val state by produceState(
-      initialValue = HomeState(emptyList(), dispatch = {
-        when (it) {
-          HomeEvents.Logout -> {
-            ioScope.launch {
-              dataModifier.submit(LogoutMod)
-            }
-          }
+    val items by produceRetainedState(emptyList(), itemRepo) {
+      value = itemRepo.items()
+    }
 
-          HomeEvents.NavigateToCreateItem -> {
-            navigator.goTo(ItemScreens.CreateItem)
+    return HomeState(
+      items = items
+    ) {
+      when (it) {
+        HomeEvents.Logout -> {
+          ioScope.launch {
+            dataModifier.submit(LogoutMod)
           }
         }
-      }),
-      producer = {
-        value = value.copy(items = itemRepo.items())
-      }
-    )
 
-    return state
+        HomeEvents.NavigateToCreateItem -> {
+          navigator.goTo(ItemScreens.CreateItem)
+        }
+      }
+    }
   }
 
   @CircuitInject(

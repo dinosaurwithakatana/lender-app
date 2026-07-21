@@ -24,7 +24,7 @@ class CreateItemRoute(
   private val dataModifier: DataModifier,
 ) : AuthenticatedTypedLenderRoute<ApiCreateItemRequest> {
   override val method: HttpMethod = HttpMethod.Post
-  override val path: String = "/item"
+  override val path: String = "/items"
   override val requestType: TypeInfo = typeInfo<ApiCreateItemRequest>()
 
   context(call: ApplicationCall)

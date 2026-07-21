@@ -10,12 +10,12 @@ import dev.dwak.lender.models.api.response.ApiGetItemsReponse
 
 interface ItemApi {
   @AuthRequired
-  @POST("item")
+  @POST("items")
   suspend fun createItem(
     @Body payload: ApiCreateItemRequest
   ): Response<ApiCreateItemResponse>
 
   @AuthRequired
-  @GET("item")
-  suspend fun getItems(): Response<ApiGetItemsReponse>
+  @GET("items/me")
+  suspend fun getCurrentUserItems(): Response<ApiGetItemsReponse>
 }

@@ -26,7 +26,7 @@ class DeleteItemRoute(
   private val dataModifier: DataModifier,
 ) : AuthenticatedTypedLenderRoute<ApiDeleteItem> {
   override val method: HttpMethod = HttpMethod.Delete
-  override val path: String = "/item"
+  override val path: String = "/items"
   override val requestType: TypeInfo
     get() = typeInfo<ApiDeleteItem>()
 
