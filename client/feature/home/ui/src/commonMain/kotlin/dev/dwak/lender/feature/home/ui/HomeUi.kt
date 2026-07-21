@@ -1,9 +1,17 @@
 package dev.dwak.lender.feature.home.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,13 +43,32 @@ class HomeUi : Ui<HomeState> {
 fun Home(
   state: HomeState
 ) {
-  Column(modifier = Modifier.fillMaxSize()) {
-    Text("Home")
-    AdaptiveButton(onClick = { state.dispatch(HomeEvents.NavigateToCreateItem) }) {
-      Text("Create Item")
+  PullToRefreshBox(
+    modifier = Modifier.fillMaxSize(),
+    isRefreshing = state.refreshing,
+    onRefresh = {
+      state.dispatch(HomeEvents.Refresh)
     }
-    AdaptiveButton(onClick = { state.dispatch(HomeEvents.Logout) }) {
-      Text("Logout")
+  ) {
+    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+      state.items.forEach {
+        Column {
+          Text(it.name, style = MaterialTheme.typography.headlineSmall)
+          Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+          ) {
+            Text(it.description.orEmpty())
+            Text(it.quantity.toString())
+          }
+        }
+      }
+      AdaptiveButton(onClick = { state.dispatch(HomeEvents.NavigateToCreateItem) }) {
+        Text("Create Item")
+      }
+      AdaptiveButton(onClick = { state.dispatch(HomeEvents.Logout) }) {
+        Text("Logout")
+      }
     }
   }
 }
@@ -51,6 +78,10 @@ fun Home(
 fun HomePreview() {
   Home(
     state = HomeState(
-      dispatch = {}
-    ))
+      items = emptyList(),
+      dispatch = {},
+      loading = false,
+      refreshing = false
+    )
+  )
 }

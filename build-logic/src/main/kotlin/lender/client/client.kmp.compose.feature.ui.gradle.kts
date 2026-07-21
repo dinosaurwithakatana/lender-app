@@ -81,6 +81,7 @@ kotlin {
 
         implementation(project(":shared"))
         implementation(project(":client:navigation:core"))
+        implementation(project(":models:client"))
 
         implementation(libs.calf.ui)
 

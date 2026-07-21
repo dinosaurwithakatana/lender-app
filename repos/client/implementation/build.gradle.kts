@@ -8,6 +8,7 @@ kotlin {
       dependencies {
         api(projects.repos.client.api)
         implementation(projects.datastore.client.models)
+        implementation(projects.client.network)
       }
     }
   }

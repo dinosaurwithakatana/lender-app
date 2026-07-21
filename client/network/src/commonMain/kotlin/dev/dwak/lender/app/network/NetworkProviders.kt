@@ -29,7 +29,7 @@ interface NetworkProviders {
   @Provides
   @SingleIn(AppScope::class)
   @Named("base-url")
-  fun baseUrl(): String = "http://10.0.2.2:8080/api/"
+  fun baseUrl(): String = "http://0.0.0.0:8080/api/"
 
   @Provides
   @Named("api-key")

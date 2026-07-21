@@ -7,13 +7,13 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.presenter.Presenter
 import dev.dwak.lender.app.modification.LoginUserMod
 import dev.dwak.lender.data.modifier.DataModifier
-import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
+import dev.dwak.lender.feature.auth.navigation.api.AuthScreens
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.launch
 
 @CircuitInject(
-  screen = AuthRoutes.Login::class,
+  screen = AuthScreens.Login::class,
   scope = AppScope::class
 )
 @Inject

@@ -2,7 +2,6 @@ package dev.dwak.lender.feature.auth.ui.login
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -11,14 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.ui.Ui
-import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
+import dev.dwak.lender.feature.auth.navigation.api.AuthScreens
 import dev.dwak.lender.feature.auth.presenter.login.LoginEvents
 import dev.dwak.lender.feature.auth.presenter.login.LoginState
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
 
 @CircuitInject(
-  screen = AuthRoutes.Login::class,
+  screen = AuthScreens.Login::class,
   scope = AppScope::class
 )
 @Inject
