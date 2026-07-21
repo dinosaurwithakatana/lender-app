@@ -8,9 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.CircuitContent
+import com.slack.circuit.retained.CircuitRetainedSettings
+import com.slack.circuit.retained.ExperimentalCircuitRetainedApi
 
+@OptIn(ExperimentalCircuitRetainedApi::class)
 @Composable
 fun App(graph: ClientGraph) {
+  CircuitRetainedSettings.useFirstParty = true
   MaterialTheme {
     Box(modifier = Modifier.fillMaxSize().safeContentPadding()) {
       CircuitCompositionLocals(graph.circuit) {

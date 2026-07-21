@@ -15,6 +15,7 @@ kotlin {
       implementation(libs.circuit.navigation)
       implementation(libs.circuit.runtime.navigation)
       implementation(libs.circuit.codegen.annotations)
+      implementation(libs.circuit.serialization)
 
       implementation(projects.client.navigation.core)
 

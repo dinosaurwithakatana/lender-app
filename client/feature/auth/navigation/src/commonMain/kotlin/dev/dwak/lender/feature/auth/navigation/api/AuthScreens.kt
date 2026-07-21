@@ -5,16 +5,16 @@ import dev.dwak.lender.lender_app.Parcelize
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface AuthRoutes : LenderScreen {
+sealed interface AuthScreens : LenderScreen {
   @Parcelize
   @Serializable
-  data object Launch : AuthRoutes
+  data object Launch : AuthScreens
 
   @Serializable
   @Parcelize
-  data object Login : AuthRoutes
+  data object Login : AuthScreens
 
   @Parcelize
   @Serializable
-  data object SignUp : AuthRoutes
+  data object SignUp : AuthScreens
 }

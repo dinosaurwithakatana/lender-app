@@ -64,6 +64,9 @@ fun HomePreview() {
   Home(
     state = HomeState(
       items = emptyList(),
-      dispatch = {}
-    ))
+      dispatch = {},
+      loading = false,
+      refreshing = false
+    )
+  )
 }

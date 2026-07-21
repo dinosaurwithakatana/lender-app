@@ -9,14 +9,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.ui.Ui
-import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
+import dev.dwak.lender.feature.auth.navigation.api.AuthScreens
 import dev.dwak.lender.feature.auth.presenter.launch.LaunchEvents
 import dev.dwak.lender.feature.auth.presenter.launch.LaunchState
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
 
 @CircuitInject(
-  screen = AuthRoutes.Launch::class,
+  screen = AuthScreens.Launch::class,
   scope = AppScope::class
 )
 @Inject

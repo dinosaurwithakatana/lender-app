@@ -7,15 +7,12 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.navstack.rememberSaveableNavStack
 import com.slack.circuit.foundation.rememberCircuitNavigator
-import com.slack.circuitx.effects.rememberImpressionNavigator
 import com.slack.circuitx.gesturenavigation.GestureNavigationDecorationFactory
-import com.slack.circuitx.gesturenavigation.GestureNavigationEventListener
 import com.slack.circuitx.navigation.intercepting.rememberInterceptingNavigator
-import dev.dwak.lender.feature.auth.navigation.api.AuthRoutes
+import dev.dwak.lender.feature.auth.navigation.api.AuthScreens
 import dev.dwak.lender.feature.home.navigation.HomeScreens
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
-import io.github.aakira.napier.Napier
 
 @CircuitInject(
   screen = AppScreen::class,
@@ -28,7 +25,7 @@ fun AppUi(
   modifier: Modifier = Modifier
 ) {
   val navStack =
-    rememberSaveableNavStack(root = if (state.isLoggedIn) HomeScreens.Home else AuthRoutes.Launch)
+    rememberSaveableNavStack(root = if (state.isLoggedIn) HomeScreens.Home else AuthScreens.Launch)
 
   val interceptedNavigator = rememberInterceptingNavigator(
     navigator = rememberCircuitNavigator(navStack = navStack, onRootPop = {}),

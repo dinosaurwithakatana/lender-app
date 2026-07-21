@@ -3,6 +3,7 @@ package dev.dwak.lender.lender_app
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.runtime.ExperimentalCircuitApi
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuit.runtime.screen.CircuitSaver
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuitx.navigation.intercepting.NavigationInterceptor
 import dev.zacsweers.metro.AppScope
@@ -19,12 +20,14 @@ interface ClientGraph {
   fun provideCircuit(
     presenterFactories: Set<Presenter.Factory>,
     uiFactories: Set<Ui.Factory>,
+    saver: CircuitSaver,
 //    animatedScreenTransforms: Map<KClass<out Screen>, AnimatedScreenTransform>,
   ): Circuit {
 
     return Circuit.Builder()
       .addPresenterFactories(presenterFactories)
       .addUiFactories(uiFactories)
+      .setCircuitSaver(saver)
 //      .addAnimatedScreenTransforms(animatedScreenTransforms)
       .build()
   }
