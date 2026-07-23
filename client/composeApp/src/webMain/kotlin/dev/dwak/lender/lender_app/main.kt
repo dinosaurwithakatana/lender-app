@@ -8,6 +8,6 @@ import dev.zacsweers.metro.createGraph
 fun main() {
   val graph = createGraph<WebClientGraph>()
   ComposeViewport {
-    App(graph)
+    LenderApp(graph)
   }
 }

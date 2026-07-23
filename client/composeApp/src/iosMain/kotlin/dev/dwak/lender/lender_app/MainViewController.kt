@@ -9,5 +9,5 @@ import platform.UIKit.UIViewController
 fun MainViewController(): UIViewController {
   val graph = createGraph<IosClientGraph>()
   Napier.base(DebugAntilog())
-  return ComposeUIViewController { App(graph) }
+  return ComposeUIViewController { LenderApp(graph) }
 }

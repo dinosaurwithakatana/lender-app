@@ -7,11 +7,14 @@ import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.collectAsRetainedState
+import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.navigation.intercepting.LoggingNavigationEventListener
 import com.slack.circuitx.navigation.intercepting.NavigationEventListener
 import com.slack.circuitx.navigation.intercepting.NavigationInterceptor
 import com.slack.circuitx.navigation.intercepting.NavigationLogger
+import dev.dwak.lender.feature.home.navigation.HomeScreens
 import dev.dwak.lender.repos.client.UserRepo
 import dev.dwak.models.client.ClientUser
 import dev.zacsweers.metro.AppScope
@@ -30,26 +33,28 @@ class AppPresenter(
 ) : Presenter<AppState> {
   @Composable
   override fun present(): AppState {
-    val state by produceState(
-      AppState(
-        navigationInterceptors = navigationInterceptors,
-        navigationEventInterceptors = setOf(
-          LoggingNavigationEventListener(logger = object: NavigationLogger {
-            override fun log(message: String) {
-              Napier.d { message }
-            }
-          })
-        ),
-        dispatch = { event -> }
+    val currentUser by userRepo.currentUser().collectAsRetainedState(ClientUser.Loading)
+    var currentTab by remember { mutableStateOf(BottomBarTabs.HOME) }
+
+    return AppState(
+      navigationInterceptors = navigationInterceptors,
+      navigationEventInterceptors = setOf(
+        LoggingNavigationEventListener(logger = object : NavigationLogger {
+          override fun log(message: String) {
+            Napier.d { message }
+          }
+        })
       ),
-      {
-        userRepo.currentUser().collect {
-          value = value.copy(
-            isLoggedIn = it is ClientUser.LoggedIn
-          )
+      isLoggedIn = currentUser is ClientUser.LoggedIn,
+      loading = currentUser is ClientUser.Loading,
+      selectedTab = currentTab,
+      dispatch = { event ->
+        when (event) {
+          is AppEvents.SelectBottomBarTab -> {
+            currentTab = event.tab
+          }
         }
       }
     )
-    return state
   }
 }

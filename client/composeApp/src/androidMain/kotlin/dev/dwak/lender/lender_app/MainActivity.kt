@@ -8,12 +8,10 @@ import androidx.activity.enableEdgeToEdge
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.Named
 import dev.zacsweers.metro.binding
 import dev.zacsweers.metrox.android.ActivityKey
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
-import kotlinx.coroutines.runBlocking
 
 @ContributesIntoMap(AppScope::class, binding<Activity>())
 @ActivityKey(MainActivity::class)
@@ -29,7 +27,7 @@ class MainActivity(private val graph: AndroidClientGraph) : ComponentActivity() 
     Napier.d { getPlatform().name }
     Napier.d { getWebApiKey() }
     setContent {
-      App(graph)
+      LenderApp(graph)
     }
   }
 }
