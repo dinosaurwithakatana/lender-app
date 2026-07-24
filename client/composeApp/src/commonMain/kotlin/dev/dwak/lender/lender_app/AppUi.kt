@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi
@@ -15,9 +16,11 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.navstack.rememberSaveableNavStack
 import com.slack.circuit.foundation.rememberCircuitNavigator
+import com.slack.circuit.runtime.Navigator
 import com.slack.circuitx.gesturenavigation.GestureNavigationDecorationFactory
 import com.slack.circuitx.navigation.intercepting.rememberInterceptingNavigator
 import dev.dwak.lender.feature.auth.navigation.api.AuthScreens
+import dev.dwak.lender.feature.groups.navigation.GroupsScreens
 import dev.dwak.lender.feature.home.navigation.HomeScreens
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
@@ -42,15 +45,24 @@ fun AppUi(
     eventListeners = state.navigationEventInterceptors.toList()
   )
 
+  val options = Navigator.StateOptions.SaveAndRestore
+
+  LaunchedEffect(state.selectedTab) {
+    when (state.selectedTab) {
+      BottomBarTabs.HOME -> interceptedNavigator.resetRoot(HomeScreens.Home, options)
+      BottomBarTabs.LENDS -> TODO()
+      BottomBarTabs.GROUPS -> interceptedNavigator.resetRoot(GroupsScreens.GroupsHome, options)
+    }
+  }
+
+
   Column(modifier = modifier) {
     NavigableCircuitContent(
       navigator = interceptedNavigator,
       navStack = navStack,
       decoratorFactory =
         remember(interceptedNavigator) {
-          GestureNavigationDecorationFactory(
-            // Pop the back stack once the user has gone 'back'
-          )
+          GestureNavigationDecorationFactory()
         }
     )
     AdaptiveNavigationBar(

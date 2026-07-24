@@ -5,6 +5,7 @@ import com.slack.circuit.runtime.screen.CircuitSaveable
 import com.slack.circuit.runtime.screen.CircuitSaver
 import com.slack.circuit.serialization.SerializableCircuitSaver
 import dev.dwak.lender.feature.auth.navigation.api.AuthScreens
+import dev.dwak.lender.feature.groups.navigation.GroupsScreens
 import dev.dwak.lender.feature.home.navigation.HomeScreens
 import dev.dwak.lender.feature.item.navigation.ItemScreens
 import dev.zacsweers.metro.AppScope
@@ -28,6 +29,7 @@ interface SaverProviders {
           subclassesOfSealed<AuthScreens>()
           subclassesOfSealed<HomeScreens>()
           subclassesOfSealed<ItemScreens>()
+          subclassesOfSealed<GroupsScreens>()
         }
       }
     }
