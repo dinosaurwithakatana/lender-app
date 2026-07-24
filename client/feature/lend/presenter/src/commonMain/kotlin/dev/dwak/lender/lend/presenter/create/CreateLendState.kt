@@ -21,12 +21,14 @@ data class CreateLendState(
   val dispatch: (CreateLendEvents) -> Unit,
 ) : CircuitUiState {
   val canSubmit: Boolean
-    get() = when {
-      submitting -> false
-      selectedItem == null -> false
-      quantity.text.toString().toIntOrNull()?.let { it > 0 } != true -> false
-      mode == LendMode.GUEST -> firstName.text.isNotBlank() && lastName.text.isNotBlank()
-      mode == LendMode.GROUP_MEMBER -> selectedGroup != null && selectedMember != null
-      else -> false
+    get() {
+      if (submitting) return false
+      val item = selectedItem ?: return false
+      val qty = quantity.text.toString().toIntOrNull() ?: return false
+      if (qty <= 0 || qty > item.availableQuantity) return false
+      return when (mode) {
+        LendMode.GUEST -> firstName.text.isNotBlank() && lastName.text.isNotBlank()
+        LendMode.GROUP_MEMBER -> selectedGroup != null && selectedMember != null
+      }
     }
 }

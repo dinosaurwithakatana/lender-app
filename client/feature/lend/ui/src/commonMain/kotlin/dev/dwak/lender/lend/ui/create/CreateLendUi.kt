@@ -175,8 +175,9 @@ private fun ItemPicker(
   Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
     items.forEach { item ->
       PickerRow(
-        text = item.name,
+        text = "${item.name} — ${item.availableQuantity} of ${item.totalQuantity} available",
         selected = item.id == selected?.id,
+        enabled = item.availableQuantity > 0,
         onClick = { onSelect(item) },
       )
     }
@@ -226,17 +227,23 @@ private fun PickerRow(
   text: String,
   selected: Boolean,
   onClick: () -> Unit,
+  enabled: Boolean = true,
 ) {
-  val bg = if (selected) MaterialTheme.colorScheme.primaryContainer
-  else MaterialTheme.colorScheme.surfaceVariant
+  val bg = when {
+    !enabled -> MaterialTheme.colorScheme.surfaceContainerLowest
+    selected -> MaterialTheme.colorScheme.primaryContainer
+    else -> MaterialTheme.colorScheme.surfaceVariant
+  }
+  val textColor = if (enabled) MaterialTheme.colorScheme.onSurface
+  else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
   Row(
     modifier = Modifier
       .fillMaxWidth()
       .background(bg)
-      .clickable(onClick = onClick)
+      .clickable(enabled = enabled, onClick = onClick)
       .padding(12.dp),
   ) {
-    Text(text)
+    Text(text, color = textColor)
   }
 }
 

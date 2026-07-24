@@ -83,7 +83,7 @@ fun Home(
             horizontalArrangement = Arrangement.SpaceBetween
           ) {
             Text(it.description.orEmpty())
-            Text(it.quantity.toString())
+            Text("${it.availableQuantity} / ${it.totalQuantity}")
           }
         }
       }

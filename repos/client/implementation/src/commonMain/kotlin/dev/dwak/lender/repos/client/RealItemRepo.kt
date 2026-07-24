@@ -36,8 +36,9 @@ class RealItemRepo(
               id = ClientItem.Id(it.id),
               name = it.name,
               description = it.description,
-              quantity = it.quantity,
-              ownedById = ClientProfile.Id(it.id),
+              totalQuantity = it.totalQuantity,
+              availableQuantity = it.availableQuantity,
+              ownedById = ClientProfile.Id(it.ownedById),
             )
           } ?: emptyList()
         } else {
