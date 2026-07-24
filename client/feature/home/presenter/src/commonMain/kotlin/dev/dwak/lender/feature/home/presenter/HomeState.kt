@@ -7,7 +7,8 @@ import dev.dwak.models.client.ClientItem
 
 data class HomeState(
   val items: List<ClientItem>,
+  val itemPendingDelete: ClientItem?,
   val dispatch: (HomeEvents) -> Unit,
   override val loading: Boolean,
-  override val refreshing: Boolean
+  override val refreshing: Boolean,
 ) : CircuitUiState, Loadable, Refreshable

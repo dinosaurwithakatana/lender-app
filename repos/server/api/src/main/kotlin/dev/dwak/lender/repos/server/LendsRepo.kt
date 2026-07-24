@@ -4,5 +4,5 @@ import dev.dwak.lender.models.server.ServerLend
 import dev.dwak.lender.models.server.ServerProfileId
 
 interface LendsRepo {
-  suspend fun activeLendsForProfile(id: ServerProfileId): List<ServerLend>
+  suspend fun lendsForProfile(id: ServerProfileId): List<ServerLend>
 }

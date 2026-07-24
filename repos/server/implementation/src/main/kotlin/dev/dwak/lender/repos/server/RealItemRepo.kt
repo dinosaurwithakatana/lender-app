@@ -29,7 +29,7 @@ class RealItemRepo(
           name = name,
           description = description,
           totalQuantity = total_quantity.toInt(),
-          availableQuantity = (available_quantity ?: total_quantity).toInt(),
+          availableQuantity = available_quantity.toInt(),
           ownedBy = id,
         )
       }.executeAsList()

@@ -11,19 +11,27 @@ import com.slack.circuit.foundation.rememberAnsweringNavigator
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import dev.dwak.lender.app.modification.AdvanceLendMod
+import dev.dwak.lender.app.modification.DeleteLendMod
+import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.feature.lend.navigation.LendScreens
+import dev.dwak.lender.lender_app.coroutines.Io
 import dev.dwak.lender.repos.client.LendsRepo
 import dev.dwak.lender.repos.client.RepoRefresher
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @AssistedInject
 class LendHomePresenter(
   @Assisted private val navigator: Navigator,
   private val lendsRepo: LendsRepo,
   private val lendsRepoRefresher: RepoRefresher<LendsRepo.RefreshTypes>,
+  private val dataModifier: DataModifier,
+  @Io private val ioScope: CoroutineScope,
 ) : Presenter<LendHomeState> {
 
   @Composable
@@ -53,6 +61,22 @@ class LendHomePresenter(
       when (event) {
         LendHomeEvents.AddLend -> createLendNavigator.goTo(LendScreens.CreateLend)
         LendHomeEvents.Refresh -> isRefreshing = true
+        is LendHomeEvents.DeleteLend -> {
+          ioScope.launch {
+            val result = dataModifier.submit(DeleteLendMod(lendId = event.lend.id))
+            if (result is DeleteLendMod.Result.Success) {
+              isRefreshing = true
+            }
+          }
+        }
+        is LendHomeEvents.AdvanceLend -> {
+          ioScope.launch {
+            val result = dataModifier.submit(AdvanceLendMod(lendId = event.lend.id))
+            if (result is AdvanceLendMod.Result.Success) {
+              isRefreshing = true
+            }
+          }
+        }
       }
     }
   }

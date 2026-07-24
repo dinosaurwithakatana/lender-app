@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -95,6 +96,9 @@ private fun CreateLend(
       state = state.quantity,
       label = { Text("Quantity") },
       keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+      inputTransformation = DigitsOnly,
+      isError = state.quantityError != null,
+      supportingText = state.quantityError?.let { { Text(it) } },
       modifier = Modifier.fillMaxWidth(),
     )
 
@@ -256,3 +260,12 @@ private fun LendMode.label(): String = when (this) {
   LendMode.GUEST -> "Guest"
   LendMode.GROUP_MEMBER -> "Group member"
 }
+
+private val DigitsOnly = InputTransformation {
+  for (i in (length - 1) downTo 0) {
+    if (!asCharSequence()[i].isDigit()) {
+      replace(i, i + 1, "")
+    }
+  }
+}
+

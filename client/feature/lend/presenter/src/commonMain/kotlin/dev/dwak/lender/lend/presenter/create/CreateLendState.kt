@@ -20,12 +20,23 @@ data class CreateLendState(
   val submitting: Boolean,
   val dispatch: (CreateLendEvents) -> Unit,
 ) : CircuitUiState {
+  val quantityError: String?
+    get() {
+      val raw = quantity.text.toString()
+      if (raw.isEmpty()) return null
+      val qty = raw.toIntOrNull() ?: return "Must be a whole number"
+      if (qty <= 0) return "Must be at least 1"
+      val item = selectedItem ?: return null
+      if (qty > item.availableQuantity) return "Only ${item.availableQuantity} available"
+      return null
+    }
+
   val canSubmit: Boolean
     get() {
       if (submitting) return false
-      val item = selectedItem ?: return false
+      selectedItem ?: return false
       val qty = quantity.text.toString().toIntOrNull() ?: return false
-      if (qty <= 0 || qty > item.availableQuantity) return false
+      if (qty <= 0 || quantityError != null) return false
       return when (mode) {
         LendMode.GUEST -> firstName.text.isNotBlank() && lastName.text.isNotBlank()
         LendMode.GROUP_MEMBER -> selectedGroup != null && selectedMember != null

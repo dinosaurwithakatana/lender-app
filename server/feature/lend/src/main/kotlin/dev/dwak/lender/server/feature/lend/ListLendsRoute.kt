@@ -33,7 +33,7 @@ class ListLendsRoute(
     val profileId = profileRepo.getByUserId(principal.userId)?.id
       ?: return call.respond(HttpStatusCode.NotFound, "Profile not found")
 
-    val lends = lendsRepo.activeLendsForProfile(profileId).map { it.toApi(currentProfileId = profileId) }
+    val lends = lendsRepo.lendsForProfile(profileId).map { it.toApi(currentProfileId = profileId) }
     call.respond(ApiGetLendsResponse(lends))
   }
 }

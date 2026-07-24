@@ -16,8 +16,8 @@ import dev.zacsweers.metro.ContributesBinding
 class RealLendsRepo(
   private val itemLendQueries: ItemLendQueries,
 ) : LendsRepo {
-  override suspend fun activeLendsForProfile(id: ServerProfileId): List<ServerLend> {
-    return itemLendQueries.listActiveLendsForProfile(
+  override suspend fun lendsForProfile(id: ServerProfileId): List<ServerLend> {
+    return itemLendQueries.listLendsForProfile(
       profile_id = DbProfile.Id(id.id),
     ) {
       lend_id,

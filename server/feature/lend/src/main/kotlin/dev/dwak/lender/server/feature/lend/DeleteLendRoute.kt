@@ -1,8 +1,8 @@
-package dev.dwak.lender.server.feature.item
+package dev.dwak.lender.server.feature.lend
 
-import dev.dwak.lender.data.modification.item.DeleteItemMod
+import dev.dwak.lender.data.modification.lend.DeleteLendMod
 import dev.dwak.lender.data.modifier.DataModifier
-import dev.dwak.lender.models.server.ServerItemId
+import dev.dwak.lender.models.server.ServerLendId
 import dev.dwak.lender.models.server.UserIdToken
 import dev.dwak.lender.repos.server.ProfileRepo
 import dev.dwak.lender.server.common.AuthenticatedLenderRoute
@@ -16,30 +16,32 @@ import io.ktor.server.response.respond
 
 @SingleIn(AppScope::class)
 @ContributesIntoSet(AppScope::class)
-class DeleteItemRoute(
-  private val profileRepo: ProfileRepo,
+class DeleteLendRoute(
   private val dataModifier: DataModifier,
+  private val profileRepo: ProfileRepo,
 ) : AuthenticatedLenderRoute {
   override val method: HttpMethod = HttpMethod.Delete
-  override val path: String = "/items/{itemId}"
+  override val path: String = "/lend/{lendId}"
 
   context(call: ApplicationCall)
   override suspend fun handle(principal: UserIdToken) {
-    val itemId = call.parameters["itemId"]
-      ?: return call.respond(HttpStatusCode.BadRequest, "Missing itemId")
+    val lendId = call.parameters["lendId"]
+      ?: return call.respond(HttpStatusCode.BadRequest, "Missing lendId")
 
     val profileId = profileRepo.getByUserId(principal.userId)?.id
-      ?: return call.respond(HttpStatusCode.NotFound)
+      ?: return call.respond(HttpStatusCode.NotFound, "Profile not found")
 
     when (dataModifier.submit(
-      DeleteItemMod(
-        id = ServerItemId(itemId),
-        ownedBy = profileId,
+      DeleteLendMod(
+        lendId = ServerLendId(lendId),
+        actorProfileId = profileId,
       )
     )) {
-      DeleteItemMod.Result.Failure -> call.respond(HttpStatusCode.NotFound)
-      DeleteItemMod.Result.Success -> call.respond(HttpStatusCode.OK)
-      DeleteItemMod.Result.Unauthorized -> call.respond(HttpStatusCode.Unauthorized)
+      DeleteLendMod.Result.NotFound -> call.respond(HttpStatusCode.NotFound)
+      DeleteLendMod.Result.Unauthorized -> call.respond(HttpStatusCode.Forbidden)
+      DeleteLendMod.Result.Deleted,
+      DeleteLendMod.Result.Denied,
+      DeleteLendMod.Result.Returned -> call.respond(HttpStatusCode.OK)
     }
   }
 }

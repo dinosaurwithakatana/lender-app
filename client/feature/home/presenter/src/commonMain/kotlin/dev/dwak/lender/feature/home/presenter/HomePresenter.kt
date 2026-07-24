@@ -11,6 +11,7 @@ import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import dev.dwak.lender.app.modification.DeleteItemMod
 import dev.dwak.lender.app.modification.LogoutMod
 import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.feature.home.navigation.HomeScreens
@@ -18,6 +19,7 @@ import dev.dwak.lender.feature.item.navigation.ItemScreens
 import dev.dwak.lender.lender_app.coroutines.Io
 import dev.dwak.lender.repos.client.ItemRepo
 import dev.dwak.lender.repos.client.RepoRefresher
+import dev.dwak.models.client.ClientItem
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
@@ -31,16 +33,18 @@ class HomePresenter(
   @Io private val ioScope: CoroutineScope,
   @Assisted private val navigator: Navigator,
   private val itemRepo: ItemRepo,
-  private val itemRepoRefresher: RepoRefresher<ItemRepo.RefreshTypes>
+  private val itemRepoRefresher: RepoRefresher<ItemRepo.RefreshTypes>,
 ) : Presenter<HomeState> {
   @Composable
   override fun present(): HomeState {
     var isLoading by rememberRetained { mutableStateOf(true) }
     var isRefreshing by rememberRetained { mutableStateOf(false) }
+    var pendingDelete by rememberRetained { mutableStateOf<ClientItem?>(null) }
 
     rememberAnsweringNavigator<ItemScreens.CreateItem.ItemCreatedResult>(navigator) {
       isRefreshing = true
     }
+
     LaunchedEffect(isLoading, isRefreshing) {
       if (isLoading || isRefreshing) {
         itemRepoRefresher.refresh(ItemRepo.RefreshTypes.AllItems)
@@ -50,25 +54,39 @@ class HomePresenter(
       }
     }
 
-
     return HomeState(
       items = itemRepo.items.collectAsRetainedState(emptyList()).value,
+      itemPendingDelete = pendingDelete,
       loading = isLoading,
       refreshing = isRefreshing,
-      dispatch = {
-        when (it) {
+      dispatch = { event ->
+        when (event) {
           HomeEvents.Logout -> {
             ioScope.launch {
               dataModifier.submit(LogoutMod)
             }
           }
-
           HomeEvents.NavigateToCreateItem -> {
             navigator.goTo(ItemScreens.CreateItem)
           }
-
           HomeEvents.Refresh -> {
             isRefreshing = true
+          }
+          is HomeEvents.RequestDeleteItem -> {
+            pendingDelete = event.item
+          }
+          HomeEvents.CancelDeleteItem -> {
+            pendingDelete = null
+          }
+          HomeEvents.ConfirmDeleteItem -> {
+            val target = pendingDelete ?: return@HomeState
+            pendingDelete = null
+            ioScope.launch {
+              val result = dataModifier.submit(DeleteItemMod(itemId = target.id))
+              if (result is DeleteItemMod.Result.Success) {
+                isRefreshing = true
+              }
+            }
           }
         }
       },
