@@ -39,6 +39,7 @@ include(
   ":cli:app",
   ":cli:commands",
   ":client:android",
+  ":client:feature:common:ui",
   ":client:feature:auth:ui",
   ":client:feature:auth:navigation",
   ":client:feature:auth:presenter",
