@@ -84,6 +84,7 @@ kotlin {
         implementation(project(":repos:client:api"))
 
         implementation(libs.circuit.presenter)
+        implementation(libs.circuit.foundation)
         implementation(libs.circuit.retained)
         implementation(libs.circuit.codegen.annotations)
       }

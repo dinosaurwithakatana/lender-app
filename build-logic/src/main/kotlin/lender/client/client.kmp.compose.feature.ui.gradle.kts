@@ -79,6 +79,7 @@ kotlin {
 
         implementation(libs.kotlinx.serialization.json)
 
+        api(project(":client:feature:common:ui"))
         implementation(project(":shared"))
         implementation(project(":client:navigation:core"))
         implementation(project(":models:client"))

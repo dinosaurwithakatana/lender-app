@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.rememberAnsweringNavigator
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -37,6 +38,9 @@ class HomePresenter(
     var isLoading by rememberRetained { mutableStateOf(true) }
     var isRefreshing by rememberRetained { mutableStateOf(false) }
 
+    rememberAnsweringNavigator<ItemScreens.CreateItem.ItemCreatedResult>(navigator) {
+      isRefreshing = true
+    }
     LaunchedEffect(isLoading, isRefreshing) {
       if (isLoading || isRefreshing) {
         itemRepoRefresher.refresh(ItemRepo.RefreshTypes.AllItems)
