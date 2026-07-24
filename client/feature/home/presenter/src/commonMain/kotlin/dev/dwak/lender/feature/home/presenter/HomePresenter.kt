@@ -41,7 +41,7 @@ class HomePresenter(
     var isRefreshing by rememberRetained { mutableStateOf(false) }
     var pendingDelete by rememberRetained { mutableStateOf<ClientItem?>(null) }
 
-    rememberAnsweringNavigator<ItemScreens.CreateItem.ItemCreatedResult>(navigator) {
+    val createItemNavigator = rememberAnsweringNavigator<ItemScreens.CreateItem.ItemCreatedResult>(navigator) {
       isRefreshing = true
     }
 
@@ -67,7 +67,7 @@ class HomePresenter(
             }
           }
           HomeEvents.NavigateToCreateItem -> {
-            navigator.goTo(ItemScreens.CreateItem)
+            createItemNavigator.goTo(ItemScreens.CreateItem)
           }
           HomeEvents.Refresh -> {
             isRefreshing = true
