@@ -18,7 +18,7 @@ import io.ktor.server.response.respond
 class GetItemsRoute(
   private val itemRepo: ItemRepo,
   private val profileRepo: ProfileRepo,
-): AuthenticatedLenderRoute {
+) : AuthenticatedLenderRoute {
   override val method: HttpMethod = HttpMethod.Get
   override val path: String = "/items/{id}"
 
@@ -31,13 +31,12 @@ class GetItemsRoute(
             id = it.id.id,
             name = it.name,
             description = it.description,
-            quantity = it.quantity,
-            ownedById = it.ownedBy.id
+            totalQuantity = it.totalQuantity,
+            availableQuantity = it.availableQuantity,
+            ownedById = it.ownedBy.id,
           )
         }
-      call.respond(
-        ApiGetItemsReponse(items)
-      )
+      call.respond(ApiGetItemsReponse(items))
     }
   }
 }

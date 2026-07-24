@@ -2,41 +2,39 @@ package dev.dwak.lender.server.feature.item
 
 import dev.dwak.lender.data.modification.item.DeleteItemMod
 import dev.dwak.lender.data.modifier.DataModifier
-import dev.dwak.lender.models.api.request.item.ApiDeleteItem
 import dev.dwak.lender.models.server.ServerItemId
 import dev.dwak.lender.models.server.UserIdToken
 import dev.dwak.lender.repos.server.ProfileRepo
-import dev.dwak.lender.server.common.AuthenticatedTypedLenderRoute
-import dev.dwak.lender.server.common.LenderRoute
+import dev.dwak.lender.server.common.AuthenticatedLenderRoute
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.SingleIn
-import dev.zacsweers.metro.binding
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.response.respond
-import io.ktor.util.reflect.TypeInfo
-import io.ktor.util.reflect.typeInfo
 
 @SingleIn(AppScope::class)
-@ContributesIntoSet(AppScope::class, binding = binding<LenderRoute>())
+@ContributesIntoSet(AppScope::class)
 class DeleteItemRoute(
   private val profileRepo: ProfileRepo,
   private val dataModifier: DataModifier,
-) : AuthenticatedTypedLenderRoute<ApiDeleteItem> {
+) : AuthenticatedLenderRoute {
   override val method: HttpMethod = HttpMethod.Delete
-  override val path: String = "/items"
-  override val requestType: TypeInfo
-    get() = typeInfo<ApiDeleteItem>()
+  override val path: String = "/items/{itemId}"
 
   context(call: ApplicationCall)
-  override suspend fun handle(request: ApiDeleteItem, principal: UserIdToken) {
-    val profileId = profileRepo.getByUserId(principal.userId)?.id ?: return call.respond(HttpStatusCode.NotFound)
+  override suspend fun handle(principal: UserIdToken) {
+    val itemId = call.parameters["itemId"]
+      ?: return call.respond(HttpStatusCode.BadRequest, "Missing itemId")
+
+    val profileId = profileRepo.getByUserId(principal.userId)?.id
+      ?: return call.respond(HttpStatusCode.NotFound)
+
     when (dataModifier.submit(
       DeleteItemMod(
-        id = ServerItemId(request.id),
-        ownedBy = profileId
+        id = ServerItemId(itemId),
+        ownedBy = profileId,
       )
     )) {
       DeleteItemMod.Result.Failure -> call.respond(HttpStatusCode.NotFound)

@@ -4,8 +4,9 @@ data class ServerItem(
   val id: ServerItemId,
   val name: String,
   val description: String?,
-  val quantity: Int,
-  val ownedBy: ServerProfileId
+  val totalQuantity: Int,
+  val availableQuantity: Int,
+  val ownedBy: ServerProfileId,
 )
 
 @JvmInline

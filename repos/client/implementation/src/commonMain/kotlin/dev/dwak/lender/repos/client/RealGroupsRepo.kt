@@ -2,6 +2,7 @@ package dev.dwak.lender.repos.client
 
 import dev.dwak.lender.app.network.GroupsApi
 import dev.dwak.models.client.ClientGroup
+import dev.dwak.models.client.ClientProfile
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.SingleIn
@@ -36,4 +37,18 @@ class RealGroupsRepo(
     }
   }
 
+  override suspend fun getMembers(groupId: ClientGroup.Id): List<ClientProfile> {
+    val response = groupsApi.getGroupMembers(groupId.id)
+    return if (response.isSuccessful) {
+      response.body()?.members?.map {
+        ClientProfile(
+          id = ClientProfile.Id(it.id),
+          firstName = it.firstName,
+          lastName = it.lastName,
+        )
+      } ?: emptyList()
+    } else {
+      emptyList()
+    }
+  }
 }
