@@ -103,4 +103,8 @@ interface NetworkProviders {
   @Provides
   @SingleIn(AppScope::class)
   fun groupApi(ktorfit: Ktorfit): GroupsApi = ktorfit.createGroupsApi()
+
+  @Provides
+  @SingleIn(AppScope::class)
+  fun lendApi(ktorfit: Ktorfit): LendApi = ktorfit.createLendApi()
 }

@@ -133,3 +133,25 @@ VALUES (:profile_id, NULL, :first_name, :last_name);
 INSERT INTO dbItemLend(lend_id, item_id, group_id, from_profile_id, to_profile_id, quantity, lend_created, lend_updated, lend_status)
 VALUES (:lend_id, :item_id, NULL, :from_profile_id, :profile_id, :quantity, :lend_created, :lend_created, 'REQUESTED');
 }
+
+listActiveLendsForProfile:
+SELECT
+    il.lend_id,
+    il.item_id,
+    i.name          AS item_name,
+    il.quantity,
+    il.lend_status,
+    il.from_profile_id,
+    fp.first_name   AS from_first_name,
+    fp.last_name    AS from_last_name,
+    il.to_profile_id,
+    tp.first_name   AS to_first_name,
+    tp.last_name    AS to_last_name,
+    il.lend_created
+FROM dbItemLend il
+JOIN dbItem i     ON il.item_id = i.id
+JOIN dbProfile fp ON il.from_profile_id = fp.id
+JOIN dbProfile tp ON il.to_profile_id = tp.id
+WHERE (il.from_profile_id = :profile_id OR il.to_profile_id = :profile_id)
+  AND il.lend_status IN ('REQUESTED', 'APPROVED', 'LENT')
+ORDER BY il.lend_created DESC;

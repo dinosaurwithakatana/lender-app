@@ -26,6 +26,7 @@ import com.slack.circuitx.navigation.intercepting.rememberInterceptingNavigator
 import dev.dwak.lender.feature.auth.navigation.api.AuthScreens
 import dev.dwak.lender.feature.groups.navigation.GroupsScreens
 import dev.dwak.lender.feature.home.navigation.HomeScreens
+import dev.dwak.lender.feature.lend.navigation.LendScreens
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
 
@@ -54,7 +55,7 @@ fun AppUi(
   LaunchedEffect(state.selectedTab) {
     when (state.selectedTab) {
       BottomBarTabs.HOME -> interceptedNavigator.resetRoot(HomeScreens.Home, options)
-      BottomBarTabs.LENDS -> TODO()
+      BottomBarTabs.LENDS -> interceptedNavigator.resetRoot(LendScreens.LendHome, options)
       BottomBarTabs.GROUPS -> interceptedNavigator.resetRoot(GroupsScreens.GroupsHome, options)
     }
   }
