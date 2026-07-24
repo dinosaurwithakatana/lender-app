@@ -4,6 +4,7 @@ import dev.dwak.lender.db.DbGroup
 import dev.dwak.lender.db.DbProfile
 import dev.dwak.lender.db.GroupMembershipQueries
 import dev.dwak.lender.models.server.ServerGroupId
+import dev.dwak.lender.models.server.ServerProfile
 import dev.dwak.lender.models.server.ServerProfileId
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
@@ -20,5 +21,17 @@ class RealGroupMembershipRepo(
       profile_id = DbProfile.Id(profile.id),
       group_id = DbGroup.Id(group.id)
     ).executeAsOne()
+  }
+
+  override suspend fun profilesInGroup(group: ServerGroupId): List<ServerProfile> {
+    return membershipQueries.profilesInGroup(
+      group_id = DbGroup.Id(group.id)
+    ) { id, _, first_name, last_name ->
+      ServerProfile(
+        id = ServerProfileId(id.id),
+        firstName = first_name,
+        lastName = last_name,
+      )
+    }.executeAsList()
   }
 }

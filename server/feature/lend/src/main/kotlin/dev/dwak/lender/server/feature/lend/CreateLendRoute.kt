@@ -20,6 +20,7 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.SingleIn
 import dev.zacsweers.metro.binding
+import io.github.aakira.napier.Napier
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
@@ -49,6 +50,7 @@ class CreateLendRoute(
       ?: return call.respond(HttpStatusCode.NotFound)
 
     if (item.ownedBy != sourceProfile.id) return call.respond(HttpStatusCode.Unauthorized)
+    Napier.d { "$request" }
 
     when (request) {
       is ApiCreateLend.ToGuest -> {

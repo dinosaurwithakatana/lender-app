@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.rememberAnsweringNavigator
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -31,6 +32,10 @@ class LendHomePresenter(
     var isLoading by remember { mutableStateOf(true) }
     var isRefreshing by remember { mutableStateOf(false) }
 
+    val createLendNavigator = rememberAnsweringNavigator<LendScreens.CreateLend.LendCreatedResult>(navigator) {
+      isRefreshing = true
+    }
+
     LaunchedEffect(isLoading, isRefreshing) {
       if (isLoading || isRefreshing) {
         lendsRepoRefresher.refresh(LendsRepo.RefreshTypes.CurrentUserLends)
@@ -46,7 +51,7 @@ class LendHomePresenter(
       refreshing = isRefreshing,
     ) { event ->
       when (event) {
-        LendHomeEvents.AddLend -> TODO("navigate to CreateLend screen when built")
+        LendHomeEvents.AddLend -> createLendNavigator.goTo(LendScreens.CreateLend)
         LendHomeEvents.Refresh -> isRefreshing = true
       }
     }
