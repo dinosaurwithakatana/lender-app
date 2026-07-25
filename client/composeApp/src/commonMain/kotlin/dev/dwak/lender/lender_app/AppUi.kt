@@ -53,12 +53,15 @@ fun AppUi(
 
   val options = Navigator.StateOptions.SaveAndRestore
 
-  LaunchedEffect(state.selectedTab) {
-    when (state.selectedTab) {
-      BottomBarTabs.HOME -> interceptedNavigator.resetRoot(HomeScreens.Home, options)
-      BottomBarTabs.LENDS -> interceptedNavigator.resetRoot(LendScreens.LendHome, options)
-      BottomBarTabs.GROUPS -> interceptedNavigator.resetRoot(GroupsScreens.GroupsHome, options)
-      BottomBarTabs.PROFILE -> interceptedNavigator.resetRoot(ProfileScreens.ProfileHome, options)
+  LaunchedEffect(state.selectedTab, state.isLoggedIn, state.loading) {
+    if (state.isLoggedIn && !state.loading) {
+
+      when (state.selectedTab) {
+        BottomBarTabs.HOME -> interceptedNavigator.resetRoot(HomeScreens.Home, options)
+        BottomBarTabs.LENDS -> interceptedNavigator.resetRoot(LendScreens.LendHome, options)
+        BottomBarTabs.GROUPS -> interceptedNavigator.resetRoot(GroupsScreens.GroupsHome, options)
+        BottomBarTabs.PROFILE -> interceptedNavigator.resetRoot(ProfileScreens.ProfileHome, options)
+      }
     }
   }
 

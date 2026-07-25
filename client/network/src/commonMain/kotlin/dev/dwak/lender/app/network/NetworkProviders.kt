@@ -53,7 +53,7 @@ interface NetworkProviders {
         if (token != null) {
           request.headers.append("Authorization", "Bearer $token")
         } else {
-          error("no token for auth required!")
+          error("no token for auth!")
         }
       }
     }

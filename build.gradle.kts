@@ -38,8 +38,8 @@ subprojects {
 }
 
 val downloadNode =
-  providers.gradleProperty("lender.downloadNode").map { it.toBoolean() }.getOrElse(true)
-if (downloadNode) {
+  providers.gradleProperty("lender.downloadNode").map { it.toBoolean() }.getOrElse(false)
+if (!downloadNode) {
   allprojects {
     project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
       // Set to `true` for default behavior

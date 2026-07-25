@@ -37,6 +37,9 @@ class AppPresenter(
   @Composable
   override fun present(): AppState {
     val currentUser by userRepo.currentUser().collectAsRetainedState(ClientUser.Loading)
+    LaunchedEffect(currentUser) {
+      Napier.d { "Current user: $currentUser" }
+    }
     var currentTab by remember { mutableStateOf(BottomBarTabs.HOME) }
     return AppState(
       navigationInterceptors = navigationInterceptors,
