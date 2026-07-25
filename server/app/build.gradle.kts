@@ -28,6 +28,7 @@ dependencies {
   implementation(projects.server.feature.item)
   implementation(projects.server.feature.lend)
   implementation(projects.server.feature.groups)
+  implementation(projects.server.feature.membership)
   implementation(projects.server.feature.profile)
 
   implementation(libs.logback)

@@ -1,6 +1,7 @@
 package dev.dwak.lender.repos.client
 
 import dev.dwak.lender.app.network.GroupsApi
+import dev.dwak.lender.app.network.MembershipsApi
 import dev.dwak.lender.lender_app.coroutines.Io
 import dev.dwak.models.client.ClientGroup
 import dev.dwak.models.client.ClientProfile
@@ -21,6 +22,7 @@ import kotlinx.coroutines.withContext
 @SingleIn(AppScope::class)
 class RealGroupsRepo(
   private val groupsApi: GroupsApi,
+  private val membershipsApi: MembershipsApi,
   @Io private val dispatcher: CoroutineDispatcher,
 ) : GroupsRepo, RepoRefresher<GroupsRepo.RefreshTypes> {
   override val currentUserGroups: Flow<List<ClientGroup>>
@@ -42,13 +44,13 @@ class RealGroupsRepo(
   }
 
   override suspend fun getMembers(groupId: ClientGroup.Id): List<ClientProfile> {
-    val response = groupsApi.getGroupMembers(groupId.id)
+    val response = membershipsApi.getMemberships(groupId = groupId.id)
     return if (response.isSuccessful) {
-      response.body()?.members?.map {
+      response.body()?.memberships?.map {
         ClientProfile(
-          id = ClientProfile.Id(it.id),
-          firstName = it.firstName,
-          lastName = it.lastName,
+          id = ClientProfile.Id(it.profile.id),
+          firstName = it.profile.firstName,
+          lastName = it.profile.lastName,
         )
       } ?: emptyList()
     } else {

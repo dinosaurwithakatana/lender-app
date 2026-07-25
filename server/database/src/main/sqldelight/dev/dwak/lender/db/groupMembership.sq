@@ -62,3 +62,22 @@ FROM dbGroupMembership gm
 JOIN dbProfile p ON gm.profile_id = p.id
 WHERE gm.group_id = :group_id
 AND status != 'REQUESTED';
+
+selectById:
+SELECT * FROM dbGroupMembership
+WHERE id = ?;
+
+membershipsForGroup:
+SELECT gm.*, p.first_name, p.last_name
+FROM dbGroupMembership gm
+JOIN dbProfile p ON gm.profile_id = p.id
+WHERE gm.group_id = :group_id;
+
+updateStatus:
+UPDATE dbGroupMembership
+SET status = :status
+WHERE id = :id;
+
+deleteById:
+DELETE FROM dbGroupMembership
+WHERE id = ?;

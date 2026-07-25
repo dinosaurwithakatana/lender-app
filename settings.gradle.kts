@@ -85,6 +85,7 @@ include(
   ":server:feature:groups",
   ":server:feature:item",
   ":server:feature:lend",
+  ":server:feature:membership",
   ":server:feature:profile",
   ":server:common",
   ":shared",
