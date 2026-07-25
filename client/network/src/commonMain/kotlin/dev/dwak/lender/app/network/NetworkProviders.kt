@@ -53,7 +53,7 @@ interface NetworkProviders {
         if (token != null) {
           request.headers.append("Authorization", "Bearer $token")
         } else {
-          error("no token for auth required!")
+          error("no token for auth!")
         }
       }
     }
@@ -107,4 +107,8 @@ interface NetworkProviders {
   @Provides
   @SingleIn(AppScope::class)
   fun lendApi(ktorfit: Ktorfit): LendApi = ktorfit.createLendApi()
+
+  @Provides
+  @SingleIn(AppScope::class)
+  fun profileApi(ktorfit: Ktorfit): ProfileApi = ktorfit.createProfileApi()
 }
