@@ -107,4 +107,8 @@ interface NetworkProviders {
   @Provides
   @SingleIn(AppScope::class)
   fun lendApi(ktorfit: Ktorfit): LendApi = ktorfit.createLendApi()
+
+  @Provides
+  @SingleIn(AppScope::class)
+  fun profileApi(ktorfit: Ktorfit): ProfileApi = ktorfit.createProfileApi()
 }

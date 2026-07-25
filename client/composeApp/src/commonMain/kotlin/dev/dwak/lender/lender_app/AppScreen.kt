@@ -3,6 +3,7 @@ package dev.dwak.lender.lender_app
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.test.crowdsource
 import com.example.test.groups
+import com.example.test.person
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuitx.navigation.intercepting.NavigationEventListener
@@ -39,5 +40,9 @@ enum class BottomBarTabs(val label: String, val icon: ImageVector) {
   GROUPS(
     "Groups",
     groups
+  ),
+  PROFILE(
+    "Profile",
+    person
   )
 }

@@ -25,6 +25,7 @@ kotlin {
       implementation(projects.client.feature.item.ui)
       implementation(projects.client.feature.groups.ui)
       implementation(projects.client.feature.lend.ui)
+      implementation(projects.client.feature.profile.ui)
 
       implementation(projects.repos.client.implementation)
       implementation(projects.datastore.client.serializers)

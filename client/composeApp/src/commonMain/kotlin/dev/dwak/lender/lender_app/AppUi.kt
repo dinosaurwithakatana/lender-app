@@ -27,6 +27,7 @@ import dev.dwak.lender.feature.auth.navigation.api.AuthScreens
 import dev.dwak.lender.feature.groups.navigation.GroupsScreens
 import dev.dwak.lender.feature.home.navigation.HomeScreens
 import dev.dwak.lender.feature.lend.navigation.LendScreens
+import dev.dwak.lender.feature.profile.navigation.ProfileScreens
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
 
@@ -57,6 +58,7 @@ fun AppUi(
       BottomBarTabs.HOME -> interceptedNavigator.resetRoot(HomeScreens.Home, options)
       BottomBarTabs.LENDS -> interceptedNavigator.resetRoot(LendScreens.LendHome, options)
       BottomBarTabs.GROUPS -> interceptedNavigator.resetRoot(GroupsScreens.GroupsHome, options)
+      BottomBarTabs.PROFILE -> interceptedNavigator.resetRoot(ProfileScreens.ProfileHome, options)
     }
   }
 
