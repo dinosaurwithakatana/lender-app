@@ -14,3 +14,8 @@ data class ServerGroupMembership(
 value class ServerGroupMembershipId(
   val id: String
 )
+
+data class ServerGroupMembershipWithProfile(
+  val membership: ServerGroupMembership,
+  val profile: ServerProfile,
+)

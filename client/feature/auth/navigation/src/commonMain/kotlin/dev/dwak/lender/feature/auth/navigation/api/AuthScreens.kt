@@ -8,6 +8,10 @@ import kotlinx.serialization.Serializable
 sealed interface AuthScreens : LenderScreen {
   @Parcelize
   @Serializable
+  data object ConnectServer : AuthScreens
+
+  @Parcelize
+  @Serializable
   data object Launch : AuthScreens
 
   @Serializable

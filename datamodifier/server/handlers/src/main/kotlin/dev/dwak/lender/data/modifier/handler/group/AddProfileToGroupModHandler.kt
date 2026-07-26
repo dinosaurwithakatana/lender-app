@@ -7,6 +7,7 @@ import dev.dwak.lender.data.modifier.handler.toDb
 import dev.dwak.lender.db.DbGroupMembership
 import dev.dwak.lender.db.DbGroupMembershipStatus
 import dev.dwak.lender.db.GroupMembershipQueries
+import dev.dwak.lender.models.server.ServerGroupMembershipId
 import dev.dwak.lender.models.server.ServerGroupMembershipStatus
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
@@ -35,6 +36,6 @@ class AddProfileToGroupModHandler(
         created_at = Clock.System.now()
       )
     ).await()
-    return AddProfileToGroupMod.Result.Success
+    return AddProfileToGroupMod.Result.Success(ServerGroupMembershipId(membershipId.id))
   }
 }

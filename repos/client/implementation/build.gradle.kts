@@ -3,7 +3,15 @@ plugins {
 }
 
 kotlin {
+  applyDefaultHierarchyTemplate()
   sourceSets {
+    val nonWebMain by creating {
+      dependsOn(commonMain.get())
+    }
+    androidMain { dependsOn(nonWebMain) }
+    jvmMain { dependsOn(nonWebMain) }
+    nativeMain.get().dependsOn(nonWebMain)
+
     commonMain {
       dependencies {
         api(projects.repos.client.api)
@@ -11,6 +19,8 @@ kotlin {
         implementation(projects.client.network)
       }
     }
+    nonWebMain.dependencies {
+      implementation(projects.datastore.client.models)
+    }
   }
 }
-

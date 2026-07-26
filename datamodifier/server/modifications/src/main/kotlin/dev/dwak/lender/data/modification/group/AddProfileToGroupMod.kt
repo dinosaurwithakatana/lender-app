@@ -2,6 +2,7 @@ package dev.dwak.lender.data.modification.group
 
 import dev.dwak.lender.data.modifier.DataModification
 import dev.dwak.lender.models.server.ServerGroupId
+import dev.dwak.lender.models.server.ServerGroupMembershipId
 import dev.dwak.lender.models.server.ServerGroupMembershipStatus
 import dev.dwak.lender.models.server.ServerProfileId
 
@@ -11,6 +12,6 @@ data class AddProfileToGroupMod(
   val status: ServerGroupMembershipStatus
 ) : DataModification<AddProfileToGroupMod.Result> {
   sealed interface Result : DataModification.Result {
-    data object Success: Result
+    data class Success(val membershipId: ServerGroupMembershipId) : Result
   }
 }
