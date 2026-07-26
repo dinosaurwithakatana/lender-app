@@ -44,6 +44,20 @@ fun AppUi(
 ) {
   when (state) {
     AppState.Loading -> {}
+    AppState.NeedsServerConfig -> {
+      val navStack = rememberSaveableNavStack(AuthScreens.ConnectServer)
+      val navigator = rememberCircuitNavigator(navStack = navStack, onRootPop = {})
+      NavigableCircuitContent(
+        modifier = modifier.safeContentPadding(),
+        navigator = navigator,
+        navStack = navStack,
+        decoratorFactory =
+          remember(navigator) {
+            GestureNavigationDecorationFactory()
+          }
+      )
+    }
+
     is AppState.LoggedIn -> {
       val navStack =
         rememberSaveableNavStack(root = HomeScreens.Home)

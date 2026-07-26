@@ -9,6 +9,7 @@ kotlin {
       dependencies {
         implementation(libs.kotlinx.serialization.json)
         api(libs.androidx.datastore.core)
+        api(libs.kotlinx.coroutines.core)
       }
     }
   }

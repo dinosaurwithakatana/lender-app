@@ -10,6 +10,7 @@ import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.repos.server.ProfileRepo
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
+import dev.zacsweers.metro.Named
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 
@@ -23,6 +24,8 @@ class CreateInviteLink(
   private val expirationDays: Int by option().int()
     .default(3)
 
+  private val publicUrl: String by option().prompt()
+
   override suspend fun run() {
     when (val result = dataModifier.submit(
       CreateInviteLinkMod(
@@ -32,7 +35,7 @@ class CreateInviteLink(
       )
     )) {
       is CreateInviteLinkMod.Result.Success -> {
-        echo("Successfully created invite link: $result")
+        echo("Invite link: $publicUrl/invite/${result.inviteLink}")
       }
     }
   }

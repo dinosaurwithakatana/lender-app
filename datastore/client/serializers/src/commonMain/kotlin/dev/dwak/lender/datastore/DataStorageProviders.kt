@@ -3,6 +3,7 @@ package dev.dwak.lender.datastore.dev.dwak.lender.datastore
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.Storage
+import dev.dwak.lender.datastore.DsServerConfig
 import dev.dwak.lender.datastore.DsUserInfo
 import dev.dwak.lender.lender_app.AppDir
 import dev.zacsweers.metro.AppScope
@@ -22,6 +23,17 @@ interface DataStorageProviders {
   fun userInfoDataStore(storage: Storage<DsUserInfo>): DataStore<DsUserInfo> = DataStoreFactory.create(
     storage = storage
   )
+
+  @Provides
+  @SingleIn(AppScope::class)
+  fun serverConfigStorage(@AppDir appDir: Path): Storage<DsServerConfig> = createServerConfigStorage(appDir)
+
+  @Provides
+  @SingleIn(AppScope::class)
+  fun serverConfigDataStore(storage: Storage<DsServerConfig>): DataStore<DsServerConfig> =
+    DataStoreFactory.create(storage = storage)
 }
 
 expect fun createUserInfoStorage(appDir: Path): Storage<DsUserInfo>
+
+expect fun createServerConfigStorage(appDir: Path): Storage<DsServerConfig>

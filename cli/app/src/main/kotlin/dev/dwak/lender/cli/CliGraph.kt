@@ -8,6 +8,7 @@ import dev.dwak.lender.lender_app.DbDir
 import dev.dwak.lender.lender_app.coroutines.Io
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.DependencyGraph
+import dev.zacsweers.metro.Named
 import dev.zacsweers.metro.Provides
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier

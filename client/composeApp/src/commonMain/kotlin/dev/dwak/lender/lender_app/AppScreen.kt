@@ -11,8 +11,10 @@ sealed interface AppEvents {
   data class SelectBottomBarTab(val tab: BottomBarTabs) : AppEvents
 }
 
-sealed interface AppState: CircuitUiState {
+sealed interface AppState : CircuitUiState {
   data object Loading : AppState
+
+  data object NeedsServerConfig : AppState
 
   data class LoggedIn(
     val navigationInterceptors: Set<NavigationInterceptor>,
@@ -22,9 +24,8 @@ sealed interface AppState: CircuitUiState {
   ) : AppState
 
   data object LoggedOut : AppState
-
 }
+
 @Parcelize
 @Serializable
 data object AppScreen : Screen
-

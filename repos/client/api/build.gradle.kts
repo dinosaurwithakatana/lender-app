@@ -7,6 +7,7 @@ kotlin {
     commonMain {
       dependencies {
         api(projects.models.client)
+        api(libs.kotlinx.coroutines.core)
       }
     }
   }

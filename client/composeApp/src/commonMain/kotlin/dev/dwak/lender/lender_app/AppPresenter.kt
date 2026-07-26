@@ -1,7 +1,6 @@
 package dev.dwak.lender.lender_app
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -14,6 +13,8 @@ import com.slack.circuitx.navigation.intercepting.LoggingNavigationEventListener
 import com.slack.circuitx.navigation.intercepting.NavigationInterceptor
 import com.slack.circuitx.navigation.intercepting.NavigationLogger
 import dev.dwak.lender.lender_app.tabs.BottomBarTabs
+import dev.dwak.lender.repos.client.ServerConfigRepo
+import dev.dwak.lender.repos.client.ServerConfigState
 import dev.dwak.lender.repos.client.UserRepo
 import dev.dwak.models.client.ClientUser
 import dev.zacsweers.metro.AppScope
@@ -26,10 +27,22 @@ import io.github.aakira.napier.Napier
 class AppPresenter(
   private val navigationInterceptors: Set<NavigationInterceptor>,
   private val userRepo: UserRepo,
+  private val serverConfigRepo: ServerConfigRepo,
   @Assisted private val navigator: Navigator,
 ) : Presenter<AppState> {
   @Composable
   override fun present(): AppState {
+    val serverState by serverConfigRepo.state.collectAsRetainedState()
+
+    return when (serverState) {
+      ServerConfigState.Loading -> AppState.Loading
+      ServerConfigState.Unconfigured -> AppState.NeedsServerConfig
+      is ServerConfigState.Configured -> presentUser()
+    }
+  }
+
+  @Composable
+  private fun presentUser(): AppState {
     val currentUser by userRepo.currentUser().collectAsRetainedState(ClientUser.Loading)
 
     return when (currentUser) {
