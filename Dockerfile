@@ -23,7 +23,7 @@ COPY server ./server
 COPY shared ./shared
 
 RUN ./gradlew -Pkotlin.daemon.jvmargs=-Xmx6144M -Plender.downloadNode=false :cli:app:installDist
-RUN ./gradlew --scan -Pkotlin.daemon.jvmargs=-Xmx6144M -Plender.serverBuildsWeb=false -Plender.downloadNode=false :server:app:installDist
+RUN ./gradlew --scan -Pkotlin.daemon.jvmargs=-Xmx6144M -Plender.serverBuildsWeb=true -Plender.downloadNode=false :server:app:installDist
 
 FROM eclipse-temurin:21-jre-alpine AS runtime
 RUN apk add --no-cache \
