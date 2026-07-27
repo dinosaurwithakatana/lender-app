@@ -26,7 +26,7 @@ COPY shared ./shared
 RUN ./gradlew -Plender.downloadNode=false :cli:app:installDist
 RUN ./gradlew --scan -Plender.serverBuildsWeb=true -Plender.downloadNode=false :server:app:installDist
 
-FROM eclipse-temurin:21-jre-alpine AS runtime
+FROM eclipse-temurin:25-jre-alpine AS runtime
 RUN apk add --no-cache \
       bash \
       curl \
