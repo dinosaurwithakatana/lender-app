@@ -24,7 +24,7 @@ import dev.zacsweers.metro.Inject
   scope = AppScope::class
 )
 @Inject
-class SignUpScreen : Ui<SignUpState>{
+class SignUpScreen : Ui<SignUpState> {
   @Composable
   override fun Content(
     state: SignUpState,
@@ -34,12 +34,25 @@ class SignUpScreen : Ui<SignUpState>{
       modifier = modifier.fillMaxSize(),
       horizontalAlignment = Alignment.CenterHorizontally
     ) {
+      Text("First Name")
+      TextField(state = state.firstName)
+      Text("Last Name")
+      TextField(state = state.lastName)
       Text("Username")
-      TextField(state.username, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email))
+      TextField(
+        state.username,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+      )
       Text("Password")
-      SecureTextField(state.password, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password))
+      SecureTextField(
+        state.password,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+      )
       Text("Confirm Password")
-      SecureTextField(state.confirmPassword, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password))
+      SecureTextField(
+        state.confirmPassword,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+      )
       Text("Confirm Password")
       Text("Invite Code")
       TextField(state.inviteCode)
