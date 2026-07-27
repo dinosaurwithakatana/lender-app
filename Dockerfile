@@ -5,7 +5,8 @@ RUN apk add --no-cache \
  && rm -rf /var/cache/* \
  && mkdir /var/cache/apk
 
-ENV GRADLE_OPTS="-Dorg.gradle.daemon=false -Dkotlin.incremental=false"
+ENV GRADLE_OPTS="-Dorg.gradle.daemon=false -Dkotlin.incremental=false -Dorg.gradle.jvmargs=-Xmx2048m -XX:MaxMetaspaceSize=512m"
+
 WORKDIR /app
 
 COPY gradlew settings.gradle.kts build.gradle.kts ./
@@ -22,8 +23,8 @@ COPY repos ./repos
 COPY server ./server
 COPY shared ./shared
 
-RUN ./gradlew -Pkotlin.daemon.jvmargs=-Xmx6144M -Plender.downloadNode=false :cli:app:installDist
-RUN ./gradlew --scan -Pkotlin.daemon.jvmargs=-Xmx6144M -Plender.serverBuildsWeb=true -Plender.downloadNode=false :server:app:installDist
+RUN ./gradlew -Plender.downloadNode=false :cli:app:installDist
+RUN ./gradlew --scan -Plender.serverBuildsWeb=true -Plender.downloadNode=false :server:app:installDist
 
 FROM eclipse-temurin:21-jre-alpine AS runtime
 RUN apk add --no-cache \
