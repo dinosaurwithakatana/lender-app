@@ -4,4 +4,6 @@ import com.slack.circuit.runtime.CircuitUiEvent
 
 sealed interface ProfileHomeEvents : CircuitUiEvent {
   data object Refresh : ProfileHomeEvents
+
+  data object Logout : ProfileHomeEvents
 }

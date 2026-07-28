@@ -61,11 +61,6 @@ class HomePresenter(
       refreshing = isRefreshing,
       dispatch = { event ->
         when (event) {
-          HomeEvents.Logout -> {
-            ioScope.launch {
-              dataModifier.submit(LogoutMod)
-            }
-          }
           HomeEvents.NavigateToCreateItem -> {
             createItemNavigator.goTo(ItemScreens.CreateItem)
           }

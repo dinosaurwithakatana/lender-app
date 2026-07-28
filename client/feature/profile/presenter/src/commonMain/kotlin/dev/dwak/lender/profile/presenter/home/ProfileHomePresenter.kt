@@ -10,19 +10,26 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import dev.dwak.lender.app.modification.LogoutMod
+import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.feature.profile.navigation.ProfileScreens
+import dev.dwak.lender.lender_app.coroutines.Io
 import dev.dwak.lender.repos.client.ProfileRepo
 import dev.dwak.lender.repos.client.RepoRefresher
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @AssistedInject
 class ProfileHomePresenter(
   @Assisted private val navigator: Navigator,
   private val profileRepo: ProfileRepo,
   private val profileRepoRefresher: RepoRefresher<ProfileRepo.RefreshTypes>,
+  private val dataModifier: DataModifier,
+  @Io private val ioScope: CoroutineScope,
 ) : Presenter<ProfileHomeState> {
 
   @Composable
@@ -47,6 +54,11 @@ class ProfileHomePresenter(
     ) { event ->
       when (event) {
         ProfileHomeEvents.Refresh -> isRefreshing = true
+        ProfileHomeEvents.Logout ->{
+          ioScope.launch {
+            dataModifier.submit(LogoutMod)
+          }
+        }
       }
     }
   }

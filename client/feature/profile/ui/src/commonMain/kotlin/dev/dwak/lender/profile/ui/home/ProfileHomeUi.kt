@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi
+import com.mohamedrejeb.calf.ui.button.AdaptiveButton
 import com.mohamedrejeb.calf.ui.navigation.AdaptiveScaffold
 import com.mohamedrejeb.calf.ui.navigation.AdaptiveTopBar
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -62,6 +63,9 @@ class ProfileHomeUi : Ui<ProfileHomeState> {
           }
           Section(title = "Invite History") {
             Text("Coming soon.", style = MaterialTheme.typography.bodySmall)
+          }
+          AdaptiveButton(onClick = { state.dispatch(ProfileHomeEvents.Logout) }) {
+            Text("Logout")
           }
         }
       }

@@ -100,9 +100,6 @@ fun Home(
         )
         HorizontalDivider()
       }
-      AdaptiveButton(onClick = { state.dispatch(HomeEvents.Logout) }) {
-        Text("Logout")
-      }
     }
   }
 }

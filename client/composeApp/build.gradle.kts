@@ -33,5 +33,11 @@ kotlin {
       implementation(projects.datamodifier.client.handlers)
       api(projects.client.network)
     }
+
+    wasmJsMain.dependencies {
+      implementation(libs.kotlinx.browser)
+    }
+    webMain.dependencies {
+    }
   }
 }
