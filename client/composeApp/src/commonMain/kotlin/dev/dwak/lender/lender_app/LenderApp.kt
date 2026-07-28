@@ -9,15 +9,16 @@ import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.CircuitContent
 import com.slack.circuit.retained.CircuitRetainedSettings
 import com.slack.circuit.retained.ExperimentalCircuitRetainedApi
+import dev.dwak.lender.lender_app.theme.AppTheme
 
 @OptIn(ExperimentalCircuitRetainedApi::class)
 @Composable
 fun LenderApp(graph: ClientGraph) {
   CircuitRetainedSettings.useFirstParty = true
-  MaterialTheme {
+  AppTheme {
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
       CircuitCompositionLocals(graph.circuit) {
-        CircuitContent(AppScreen)
+        CircuitContent(screen = AppScreen)
       }
     }
   }

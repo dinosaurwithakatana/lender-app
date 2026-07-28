@@ -21,12 +21,14 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi
 import com.mohamedrejeb.calf.ui.button.AdaptiveButton
 import com.mohamedrejeb.calf.ui.navigation.AdaptiveScaffold
 import com.mohamedrejeb.calf.ui.navigation.AdaptiveTopBar
+import com.mohamedrejeb.calf.ui.navigation.UIKitNavigationBarConfiguration
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.ui.Ui
 import dev.dwak.lender.feature.home.navigation.HomeScreens
@@ -53,7 +55,7 @@ class HomeUi : Ui<HomeState> {
       modifier = modifier,
       topBar = {
         AdaptiveTopBar(
-          iosTitle = "Lender"
+          iosTitle = "Lender",
         )
       },
       floatingActionButton = {
