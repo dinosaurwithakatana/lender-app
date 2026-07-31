@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+  implementation(libs.androidx.appcompat)
   implementation(projects.client.composeApp)
   implementation(projects.shared)
 }

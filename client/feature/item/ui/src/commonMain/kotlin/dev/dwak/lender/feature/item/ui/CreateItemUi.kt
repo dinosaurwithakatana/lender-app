@@ -1,8 +1,12 @@
 package dev.dwak.lender.feature.item.ui
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.visible
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Button
@@ -24,6 +28,7 @@ import com.mohamedrejeb.calf.ui.navigation.UIKitUIBarButtonSystemItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.ui.Ui
+import com.slack.circuit.sharedelements.SharedElementTransitionScope
 import dev.dwak.lender.feature.item.navigation.ItemScreens
 import dev.dwak.lender.feature.item.presenter.CreateItemEvents
 import dev.dwak.lender.feature.item.presenter.CreateItemState
@@ -36,32 +41,41 @@ import dev.zacsweers.metro.Inject
 )
 @Inject
 class CreateItemUi : Ui<CreateItemState> {
-  @OptIn(ExperimentalMaterial3Api::class, ExperimentalCalfUiApi::class)
+  @OptIn(ExperimentalMaterial3Api::class, ExperimentalCalfUiApi::class,
+    ExperimentalSharedTransitionApi::class
+  )
   @Composable
   override fun Content(
     state: CreateItemState,
     modifier: Modifier
   ) {
-    AdaptiveScaffold(
-      modifier = modifier,
-      topBar = {
-        AdaptiveTopBar(
-          iosTitle = "Create Item",
-          iosLeadingItems = listOf(
-            UIKitUIBarButtonItem.title(
-              title = "Back",
-              onClick = {
-                state.dispatch(CreateItemEvents.Back)
-              }
+    SharedElementTransitionScope {
+      AdaptiveScaffold(
+        modifier = modifier,
+        topBar = {
+          AdaptiveTopBar(
+            modifier = Modifier.sharedElement(
+              sharedContentState = rememberSharedContentState(key = "topbar"),
+              animatedVisibilityScope = requireAnimatedScope(SharedElementTransitionScope.AnimatedScope.Navigation),
+            )
+              .visible(!isTransitionActive),
+            iosTitle = "Create Item",
+            iosLeadingItems = listOf(
+              UIKitUIBarButtonItem.title(
+                title = "Back",
+                onClick = {
+                  state.dispatch(CreateItemEvents.Back)
+                }
+              )
             )
           )
+        },
+      ) {
+        CreateItem(
+          modifier = Modifier.padding(it),
+          state = state
         )
-      },
-    ) {
-      CreateItem(
-        modifier = Modifier.padding(it),
-        state = state
-      )
+      }
     }
   }
 }
@@ -71,7 +85,7 @@ fun CreateItem(
   modifier: Modifier = Modifier,
   state: CreateItemState
 ) {
-  Column(modifier = modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+  Column(modifier = modifier.fillMaxSize().imePadding(), horizontalAlignment = Alignment.CenterHorizontally) {
     TextField(
       state = state.name,
       label = {

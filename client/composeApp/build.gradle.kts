@@ -34,6 +34,9 @@ kotlin {
       api(projects.client.network)
     }
 
+    androidMain.dependencies {
+      implementation(libs.androidx.appcompat)
+    }
     wasmJsMain.dependencies {
       implementation(libs.kotlinx.browser)
     }

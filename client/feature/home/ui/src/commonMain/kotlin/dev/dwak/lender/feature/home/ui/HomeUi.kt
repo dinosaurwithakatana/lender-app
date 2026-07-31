@@ -1,12 +1,16 @@
 package dev.dwak.lender.feature.home.ui
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.visible
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -31,6 +35,7 @@ import com.mohamedrejeb.calf.ui.navigation.AdaptiveTopBar
 import com.mohamedrejeb.calf.ui.navigation.UIKitNavigationBarConfiguration
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.ui.Ui
+import com.slack.circuit.sharedelements.SharedElementTransitionScope
 import dev.dwak.lender.feature.home.navigation.HomeScreens
 import dev.dwak.lender.feature.home.presenter.HomeEvents
 import dev.dwak.lender.feature.home.presenter.HomeState
@@ -45,31 +50,40 @@ import dev.zacsweers.metro.Inject
 )
 @Inject
 class HomeUi : Ui<HomeState> {
-  @OptIn(ExperimentalMaterial3Api::class, ExperimentalCalfUiApi::class)
+  @OptIn(ExperimentalMaterial3Api::class, ExperimentalCalfUiApi::class,
+    ExperimentalSharedTransitionApi::class
+  )
   @Composable
   override fun Content(
     state: HomeState,
     modifier: Modifier
   ) {
-    AdaptiveScaffold(
-      modifier = modifier,
-      topBar = {
-        AdaptiveTopBar(
-          iosTitle = "Lender",
+    SharedElementTransitionScope {
+      AdaptiveScaffold(
+        modifier = modifier,
+        topBar = {
+          AdaptiveTopBar(
+            modifier = Modifier.sharedElement(
+              sharedContentState = rememberSharedContentState(key = "topbar"),
+              animatedVisibilityScope = requireAnimatedScope(SharedElementTransitionScope.AnimatedScope.Navigation),
+            )
+              .visible(!isTransitionActive),
+            iosTitle = "Lender",
+          )
+        },
+        floatingActionButton = {
+          FloatingActionButton(
+            onClick = { state.dispatch(HomeEvents.NavigateToCreateItem) },
+          ) {
+            Icon(add, contentDescription = "Create item")
+          }
+        },
+      ) {
+        Home(
+          state = state,
+          contentPadding = it,
         )
-      },
-      floatingActionButton = {
-        FloatingActionButton(
-          onClick = { state.dispatch(HomeEvents.NavigateToCreateItem) },
-        ) {
-          Icon(add, contentDescription = "Create item")
-        }
-      },
-    ) {
-      Home(
-        state = state,
-        contentPadding = it,
-      )
+      }
     }
 
     state.itemPendingDelete?.let { item ->

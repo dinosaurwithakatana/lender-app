@@ -1,8 +1,9 @@
 [versions]
 agp = "9.1.1"
-android-compileSdk = "36"
+android-compileSdk = "37"
 android-minSdk = "28"
-android-targetSdk = "36"
+#noinspection EditedTargetSdkVersion
+android-targetSdk = "37"
 androidx-activity = "1.13.0"
 androidx-appcompat = "1.7.1"
 androidx-core = "1.18.0"
@@ -67,6 +68,7 @@ circuit-retained = { module = "com.slack.circuit:circuit-retained", version.ref 
 circuit-runtime = { module = "com.slack.circuit:circuit-runtime", version.ref = "circuit" }
 circuit-presenter = { module = "com.slack.circuit:circuit-runtime-presenter", version.ref = "circuit" }
 circuit-serialization = { module = "com.slack.circuit:circuit-serialization", version.ref = "circuit" }
+circuit-sharedElements = { module = "com.slack.circuit:circuit-sharedelements", version.ref = "circuit" }
 circuit-effects = { module = "com.slack.circuit:circuitx-effects", version.ref = "circuit" }
 circuit-ui = { module = "com.slack.circuit:circuit-runtime-ui", version.ref = "circuit" }
 

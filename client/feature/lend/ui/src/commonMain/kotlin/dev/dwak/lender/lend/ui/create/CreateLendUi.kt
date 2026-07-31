@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.InputTransformation
+import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi
@@ -80,11 +83,13 @@ private fun CreateLend(
   modifier: Modifier = Modifier,
   state: CreateLendState,
 ) {
+  val scrollState = rememberScrollState()
   Column(
     modifier = modifier
       .fillMaxWidth()
-      .verticalScroll(rememberScrollState())
-      .padding(16.dp),
+      .verticalScroll(scrollState)
+      .padding(16.dp)
+      .imePadding(),
     verticalArrangement = Arrangement.spacedBy(12.dp),
   ) {
     SectionLabel("Item")
@@ -137,11 +142,15 @@ private fun CreateLend(
 private fun GuestFields(state: CreateLendState) {
   TextField(
     state = state.firstName,
+    lineLimits = TextFieldLineLimits.SingleLine,
+    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
     label = { Text("First name") },
     modifier = Modifier.fillMaxWidth(),
   )
   TextField(
     state = state.lastName,
+    lineLimits = TextFieldLineLimits.SingleLine,
+    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
     label = { Text("Last name") },
     modifier = Modifier.fillMaxWidth(),
   )

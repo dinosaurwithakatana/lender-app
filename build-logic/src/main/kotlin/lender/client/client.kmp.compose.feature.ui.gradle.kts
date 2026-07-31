@@ -87,6 +87,7 @@ kotlin {
         implementation(libs.calf.ui)
 
         implementation(libs.circuit.ui)
+        implementation(libs.circuit.sharedElements)
         implementation(libs.circuit.codegen.annotations)
       }
     }
