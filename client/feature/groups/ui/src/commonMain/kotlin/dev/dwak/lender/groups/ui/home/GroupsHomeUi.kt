@@ -1,11 +1,15 @@
 package dev.dwak.lender.groups.ui.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -64,9 +68,15 @@ class GroupsHomeUi : Ui<GroupsHomeState> {
   ) {
     Column(modifier.fillMaxSize()) {
       state.groups.forEach { group ->
-        Text(
-          text = group.name,
+        ListItem(
+          modifier = Modifier
+            .fillMaxWidth()
+            .clickable { state.dispatch(GroupsHomeEvents.OpenGroup(group.id)) },
+          headlineContent = {
+            Text(text = group.name)
+          },
         )
+        HorizontalDivider()
       }
     }
   }

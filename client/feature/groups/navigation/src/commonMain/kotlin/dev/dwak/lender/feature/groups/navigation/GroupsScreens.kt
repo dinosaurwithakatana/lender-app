@@ -18,4 +18,8 @@ sealed interface GroupsScreens : AuthenticatedLenderScreen {
     @Parcelize
     data object GroupCreatedResult : PopResult
   }
+
+  @Serializable
+  @Parcelize
+  data class GroupDetail(val groupId: String) : GroupsScreens
 }

@@ -8,6 +8,7 @@ plugins {
 }
 
 dependencies {
+  implementation(projects.models.api)
   implementation(projects.models.server)
   implementation(libs.ktor.serverCore)
   implementation(libs.ktor.serverAuth)

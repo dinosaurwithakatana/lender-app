@@ -16,7 +16,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
-import java.io.File
 
 
 @DependencyGraph(AppScope::class)
@@ -45,22 +44,24 @@ interface CliGraph {
   @Provides
   @AppDir
   fun appDirectory(): Path {
-    val localStorageDir = Path("/data", "/cli")
-    if(!SystemFileSystem.exists(localStorageDir)) {
-      SystemFileSystem.createDirectories(localStorageDir, true)
+    val dir = Path(cliDataDir(), "cli")
+    if (!SystemFileSystem.exists(dir)) {
+      SystemFileSystem.createDirectories(dir, true)
     }
-    return localStorageDir
+    return dir
   }
 
   @Provides
   @DbDir
   fun dbDirectory(): Path {
-    val localStorageDir = Path("/data", "/data")
-    if(!SystemFileSystem.exists(localStorageDir)) {
-      SystemFileSystem.createDirectories(localStorageDir, true)
+    val dir = Path(cliDataDir(), "data")
+    if (!SystemFileSystem.exists(dir)) {
+      SystemFileSystem.createDirectories(dir, true)
     }
-    return localStorageDir
+    return dir
   }
+
+  private fun cliDataDir(): String = System.getenv("LENDER_DATA_DIR") ?: "./build/run"
 
   @DependencyGraph.Factory
   fun interface Factory {

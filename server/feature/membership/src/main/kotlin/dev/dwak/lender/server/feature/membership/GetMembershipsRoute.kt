@@ -2,14 +2,14 @@ package dev.dwak.lender.server.feature.membership
 
 import dev.dwak.lender.models.api.request.membership.ApiMembershipStatus
 import dev.dwak.lender.models.api.response.ApiGetMembershipsResponse
-import dev.dwak.lender.models.api.response.ApiMembership
-import dev.dwak.lender.models.api.response.ApiProfile
 import dev.dwak.lender.models.server.ServerGroupId
 import dev.dwak.lender.models.server.ServerGroupMembershipStatus
 import dev.dwak.lender.models.server.UserIdToken
 import dev.dwak.lender.repos.server.GroupMembershipRepo
 import dev.dwak.lender.repos.server.ProfileRepo
 import dev.dwak.lender.server.common.AuthenticatedLenderRoute
+import dev.dwak.lender.server.common.toApi
+import dev.dwak.lender.server.common.toApiMembership
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.SingleIn
@@ -56,25 +56,10 @@ class GetMembershipsRoute(
         visible && matchesFilter
       }
       .map { entry ->
-        ApiMembership(
-          id = entry.membership.id.id,
-          groupId = entry.membership.groupId.id,
-          status = entry.membership.status.toApi(),
-          profile = ApiProfile(
-            id = entry.profile.id.id,
-            firstName = entry.profile.firstName,
-            lastName = entry.profile.lastName,
-          ),
-          createdAt = entry.membership.createdAt.toString(),
-        )
+        entry.toApiMembership()
       }
 
     call.respond(ApiGetMembershipsResponse(memberships))
   }
 }
 
-internal fun ServerGroupMembershipStatus.toApi(): ApiMembershipStatus = when (this) {
-  ServerGroupMembershipStatus.APPROVED -> ApiMembershipStatus.APPROVED
-  ServerGroupMembershipStatus.REQUESTED -> ApiMembershipStatus.REQUESTED
-  ServerGroupMembershipStatus.OWNER -> ApiMembershipStatus.OWNER
-}

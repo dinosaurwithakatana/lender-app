@@ -53,7 +53,7 @@ class ConnectServerUi : Ui<ConnectServerState> {
         enabled = !state.isSaving,
       )
       state.errorMessage?.let {
-        Text(it, color = MaterialTheme.colorScheme.error)
+        Text(it, color = MaterialTheme.colorScheme.error, maxLines = 3)
       }
       Button(
         onClick = { state.dispatch(ConnectServerEvents.Connect) },
