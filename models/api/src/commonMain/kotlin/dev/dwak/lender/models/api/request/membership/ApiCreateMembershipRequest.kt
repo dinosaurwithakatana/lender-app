@@ -5,4 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ApiCreateMembershipRequest(
   val groupId: String,
+  val profileId: String? = null,
 )

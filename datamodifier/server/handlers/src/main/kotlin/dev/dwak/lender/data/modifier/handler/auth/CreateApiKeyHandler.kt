@@ -26,6 +26,6 @@ class CreateApiKeyHandler(
       )
     )
 
-    return CreateApiKeyMod.Result.Success(ServerApiKey(apiKey))
+    return CreateApiKeyMod.Result.Success(ServerApiKey(mod.name, apiKey))
   }
 }

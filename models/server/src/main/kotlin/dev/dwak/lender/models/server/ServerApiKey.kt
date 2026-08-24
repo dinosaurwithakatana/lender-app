@@ -1,4 +1,6 @@
 package dev.dwak.lender.models.server
 
-@JvmInline
-value class ServerApiKey(val key: String)
+data class ServerApiKey(
+  val name: String,
+  val key: String
+)

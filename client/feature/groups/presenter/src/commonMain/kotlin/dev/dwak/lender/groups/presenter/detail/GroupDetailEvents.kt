@@ -5,4 +5,5 @@ import com.slack.circuit.runtime.CircuitUiEvent
 sealed interface GroupDetailEvents : CircuitUiEvent {
   data object Back : GroupDetailEvents
   data object Refresh : GroupDetailEvents
+  data object AddMember : GroupDetailEvents
 }

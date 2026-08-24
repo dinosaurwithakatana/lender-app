@@ -29,3 +29,7 @@ LIMIT 1;
 delete:
 DELETE FROM dbApiKey
 WHERE apiKey = ?;
+
+getAll:
+SELECT *
+FROM dbApiKey;

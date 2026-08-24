@@ -9,5 +9,6 @@ data class GroupDetailState(
   val detail: ClientGroupDetail?,
   override val loading: Boolean,
   override val refreshing: Boolean,
+  val isOwner: Boolean,
   val dispatch: (GroupDetailEvents) -> Unit,
 ) : CircuitUiState, Loadable, Refreshable

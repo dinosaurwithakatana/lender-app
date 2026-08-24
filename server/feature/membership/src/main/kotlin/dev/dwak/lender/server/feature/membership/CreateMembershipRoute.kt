@@ -6,7 +6,9 @@ import dev.dwak.lender.models.api.request.membership.ApiCreateMembershipRequest
 import dev.dwak.lender.models.api.response.ApiCreateMembershipResponse
 import dev.dwak.lender.models.server.ServerGroupId
 import dev.dwak.lender.models.server.ServerGroupMembershipStatus
+import dev.dwak.lender.models.server.ServerProfileId
 import dev.dwak.lender.models.server.UserIdToken
+import dev.dwak.lender.repos.server.GroupMembershipRepo
 import dev.dwak.lender.repos.server.ProfileRepo
 import dev.dwak.lender.server.common.AuthenticatedTypedLenderRoute
 import dev.zacsweers.metro.AppScope
@@ -24,6 +26,7 @@ import io.ktor.util.reflect.typeInfo
 class CreateMembershipRoute(
   private val dataModifier: DataModifier,
   private val profileRepo: ProfileRepo,
+  private val membershipRepo: GroupMembershipRepo,
 ) : AuthenticatedTypedLenderRoute<ApiCreateMembershipRequest> {
   override val method: HttpMethod = HttpMethod.Post
   override val path: String = "/memberships"
@@ -32,14 +35,23 @@ class CreateMembershipRoute(
 
   context(call: ApplicationCall)
   override suspend fun handle(request: ApiCreateMembershipRequest, principal: UserIdToken) {
-    val profileId = profileRepo.getByUserId(principal.userId)?.id
+    val callerProfileId = profileRepo.getByUserId(principal.userId)?.id
       ?: return call.respond(HttpStatusCode.NotFound, "Profile not found")
+
+    val groupId = ServerGroupId(request.groupId)
+    val targetProfileId = request.profileId?.let(::ServerProfileId) ?: callerProfileId
+
+    if (targetProfileId != callerProfileId &&
+      !membershipRepo.isOwnerForGroup(callerProfileId, groupId)
+    ) {
+      return call.respond(HttpStatusCode.Forbidden, "Only group owners can invite")
+    }
 
     when (
       val result = dataModifier.submit(
         AddProfileToGroupMod(
-          profileId = profileId,
-          groupId = ServerGroupId(request.groupId),
+          profileId = targetProfileId,
+          groupId = groupId,
           status = ServerGroupMembershipStatus.REQUESTED,
         )
       )

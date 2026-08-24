@@ -1,6 +1,7 @@
 package dev.dwak.lender.repos.server
 
 import dev.dwak.lender.db.ApiKeyQueries
+import dev.dwak.lender.models.server.ServerApiKey
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
@@ -21,5 +22,15 @@ class RealApiKeyRepo(
 
   override suspend fun getKeyByName(name: String): String? = withContext(dispatcher) {
     queries.getByName(name).executeAsOneOrNull()?.apiKey
+  }
+
+  override suspend fun getAllKeys(): List<ServerApiKey> = withContext(dispatcher) {
+    queries.getAll() { name, apiKey ->
+      ServerApiKey(
+        name,
+        apiKey
+      )
+    }
+      .executeAsList()
   }
 }

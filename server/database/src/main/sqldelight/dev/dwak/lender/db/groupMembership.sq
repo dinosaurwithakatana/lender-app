@@ -52,16 +52,14 @@ groupsForProfile:
 SELECT g.*
 FROM dbGroup g
 JOIN dbGroupMembership gm ON g.id = gm.group_id
-WHERE gm.profile_id = :profile_id
-AND status != 'REQUESTED';
+WHERE gm.profile_id = :profile_id;
 
 profilesInGroup:
 SELECT
     p.*
 FROM dbGroupMembership gm
 JOIN dbProfile p ON gm.profile_id = p.id
-WHERE gm.group_id = :group_id
-AND status != 'REQUESTED';
+WHERE gm.group_id = :group_id;
 
 selectById:
 SELECT * FROM dbGroupMembership

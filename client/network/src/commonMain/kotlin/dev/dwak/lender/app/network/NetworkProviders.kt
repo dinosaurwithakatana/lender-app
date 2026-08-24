@@ -12,6 +12,7 @@ import io.ktor.client.plugins.api.ClientPlugin
 import io.ktor.client.plugins.api.createClientPlugin
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.http.ContentType
@@ -91,6 +92,7 @@ interface NetworkProviders {
       install(authClientPlugin)
 
       install(Logging) {
+        level = LogLevel.ALL
         logger = object : Logger {
           override fun log(message: String) {
             Napier.d { message }

@@ -1,6 +1,7 @@
 package dev.dwak.lender.lender_app
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -13,6 +14,8 @@ import com.slack.circuitx.navigation.intercepting.LoggingNavigationEventListener
 import com.slack.circuitx.navigation.intercepting.NavigationInterceptor
 import com.slack.circuitx.navigation.intercepting.NavigationLogger
 import dev.dwak.lender.lender_app.tabs.BottomBarTabs
+import dev.dwak.lender.repos.client.ProfileRepo
+import dev.dwak.lender.repos.client.RepoRefresher
 import dev.dwak.lender.repos.client.ServerConfigRepo
 import dev.dwak.lender.repos.client.ServerConfigState
 import dev.dwak.lender.repos.client.UserRepo
@@ -28,6 +31,7 @@ class AppPresenter(
   private val navigationInterceptors: Set<NavigationInterceptor>,
   private val userRepo: UserRepo,
   private val serverConfigRepo: ServerConfigRepo,
+  private val profileRefresher: RepoRefresher<ProfileRepo.RefreshTypes>,
   @Assisted private val navigator: Navigator,
 ) : Presenter<AppState> {
   @Composable
@@ -50,6 +54,9 @@ class AppPresenter(
       ClientUser.LoggedOut -> AppState.LoggedOut
       is ClientUser.LoggedIn -> {
         var currentTab by remember { mutableStateOf(BottomBarTabs.HOME) }
+        LaunchedEffect(currentUser) {
+          profileRefresher.refresh(ProfileRepo.RefreshTypes.CurrentProfile)
+        }
         AppState.LoggedIn(
           navigationInterceptors = navigationInterceptors,
           navigationEventInterceptors = setOf(

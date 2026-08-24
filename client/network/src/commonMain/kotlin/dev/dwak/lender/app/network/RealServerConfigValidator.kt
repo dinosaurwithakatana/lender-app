@@ -4,8 +4,13 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
+import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.statement.HttpResponse
@@ -34,6 +39,15 @@ class RealServerConfigValidator : ServerConfigValidator {
       install(ContentNegotiation) {
         json(Json { ignoreUnknownKeys = true; isLenient = true })
       }
+      install(Logging) {
+        level = LogLevel.ALL
+        logger = object : Logger {
+          override fun log(message: String) {
+            Napier.d { message }
+          }
+        }
+      }
+      install(HttpTimeout) { connectTimeoutMillis = 3_000; requestTimeoutMillis = 5_000 }
     }
     return try {
       val response: HttpResponse = client.get(url) {

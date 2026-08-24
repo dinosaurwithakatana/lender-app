@@ -26,6 +26,21 @@ class RealProfileRepo(
   override val currentProfile: Flow<ClientProfile?>
     field = MutableStateFlow<ClientProfile?>(null)
 
+  override suspend fun lookupByEmail(email: String): ClientProfile? = withContext(dispatcher) {
+    val response = profileApi.lookupProfile(email)
+    if (response.isSuccessful) {
+      response.body()?.let {
+        ClientProfile(
+          id = ClientProfile.Id(it.id),
+          firstName = it.firstName,
+          lastName = it.lastName,
+        )
+      }
+    } else {
+      null
+    }
+  }
+
   override suspend fun refresh(item: ProfileRepo.RefreshTypes) = withContext(dispatcher) {
     when (item) {
       ProfileRepo.RefreshTypes.CurrentProfile -> {

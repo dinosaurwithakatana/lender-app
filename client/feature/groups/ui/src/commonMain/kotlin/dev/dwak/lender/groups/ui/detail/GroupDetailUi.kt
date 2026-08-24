@@ -9,9 +9,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import dev.dwak.lender.icons.arrow_back
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,8 +49,22 @@ class GroupDetailUi : Ui<GroupDetailState> {
     AdaptiveScaffold(
       modifier = modifier,
       topBar = {
+        val title = state.detail?.group?.name ?: "Group"
         AdaptiveTopBar(
-          iosTitle = state.detail?.group?.name ?: "Group",
+          title = { Text(title) },
+          navigationIcon = {
+            IconButton(onClick = { state.dispatch(GroupDetailEvents.Back) }) {
+              Icon(imageVector = arrow_back, contentDescription = "Back")
+            }
+          },
+          actions = {
+            if (state.isOwner) {
+              TextButton(onClick = { state.dispatch(GroupDetailEvents.AddMember) }) {
+                Text("Add")
+              }
+            }
+          },
+          iosTitle = title,
           iosLeadingItems = listOf(
             UIKitUIBarButtonItem.title(
               title = "Back",
@@ -55,6 +73,18 @@ class GroupDetailUi : Ui<GroupDetailState> {
               },
             )
           ),
+          iosTrailingItems = if (state.isOwner) {
+            listOf(
+              UIKitUIBarButtonItem.title(
+                title = "Add",
+                onClick = {
+                  state.dispatch(GroupDetailEvents.AddMember)
+                },
+              )
+            )
+          } else {
+            emptyList()
+          },
         )
       },
     ) { padding ->

@@ -22,4 +22,12 @@ sealed interface GroupsScreens : AuthenticatedLenderScreen {
   @Serializable
   @Parcelize
   data class GroupDetail(val groupId: String) : GroupsScreens
+
+  @Serializable
+  @Parcelize
+  data class AddMember(val groupId: String) : GroupsScreens {
+    @Serializable
+    @Parcelize
+    data object MemberInvitedResult : PopResult
+  }
 }
