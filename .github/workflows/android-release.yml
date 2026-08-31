@@ -12,7 +12,7 @@ concurrency:
 jobs:
   build-and-release:
     runs-on:
-      labels: macOS
+      labels: ubuntu-latest
     permissions:
       contents: write
     steps:
