@@ -31,15 +31,17 @@ jobs:
         with:
           gradle_encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
-      - name: Assemble debug APK
+      - name: Assemble release APK
         env:
           VERSION_CODE: ${{ steps.buildnumber.outputs.build_number }}
-        run: ./gradlew :client:android:assembleDebug
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: ./gradlew :client:android:assembleRelease
 
       - name: Locate APK
         id: apk
         run: |
-          apk=$(find client/android/build/outputs/apk/debug -name '*.apk' | head -n1)
+          apk=$(find client/android/build/outputs/apk/release -name '*.apk' | head -n1)
           if [ -z "$apk" ]; then
             echo "No APK found" >&2
             exit 1

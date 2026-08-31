@@ -20,9 +20,32 @@ android {
       excludes += "/META-INF/{AL2.0,LGPL2.1}"
     }
   }
+  signingConfigs {
+    getByName("debug") {
+      storeFile = rootProject.file("keystore/debug.jks")
+      storePassword = "android"
+      keyAlias = "key0"
+      keyPassword = "android"
+    }
+    create("release") {
+      val releaseKeystore = rootProject.file("keystore/release.jks")
+      val storePw = System.getenv("RELEASE_KEYSTORE_PASSWORD")
+      val keyPw = System.getenv("RELEASE_KEY_PASSWORD")
+      if (releaseKeystore.exists() && storePw != null && keyPw != null) {
+        storeFile = releaseKeystore
+        storePassword = storePw
+        keyAlias = "release"
+        keyPassword = keyPw
+      }
+    }
+  }
   buildTypes {
     getByName("release") {
-      isMinifyEnabled = false
+      isMinifyEnabled = true
+      val releaseSigning = signingConfigs.getByName("release")
+      if (releaseSigning.storeFile != null) {
+        signingConfig = releaseSigning
+      }
     }
   }
   compileOptions {
