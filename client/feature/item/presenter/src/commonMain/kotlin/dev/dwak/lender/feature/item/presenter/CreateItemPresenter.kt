@@ -38,7 +38,9 @@ class CreateItemPresenter(
     return CreateItemState(
       name = name,
       description = description,
-      quantity = quantity
+      quantity = quantity,
+      nameError = nameError,
+      quantityError = quantityError,
     ) { event ->
       when (event) {
         CreateItemEvents.AttemptSave -> {
