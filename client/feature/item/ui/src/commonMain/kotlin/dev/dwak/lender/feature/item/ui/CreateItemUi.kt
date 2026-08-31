@@ -88,6 +88,7 @@ fun CreateItem(
   Column(modifier = modifier.fillMaxSize().imePadding(), horizontalAlignment = Alignment.CenterHorizontally) {
     TextField(
       state = state.name,
+      isError = state.nameError,
       label = {
         Text("Name")
       }
@@ -101,6 +102,7 @@ fun CreateItem(
     )
     TextField(
       state = state.quantity,
+      isError = state.quantityError,
       label = {
         Text("Quantity")
       },

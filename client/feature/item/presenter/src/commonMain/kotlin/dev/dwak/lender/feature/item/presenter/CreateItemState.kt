@@ -7,5 +7,7 @@ data class CreateItemState(
   val name: TextFieldState,
   val description: TextFieldState,
   val quantity: TextFieldState,
+  val nameError: Boolean = false,
+  val quantityError: Boolean = false,
   val dispatch: (CreateItemEvents) -> Unit
 ): CircuitUiState
