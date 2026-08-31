@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		B17DFED6B02567B81A3DF811 /* lender_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lender_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2713697730457E460064A26E /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
+		B17DFED6B02567B81A3DF811 /* lender-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "lender-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -47,9 +48,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2713697630457E340064A26E /* ci_scripts */ = {
+			isa = PBXGroup;
+			children = (
+				2713697730457E460064A26E /* ci_post_clone.sh */,
+			);
+			path = ci_scripts;
+			sourceTree = "<group>";
+		};
 		CCAB1FE1D9C78B8D9D32B29D = {
 			isa = PBXGroup;
 			children = (
+				2713697630457E340064A26E /* ci_scripts */,
 				27300D32567321E9BA6EB43F /* Configuration */,
 				96453D6A23B6D4F589795D41 /* iosApp */,
 				DD744228C46E18C43DEA0573 /* Products */,
@@ -59,7 +69,7 @@
 		DD744228C46E18C43DEA0573 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B17DFED6B02567B81A3DF811 /* lender_app.app */,
+				B17DFED6B02567B81A3DF811 /* lender-app.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -88,7 +98,7 @@
 			packageProductDependencies = (
 			);
 			productName = iosApp;
-			productReference = B17DFED6B02567B81A3DF811 /* lender_app.app */;
+			productReference = B17DFED6B02567B81A3DF811 /* lender-app.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
