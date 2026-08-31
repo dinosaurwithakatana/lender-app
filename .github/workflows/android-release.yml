@@ -1,0 +1,58 @@
+name: Android Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: android-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-release:
+    runs-on:
+      labels: macOS
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: 'true'
+
+      - name: Generate build number
+        id: buildnumber
+        uses: onyxmueller/build-tag-number@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ./.github/actions/setup-env
+        with:
+          gradle_encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Assemble debug APK
+        env:
+          VERSION_CODE: ${{ steps.buildnumber.outputs.build_number }}
+        run: ./gradlew :client:android:assembleDebug
+
+      - name: Locate APK
+        id: apk
+        run: |
+          apk=$(find client/android/build/outputs/apk/debug -name '*.apk' | head -n1)
+          if [ -z "$apk" ]; then
+            echo "No APK found" >&2
+            exit 1
+          fi
+          renamed="lender-android-${{ steps.buildnumber.outputs.build_number }}.apk"
+          cp "$apk" "$renamed"
+          echo "path=$renamed" >> "$GITHUB_OUTPUT"
+
+      - name: Create pre-release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: android-${{ steps.buildnumber.outputs.build_number }}
+          name: Android build ${{ steps.buildnumber.outputs.build_number }}
+          prerelease: true
+          target_commitish: ${{ github.sha }}
+          files: ${{ steps.apk.outputs.path }}

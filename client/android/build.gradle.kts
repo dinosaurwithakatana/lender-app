@@ -12,7 +12,7 @@ android {
     applicationId = "dev.dwak.lender.android"
     minSdk = libs.versions.android.minSdk.get().toInt()
     targetSdk = libs.versions.android.targetSdk.get().toInt()
-    versionCode = 1
+    versionCode = (System.getenv("VERSION_CODE") ?: "99999").toInt()
     versionName = "1.0"
   }
   packaging {
