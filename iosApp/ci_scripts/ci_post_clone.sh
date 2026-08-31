@@ -28,3 +28,8 @@ JAVA_HOME="$(asdf where java)"
 export JAVA_HOME
 echo "JAVA_HOME=$JAVA_HOME"
 java -version
+
+# Mirror the GitHub Actions setup: use the CI Gradle properties (which force
+# IPv4 so Gradle can reach dl.google.com from Xcode Cloud runners).
+mkdir -p "$HOME/.gradle"
+cp .github/ci-gradle.properties "$HOME/.gradle/gradle.properties"
