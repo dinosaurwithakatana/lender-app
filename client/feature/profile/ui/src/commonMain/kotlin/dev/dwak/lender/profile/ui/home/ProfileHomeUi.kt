@@ -43,7 +43,12 @@ class ProfileHomeUi : Ui<ProfileHomeState> {
   ) {
     AdaptiveScaffold(
       modifier = modifier,
-      topBar = { AdaptiveTopBar(iosTitle = "Profile") },
+      topBar = {
+        AdaptiveTopBar(
+          title = { Text("Profile") },
+          iosTitle = "Profile",
+        )
+      },
     ) { padding ->
       PullToRefreshBox(
         modifier = Modifier.fillMaxSize().padding(padding),

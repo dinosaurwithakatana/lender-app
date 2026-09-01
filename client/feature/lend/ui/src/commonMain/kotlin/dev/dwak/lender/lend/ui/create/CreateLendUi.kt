@@ -18,6 +18,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -36,6 +38,7 @@ import com.mohamedrejeb.calf.ui.navigation.UIKitUIBarButtonItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.ui.Ui
 import dev.dwak.lender.feature.lend.navigation.LendScreens
+import dev.dwak.lender.icons.arrow_back
 import dev.dwak.lender.lend.presenter.create.CreateLendEvents
 import dev.dwak.lender.lend.presenter.create.CreateLendState
 import dev.dwak.lender.lend.presenter.create.LendMode
@@ -62,6 +65,12 @@ class CreateLendUi : Ui<CreateLendState> {
       modifier = modifier,
       topBar = {
         AdaptiveTopBar(
+          title = { Text("Lend Item") },
+          navigationIcon = {
+            IconButton(onClick = { state.dispatch(CreateLendEvents.Back) }) {
+              Icon(imageVector = arrow_back, contentDescription = "Back")
+            }
+          },
           iosTitle = "Lend Item",
           iosLeadingItems = listOf(
             UIKitUIBarButtonItem.title(

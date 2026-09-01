@@ -68,6 +68,7 @@ class HomeUi : Ui<HomeState> {
               animatedVisibilityScope = requireAnimatedScope(SharedElementTransitionScope.AnimatedScope.Navigation),
             )
               .visible(!isTransitionActive),
+            title = { Text("Lender") },
             iosTitle = "Lender",
           )
         },

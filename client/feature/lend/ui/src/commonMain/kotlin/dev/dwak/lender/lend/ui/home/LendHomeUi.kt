@@ -50,7 +50,8 @@ class LendHomeUi : Ui<LendHomeState> {
       modifier = modifier,
       topBar = {
         AdaptiveTopBar(
-          iosTitle = "Lends"
+          title = { Text("Lends") },
+          iosTitle = "Lends",
         )
       },
       floatingActionButton = {

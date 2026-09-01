@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -19,6 +21,7 @@ import com.mohamedrejeb.calf.ui.navigation.UIKitUIBarButtonItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.ui.Ui
 import dev.dwak.lender.feature.groups.navigation.GroupsScreens
+import dev.dwak.lender.icons.arrow_back
 import dev.dwak.lender.groups.presenter.create.CreateGroupEvents
 import dev.dwak.lender.groups.presenter.create.CreateGroupState
 import dev.zacsweers.metro.AppScope
@@ -40,6 +43,12 @@ class CreateGroupUi : Ui<CreateGroupState> {
       modifier = modifier,
       topBar = {
         AdaptiveTopBar(
+          title = { Text("Create Group") },
+          navigationIcon = {
+            IconButton(onClick = { state.dispatch(CreateGroupEvents.Back) }) {
+              Icon(imageVector = arrow_back, contentDescription = "Back")
+            }
+          },
           iosTitle = "Create Group",
           iosLeadingItems = listOf(
             UIKitUIBarButtonItem.title(

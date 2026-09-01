@@ -11,6 +11,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -30,6 +32,7 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.sharedelements.SharedElementTransitionScope
 import dev.dwak.lender.feature.item.navigation.ItemScreens
+import dev.dwak.lender.icons.arrow_back
 import dev.dwak.lender.feature.item.presenter.CreateItemEvents
 import dev.dwak.lender.feature.item.presenter.CreateItemState
 import dev.zacsweers.metro.AppScope
@@ -59,6 +62,12 @@ class CreateItemUi : Ui<CreateItemState> {
               animatedVisibilityScope = requireAnimatedScope(SharedElementTransitionScope.AnimatedScope.Navigation),
             )
               .visible(!isTransitionActive),
+            title = { Text("Create Item") },
+            navigationIcon = {
+              IconButton(onClick = { state.dispatch(CreateItemEvents.Back) }) {
+                Icon(imageVector = arrow_back, contentDescription = "Back")
+              }
+            },
             iosTitle = "Create Item",
             iosLeadingItems = listOf(
               UIKitUIBarButtonItem.title(

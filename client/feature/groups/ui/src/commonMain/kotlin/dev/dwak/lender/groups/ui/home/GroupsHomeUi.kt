@@ -44,7 +44,8 @@ class GroupsHomeUi : Ui<GroupsHomeState> {
       modifier = modifier,
       topBar = {
         AdaptiveTopBar(
-          iosTitle = "Groups"
+          title = { Text("Groups") },
+          iosTitle = "Groups",
         )
       },
       floatingActionButton = {
