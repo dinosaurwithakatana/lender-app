@@ -6,6 +6,7 @@ import com.slack.circuit.runtime.CircuitUiState
 data class ConnectServerState(
   val serverUrl: TextFieldState,
   val apiKey: TextFieldState,
+  val revealApiKey: Boolean,
   val errorMessage: String?,
   val isSaving: Boolean,
   val dispatch: (ConnectServerEvents) -> Unit,

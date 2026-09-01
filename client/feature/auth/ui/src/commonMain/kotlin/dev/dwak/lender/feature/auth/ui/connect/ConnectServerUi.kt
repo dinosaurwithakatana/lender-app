@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextObfuscationMode
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SecureTextField
 import androidx.compose.material3.Text
@@ -17,9 +20,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.ui.Ui
+import dev.dwak.lender.component.VisibilityButton
 import dev.dwak.lender.feature.auth.navigation.api.AuthScreens
 import dev.dwak.lender.feature.auth.presenter.connect.ConnectServerEvents
 import dev.dwak.lender.feature.auth.presenter.connect.ConnectServerState
+import dev.dwak.lender.icons.visibility
+import dev.dwak.lender.icons.visibility_off
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
 
@@ -51,6 +57,13 @@ class ConnectServerUi : Ui<ConnectServerState> {
         state = state.apiKey,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         enabled = !state.isSaving,
+        textObfuscationMode = if (state.revealApiKey) TextObfuscationMode.Visible else TextObfuscationMode.RevealLastTyped,
+        trailingIcon = {
+          VisibilityButton(
+            state.revealApiKey,
+            { state.dispatch(ConnectServerEvents.ToggleApiKeyRevealed) }
+          )
+        }
       )
       state.errorMessage?.let {
         Text(it, color = MaterialTheme.colorScheme.error, maxLines = 3)

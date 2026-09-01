@@ -31,14 +31,19 @@ class ConnectServerPresenter(
     val apiKey = rememberTextFieldState()
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var isSaving by remember { mutableStateOf(false) }
+    var revealApiKey by remember { mutableStateOf(false) }
 
     return ConnectServerState(
       serverUrl = serverUrl,
       apiKey = apiKey,
+      revealApiKey = revealApiKey,
       errorMessage = errorMessage,
       isSaving = isSaving,
       dispatch = { event ->
         when (event) {
+          ConnectServerEvents.ToggleApiKeyRevealed -> {
+            revealApiKey = !revealApiKey
+          }
           ConnectServerEvents.Connect -> {
             val url = serverUrl.text.toString().trim().trimEnd('/')
             val key = apiKey.text.toString().trim()
