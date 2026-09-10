@@ -2,7 +2,10 @@ package dev.dwak.lender.feature.auth.ui.signup
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.SecureTextField
 import androidx.compose.material3.Text
@@ -31,7 +34,7 @@ class SignUpScreen : Ui<SignUpState> {
     modifier: Modifier
   ) {
     Column(
-      modifier = modifier.fillMaxSize(),
+      modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).imePadding(),
       horizontalAlignment = Alignment.CenterHorizontally
     ) {
       Text("First Name")
