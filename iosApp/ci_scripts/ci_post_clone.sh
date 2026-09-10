@@ -33,3 +33,4 @@ java -version
 # IPv4 so Gradle can reach dl.google.com from Xcode Cloud runners).
 mkdir -p "$HOME/.gradle"
 cp .github/ci-gradle.properties "$HOME/.gradle/gradle.properties"
+./gradlew projects --no-configuration-cache -Djava.net.preferIPv4Stack=true
