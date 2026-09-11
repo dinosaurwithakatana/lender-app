@@ -31,6 +31,7 @@ import com.mohamedrejeb.calf.ui.dropdown.AdaptiveDropDownItem
 import com.mohamedrejeb.calf.ui.navigation.AdaptiveScaffold
 import com.mohamedrejeb.calf.ui.navigation.AdaptiveTopBar
 import com.mohamedrejeb.calf.ui.navigation.UIKitUIBarButtonItem
+import com.mohamedrejeb.calf.ui.uikit.UIKitImage
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.ui.Ui
 import dev.dwak.lender.feature.groups.navigation.GroupsScreens
@@ -124,6 +125,7 @@ class GroupDetailUi : Ui<GroupDetailState> {
             ClientMembershipStatus.REQUESTED -> {
               listOf(
                 UIKitUIBarButtonItem.withMenu(
+                  image = UIKitImage.Vector(more_vert),
                   menuItems = listOf(
                     AdaptiveDropDownItem(
                       title = "Accept",
