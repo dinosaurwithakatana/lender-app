@@ -80,11 +80,11 @@ class CreateLendRoute(
         val itemGroups = groupsRepo.groupsForItem(ServerItemId(request.itemId))
 
         if (targetProfile == null) {
-          call.respond(HttpStatusCode.NotFound)
+          return call.respond(HttpStatusCode.NotFound)
         }
 
         if (!itemGroups.contains(group)) {
-          call.respond(HttpStatusCode.Unauthorized)
+          return call.respond(HttpStatusCode.Unauthorized)
         }
 
         val sourceProfileInGroup = groupMembershipRepo.isProfileInGroup(
@@ -98,7 +98,7 @@ class CreateLendRoute(
         )
 
         if (!sourceProfileInGroup || !targetProfileInGroup) {
-          call.respond(HttpStatusCode.Unauthorized)
+          return call.respond(HttpStatusCode.Unauthorized)
         }
 
         when (dataModifier.submit(
