@@ -11,7 +11,11 @@ import com.slack.circuit.foundation.rememberAnsweringNavigator
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import dev.dwak.lender.app.modification.ApproveGroupMembershipMod
+import dev.dwak.lender.data.modifier.DataModifier
 import dev.dwak.lender.feature.groups.navigation.GroupsScreens
+import dev.dwak.lender.feature.groups.navigation.GroupsScreens.*
+import dev.dwak.lender.lender_app.coroutines.Io
 import dev.dwak.lender.repos.client.GroupsRepo
 import dev.dwak.lender.repos.client.ProfileRepo
 import dev.dwak.lender.repos.client.RepoRefresher
@@ -21,11 +25,15 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @AssistedInject
 class GroupDetailPresenter(
   @Assisted private val navigator: Navigator,
   @Assisted private val screen: GroupsScreens.GroupDetail,
+  @Io private val ioScope: CoroutineScope,
+  private val dataModifier: DataModifier,
   private val groupsRepo: GroupsRepo,
   private val groupsRepoRefresher: RepoRefresher<GroupsRepo.RefreshTypes>,
   private val profileRepo: ProfileRepo,
@@ -52,22 +60,31 @@ class GroupDetailPresenter(
       }
     }
 
-    val isOwner = detail?.memberships?.any {
-      it.status == ClientMembershipStatus.OWNER && it.profile.id == currentProfile?.id
-    } == true
-
+    val currentUserMembership = detail?.memberships?.first { it.profile.id == currentProfile?.id }
     return GroupDetailState(
       detail = detail,
       loading = isLoading,
       refreshing = isRefreshing,
-      isOwner = isOwner,
+      currentUserMembership = currentUserMembership,
     ) { event ->
       when (event) {
         GroupDetailEvents.Back -> navigator.pop()
         GroupDetailEvents.Refresh -> isRefreshing = true
         GroupDetailEvents.AddMember -> addMemberNavigator.goTo(
-          GroupsScreens.AddMember(groupId = screen.groupId)
+          AddMember(groupId = screen.groupId)
         )
+
+        GroupDetailEvents.AcceptGroupInvite -> {
+          ioScope.launch {
+            when(dataModifier.submit(ApproveGroupMembershipMod(currentUserMembership?.id!!))) {
+              ApproveGroupMembershipMod.Result.Failure -> {}
+              ApproveGroupMembershipMod.Result.Success -> {
+                isRefreshing = true
+              }
+            }
+          }
+        }
+        GroupDetailEvents.DenyGroupInvite -> {}
       }
     }
   }

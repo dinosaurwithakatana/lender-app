@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -17,10 +19,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import dev.dwak.lender.icons.arrow_back
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi
+import com.mohamedrejeb.calf.ui.dropdown.AdaptiveDropDownItem
 import com.mohamedrejeb.calf.ui.navigation.AdaptiveScaffold
 import com.mohamedrejeb.calf.ui.navigation.AdaptiveTopBar
 import com.mohamedrejeb.calf.ui.navigation.UIKitUIBarButtonItem
@@ -29,6 +36,7 @@ import com.slack.circuit.runtime.ui.Ui
 import dev.dwak.lender.feature.groups.navigation.GroupsScreens
 import dev.dwak.lender.groups.presenter.detail.GroupDetailEvents
 import dev.dwak.lender.groups.presenter.detail.GroupDetailState
+import dev.dwak.lender.icons.more_vert
 import dev.dwak.models.client.ClientMembership
 import dev.dwak.models.client.ClientMembershipStatus
 import dev.zacsweers.metro.AppScope
@@ -58,10 +66,38 @@ class GroupDetailUi : Ui<GroupDetailState> {
             }
           },
           actions = {
-            if (state.isOwner) {
-              TextButton(onClick = { state.dispatch(GroupDetailEvents.AddMember) }) {
-                Text("Add")
+            when (state.currentUserMembership?.status) {
+              ClientMembershipStatus.OWNER -> {
+                TextButton(onClick = { state.dispatch(GroupDetailEvents.AddMember) }) {
+                  Text("Add")
+                }
               }
+
+              ClientMembershipStatus.APPROVED -> {}
+              ClientMembershipStatus.REQUESTED -> {
+                var menuExpanded by remember { mutableStateOf(false) }
+                IconButton(onClick = { menuExpanded = !menuExpanded }) {
+                  Icon(more_vert, contentDescription = "Menu")
+                }
+                DropdownMenu(
+                  expanded = menuExpanded,
+                  onDismissRequest = { menuExpanded = false }
+                ) {
+                  DropdownMenuItem(
+                    text = { Text("Accept") },
+                    onClick = {
+                      state.dispatch(GroupDetailEvents.AcceptGroupInvite)
+                    })
+                  DropdownMenuItem(
+                    text = { Text("Deny") },
+                    onClick = {
+                      state.dispatch(GroupDetailEvents.DenyGroupInvite)
+                    }
+                  )
+                }
+              }
+
+              null -> {}
             }
           },
           iosTitle = title,
@@ -73,17 +109,36 @@ class GroupDetailUi : Ui<GroupDetailState> {
               },
             )
           ),
-          iosTrailingItems = if (state.isOwner) {
-            listOf(
-              UIKitUIBarButtonItem.title(
-                title = "Add",
-                onClick = {
-                  state.dispatch(GroupDetailEvents.AddMember)
-                },
+          iosTrailingItems = when (state.currentUserMembership?.status) {
+            ClientMembershipStatus.OWNER -> {
+              listOf(
+                UIKitUIBarButtonItem.title(
+                  title = "Add",
+                  onClick = {
+                    state.dispatch(GroupDetailEvents.AddMember)
+                  },
+                )
               )
-            )
-          } else {
-            emptyList()
+            }
+
+            ClientMembershipStatus.REQUESTED -> {
+              listOf(
+                UIKitUIBarButtonItem.withMenu(
+                  menuItems = listOf(
+                    AdaptiveDropDownItem(
+                      title = "Accept",
+                      onClick = { state.dispatch(GroupDetailEvents.AcceptGroupInvite) }),
+                    AdaptiveDropDownItem(
+                      title = "Deny",
+                      onClick = { state.dispatch(GroupDetailEvents.DenyGroupInvite) }),
+                  )
+                )
+              )
+            }
+
+            else -> {
+              emptyList()
+            }
           },
         )
       },

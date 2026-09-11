@@ -6,4 +6,8 @@ sealed interface GroupDetailEvents : CircuitUiEvent {
   data object Back : GroupDetailEvents
   data object Refresh : GroupDetailEvents
   data object AddMember : GroupDetailEvents
+
+  data object AcceptGroupInvite: GroupDetailEvents
+
+  data object DenyGroupInvite: GroupDetailEvents
 }

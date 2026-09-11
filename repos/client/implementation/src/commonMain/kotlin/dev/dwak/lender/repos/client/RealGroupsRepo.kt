@@ -39,9 +39,27 @@ class RealGroupsRepo(
   override fun groupDetail(groupId: ClientGroup.Id): Flow<ClientGroupDetail?> =
     groupDetails.map { it[groupId] }
 
+  override suspend fun getMembers(groupId: ClientGroup.Id, status: ClientMembershipStatus): List<ClientProfile> {
+    val response = membershipsApi.getMemberships(
+      groupId = groupId.id,
+      status = status.name
+    )
+    return if (response.isSuccessful) {
+      response.body()?.memberships?.map {
+        ClientProfile(
+          id = ClientProfile.Id(it.profile.id),
+          firstName = it.profile.firstName,
+          lastName = it.profile.lastName,
+        )
+      } ?: emptyList()
+    } else {
+      emptyList()
+    }
+  }
+
   override suspend fun refresh(item: GroupsRepo.RefreshTypes) = withContext(dispatcher) {
     when (item) {
-      GroupsRepo.RefreshTypes.CurrentUserGroups -> {
+      is GroupsRepo.RefreshTypes.CurrentUserGroups -> {
         currentUserGroups.value = groupsApi.getGroupsForCurrentUser()
           .groups
           .map {
@@ -61,28 +79,11 @@ class RealGroupsRepo(
           ),
           memberships = response.memberships.map(ApiMembership::toClient),
         )
-        groupDetails.value = groupDetails.value + (item.groupId to detail)
+        groupDetails.value += (item.groupId to detail)
       }
     }
   }
 
-  override suspend fun getMembers(groupId: ClientGroup.Id, status: ClientMembershipStatus): List<ClientProfile> {
-    val response = membershipsApi.getMemberships(
-      groupId = groupId.id,
-      status = status.name
-    )
-    return if (response.isSuccessful) {
-      response.body()?.memberships?.map {
-        ClientProfile(
-          id = ClientProfile.Id(it.profile.id),
-          firstName = it.profile.firstName,
-          lastName = it.profile.lastName,
-        )
-      } ?: emptyList()
-    } else {
-      emptyList()
-    }
-  }
 }
 
 private fun ApiMembership.toClient(): ClientMembership = ClientMembership(

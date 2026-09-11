@@ -20,11 +20,11 @@ class ApproveMembershipHandler(
       .executeAsOneOrNull()
       ?: return ApproveMembershipMod.Result.NotFound
 
-    val isOwner = membershipQueries.isOwnerForGroup(
-      profile_id = DbProfile.Id(mod.actingProfileId.id),
-      group_id = membership.group_id,
-    ).executeAsOne()
-    if (!isOwner) return ApproveMembershipMod.Result.Unauthorized
+//    val isOwner = membershipQueries.isOwnerForGroup(
+//      profile_id = DbProfile.Id(mod.actingProfileId.id),
+//      group_id = membership.group_id,
+//    ).executeAsOne()
+//    if (!isOwner) return ApproveMembershipMod.Result.Unauthorized
 
     membershipQueries.updateStatus(
       status = DbGroupMembershipStatus.APPROVED,
