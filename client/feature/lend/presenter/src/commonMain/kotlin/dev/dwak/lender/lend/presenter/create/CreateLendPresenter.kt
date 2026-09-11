@@ -22,6 +22,7 @@ import dev.dwak.lender.repos.client.RepoRefresher
 import dev.dwak.models.client.ClientGroup
 import dev.dwak.models.client.ClientItem
 import dev.dwak.models.client.ClientLendStatus
+import dev.dwak.models.client.ClientMembershipStatus
 import dev.dwak.models.client.ClientProfile
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
@@ -65,7 +66,7 @@ class CreateLendPresenter(
     LaunchedEffect(selectedGroup) {
       val group = selectedGroup
       if (group != null) {
-        members = groupsRepo.getMembers(group.id)
+        members = groupsRepo.getMembers(group.id, ClientMembershipStatus.APPROVED)
         selectedMember = null
       } else {
         members = emptyList()

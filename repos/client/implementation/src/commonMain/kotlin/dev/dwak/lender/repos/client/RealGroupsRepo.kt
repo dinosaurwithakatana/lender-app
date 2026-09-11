@@ -66,8 +66,11 @@ class RealGroupsRepo(
     }
   }
 
-  override suspend fun getMembers(groupId: ClientGroup.Id): List<ClientProfile> {
-    val response = membershipsApi.getMemberships(groupId = groupId.id)
+  override suspend fun getMembers(groupId: ClientGroup.Id, status: ClientMembershipStatus): List<ClientProfile> {
+    val response = membershipsApi.getMemberships(
+      groupId = groupId.id,
+      status = status.name
+    )
     return if (response.isSuccessful) {
       response.body()?.memberships?.map {
         ClientProfile(
