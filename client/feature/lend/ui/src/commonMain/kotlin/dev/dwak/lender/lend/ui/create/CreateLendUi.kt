@@ -102,7 +102,7 @@ private fun CreateLend(
     verticalArrangement = Arrangement.spacedBy(12.dp),
   ) {
     SectionLabel("Item")
-    ItemPicker(items = state.items, selected = state.selectedItem) {
+    ItemPicker(items = state.items.filter { it.availableQuantity > 0 }, selected = state.selectedItem) {
       state.dispatch(CreateLendEvents.SelectItem(it))
     }
 
