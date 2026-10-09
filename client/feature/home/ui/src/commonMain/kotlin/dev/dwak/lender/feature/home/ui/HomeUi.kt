@@ -2,6 +2,8 @@ package dev.dwak.lender.feature.home.ui
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,10 +23,15 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,8 +50,10 @@ import dev.dwak.lender.feature.home.presenter.HomeEvents
 import dev.dwak.lender.feature.home.presenter.HomeState
 import dev.dwak.lender.icons.add
 import dev.dwak.models.client.ClientItem
+import dev.dwak.models.client.ClientProfile
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.launch
 
 @CircuitInject(
   screen = HomeScreens.Home::class,
@@ -52,7 +61,8 @@ import dev.zacsweers.metro.Inject
 )
 @Inject
 class HomeUi : Ui<HomeState> {
-  @OptIn(ExperimentalMaterial3Api::class, ExperimentalCalfUiApi::class,
+  @OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalCalfUiApi::class,
     ExperimentalSharedTransitionApi::class
   )
   @Composable
@@ -112,12 +122,14 @@ fun Home(
     onRefresh = { state.dispatch(HomeEvents.Refresh) },
   ) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-      items(state.items) { item ->
-        ItemRow(
-          item = item,
-          onDelete = { state.dispatch(HomeEvents.RequestDeleteItem(item)) },
-        )
-        HorizontalDivider()
+      items(state.items, key = { it.id.id }) { item ->
+        Column(modifier = Modifier.animateItem()) {
+          ItemRow(
+            item = item,
+            onDelete = { state.dispatch(HomeEvents.RequestDeleteItem(item)) },
+          )
+          HorizontalDivider()
+        }
       }
     }
   }
@@ -128,23 +140,52 @@ private fun ItemRow(
   item: ClientItem,
   onDelete: () -> Unit,
 ) {
-  Row(
-    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-    verticalAlignment = Alignment.CenterVertically,
-    horizontalArrangement = Arrangement.SpaceBetween,
-  ) {
-    Column(modifier = Modifier.weight(1f)) {
-      Text(item.name, style = MaterialTheme.typography.headlineSmall)
+  val state = rememberSwipeToDismissBoxState()
+  val scope = rememberCoroutineScope()
+  val deleteBgColor by animateColorAsState(
+    if (state.currentValue == SwipeToDismissBoxValue.EndToStart) MaterialTheme.colorScheme.errorContainer
+    else MaterialTheme.colorScheme.background
+  )
+  SwipeToDismissBox(
+    state = state,
+    modifier = Modifier.fillMaxWidth(),
+    enableDismissFromStartToEnd = false,
+    enableDismissFromEndToStart = true,
+    onDismiss = {
+      onDelete()
+      scope.launch {
+        state.reset()
+      }
+    },
+    backgroundContent = {
+      Box(
+        Modifier.fillMaxWidth().background(deleteBgColor).padding(end = 16.dp),
+        contentAlignment = Alignment.CenterEnd
+      ) {
+        TextButton(onClick = onDelete) { Text("Delete") }
+      }
+    },
+    content = {
       Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+          .background(MaterialTheme.colorScheme.background),
+        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
       ) {
-        Text(item.description.orEmpty())
-        Text("${item.availableQuantity} / ${item.totalQuantity}")
+        Column(modifier = Modifier.weight(1f)) {
+          Text(item.name, style = MaterialTheme.typography.headlineSmall)
+          Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+          ) {
+            Text(item.description.orEmpty())
+            Text("${item.availableQuantity} / ${item.totalQuantity}")
+          }
+        }
       }
-    }
-    TextButton(onClick = onDelete) { Text("Delete") }
-  }
+    },
+  )
+
 }
 
 @Composable
@@ -171,7 +212,32 @@ private fun DeleteItemDialog(
 fun HomePreview() {
   Home(
     state = HomeState(
-      items = emptyList(),
+      items = listOf(
+        ClientItem(
+          id = ClientItem.Id("item1"),
+          name = "item1",
+          description = "item1",
+          totalQuantity = 1,
+          availableQuantity = 1,
+          ownedById = ClientProfile.Id("profile1")
+        ),
+        ClientItem(
+          id = ClientItem.Id("item2"),
+          name = "item2",
+          description = "item2",
+          totalQuantity = 3,
+          availableQuantity = 1,
+          ownedById = ClientProfile.Id("profile1")
+        ),
+        ClientItem(
+          id = ClientItem.Id("item3"),
+          name = "item3",
+          description = "item3",
+          totalQuantity = 4,
+          availableQuantity = 0,
+          ownedById = ClientProfile.Id("profile1")
+        ),
+      ),
       itemPendingDelete = null,
       dispatch = {},
       loading = false,
