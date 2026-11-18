@@ -8,3 +8,7 @@ dependencies {
 
   implementation(libs.bundles.build.plugins)
 }
+
+configurations.configureEach {
+  resolutionStrategy.force("org.apache.commons:commons-lang3:3.22.0")
+}

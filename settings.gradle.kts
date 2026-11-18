@@ -92,3 +92,9 @@ include(
 )
 
 includeBuild("build-logic")
+
+gradle.beforeProject {
+  buildscript.configurations.configureEach {
+    resolutionStrategy.force("org.apache.commons:commons-lang3:3.22.0")
+  }
+}
