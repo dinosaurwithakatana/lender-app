@@ -1,3 +1,5 @@
+import dev.zacsweers.metro.gradle.ExperimentalMetroGradleApi
+
 plugins {
   alias(libs.plugins.kotlinJvm)
   alias(libs.plugins.metro)
@@ -8,6 +10,11 @@ plugins {
 application {
   mainClass.set("dev.dwak.lender.cli.MainKt")
   applicationName = "lender-cli"
+}
+
+metro {
+  @OptIn(ExperimentalMetroGradleApi::class)
+  enableSuspendProviders = true
 }
 
 dependencies {

@@ -20,13 +20,12 @@ import kotlinx.io.files.SystemFileSystem
 
 @DependencyGraph(AppScope::class)
 interface CliGraph {
-  val cli: suspend () -> Unit
+  val cli: suspend (Array<String>) -> Unit
 
   @Provides
   fun lenderCli(
     subCommands: Set<SuspendingCliktCommand>,
-    args: Array<String>
-  ): suspend () -> Unit = {
+  ): suspend (Array<String>) -> Unit = { args ->
 //    Napier.base(DebugAntilog())
     LenderCli()
       .subcommands(
@@ -62,9 +61,4 @@ interface CliGraph {
   }
 
   private fun cliDataDir(): String = System.getenv("LENDER_DATA_DIR") ?: "./build/run"
-
-  @DependencyGraph.Factory
-  fun interface Factory {
-    fun create(@Provides args: Array<String>): CliGraph
-  }
 }
